@@ -55,10 +55,12 @@ jobs:
         with:
           submodules: recursive
           token: ${{ secrets.gh_token }}
-      - name: Clone scripts repo
-        run: |
-          rm -rf $GITHUB_WORKSPACE/${{ env.SCRIPT_PATH }}/
-          git clone https://${{ secrets.gh_token }}@github.com/${{ inputs.script_repo }}.git $GITHUB_WORKSPACE/${{ env.SCRIPT_PATH }}
+      - name: Checkout scripts
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ inputs.script_repo }}
+          path: ${{ env.SCRIPT_PATH }}
+          token: ${{ secrets.gh_token }}
       - name: Docker build
         run: |
           cd $GITHUB_WORKSPACE/${{ env.SCRIPT_PATH }}/dockerfiles
@@ -69,10 +71,12 @@ jobs:
     if: ${{ always() }}
     needs: build_image
     steps:
-      - name: Clone scripts repo
-        run: |
-          rm -rf $GITHUB_WORKSPACE/${{ env.SCRIPT_PATH }}/
-          git clone https://${{ secrets.gh_token }}@github.com/${{ inputs.script_repo }}.git $GITHUB_WORKSPACE/${{ env.SCRIPT_PATH }}
+      - name: Checkout scripts
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ inputs.script_repo }}
+          path: ${{ env.SCRIPT_PATH }}
+          token: ${{ secrets.gh_token }}
       - name: Execute benchmark script
         run: >
           docker run -e TZ=America/Chicago
@@ -86,6 +90,8 @@ jobs:
           -v $GITHUB_WORKSPACE/${{ env.SCRIPT_PATH }}:/src
           --workdir /src/scripts/
           migraphx-ort:$(date +%Y%m%d) /bin/bash ort_benchmark4.sh
-      - name: Execute report script
-        run: |
-          python3 $GITHUB_WORKSPACE/${{ env.SCRIPT_PATH }}/scripts/benchmark_report.py -i ${{ inputs.result_path }}/onnxruntime-`date '+%Y-%m-%d-%H-%M'` -o summary.csv
+      - name: Generate benchmark summary
+        run: >
+          python3 ${{ env.SCRIPT_PATH }}/scripts/benchmark_report.py 
+          -i ${{ inputs.result_path }}/onnxruntime-`date '+%Y-%m-%d-%H-%M'` 
+          -o summary.csv

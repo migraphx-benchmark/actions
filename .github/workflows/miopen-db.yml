@@ -72,10 +72,13 @@ jobs:
     outputs:
       database: ${{ steps.check_database.outputs.database }}
     steps:
-      - name: Checkout miopen-databases
-        run: |
-          rm -rf $GITHUB_WORKSPACE/${{ env.MIOPEN_PATH }}/
-          git clone https://${{ secrets.gh_token }}@github.com/${{ inputs.miopen_db_repo }}.git $GITHUB_WORKSPACE/${{ env.MIOPEN_PATH }}
+      - name: Checkout scripts
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ inputs.miopen_db_repo }}
+          path: ${{ env.MIOPEN_PATH }}
+          token: ${{ secrets.gh_token }}
+
       - name: Check Database path
         id: check_database
         run: |
@@ -88,10 +91,12 @@ jobs:
     needs: [check_image_version, check_database]
     if: ( needs.check_database.outputs.database == 'true' && needs.check_image_version.outputs.image == 'true' )
     steps:
-      - name: Clone scripts repo
-        run: |
-          rm -rf $GITHUB_WORKSPACE/${{ env.SCRIPT_PATH }}/
-          git clone https://${{ secrets.gh_token }}@github.com/${{ inputs.miopen_db_repo }}.git $GITHUB_WORKSPACE/${{ env.SCRIPT_PATH }}
+      - name: Checkout scripts
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ inputs.miopen_db_repo }}
+          path: ${{ env.SCRIPT_PATH}}
+          token: ${{ secrets.gh_token }}
       - name: Perform tuning database
         run: >
           docker run -e TZ=America/Chicago
@@ -112,10 +117,13 @@ jobs:
     runs-on: self-hosted
     needs: [create_database, check_gpu_name]
     steps:
-      - name: Checkout miopen-databases
-        run: |
-          rm -rf $GITHUB_WORKSPACE/${{ env.MIOPEN_PATH }}/
-          git clone https://${{ secrets.gh_token }}@github.com/${{ inputs.miopen_db_repo }}.git $GITHUB_WORKSPACE/${{ env.MIOPEN_PATH }}
+      - name: Checkout scripts
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ inputs.miopen_db_repo }}
+          path: ${{ env.MIOPEN_PATH }}
+          token: ${{ secrets.gh_token }}
+
       - name: Push database to git
         run: |
           cd $GITHUB_WORKSPACE/${{ env.MIOPEN_PATH }}/
