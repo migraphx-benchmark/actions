@@ -1,0 +1,54 @@
+name: ROCM Container build
+on:
+  workflow_call:
+    inputs:
+      release:
+        type: string
+        description: ROCm release version
+        required: true
+        default: "5.1"
+    secrets:
+      gh_token:
+        description: 'Github Access Token'
+        required: true
+
+permissions:
+  issues: write
+  pull-requests: write
+  contents: read
+
+jobs:
+  check_image_version:
+    name: Check Image Version
+    runs-on: self-hosted
+    outputs:
+      image: ${{ steps.check_image.outputs.image }}
+    steps:
+      - name: Check new image
+        id: check_image
+        run: |
+          if [ -z "$(docker images -q rocm-migraphx:${{ inputs.release }})" ]; then
+            echo "::set-output name=image::true"
+          fi
+      - name: test step
+        run: echo "Value of image is ${{ steps.check_image.outputs.image }}"
+  build_image:
+    name: Build New Image
+    runs-on: self-hosted
+    needs: check_image_version
+    if: ${{ needs.check_image_version.outputs.image == 'true' }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+        with:
+          submodules: recursive
+          token: ${{ secrets.gh_token }}
+      - name: Docker build
+        env:
+          ROCM_RELEASE: ${{ inputs.release }}
+          ROCM_BASE: rocm/dev-ubuntu-18.04:${{ inputs.release }}
+          BUILD_NAVI: "0"
+          DOCKERIMAGE: rocm-migraphx:${{ inputs.release }}
+        run: |
+          cd $GITHUB_WORKSPACE/rocm-migraphx/scripts
+          ./build_migraphx_docker.sh
