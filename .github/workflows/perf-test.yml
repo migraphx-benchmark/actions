@@ -76,7 +76,7 @@ jobs:
     if: ${{ always() }}
     needs: build_image
     env:
-      TEST_RESULTS_PATH: "${{ env.GITHUB_WORKSPACE }}/test-results"
+      TEST_RESULTS_PATH: "$GITHUB_WORKSPACE/test-results"
     steps:
       - name: Checkout Utils
         uses: actions/checkout@v3
