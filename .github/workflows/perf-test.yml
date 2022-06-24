@@ -8,6 +8,15 @@ on:
         description: ROCm release version
         required: true
         default: "5.1"
+      performance_reports_repo:
+        type: string
+        description: Result repository
+        required: true
+        default: "migraphx-benchmark/migraphx-reports"
+    secrets:
+      gh_token:
+        description: 'Github Access Token'
+        required: true
 env:
   TEST: false
   DOCKERBASE: rocm-migraphx:test
@@ -51,7 +60,7 @@ jobs:
         uses: actions/checkout@v1
         with:
           submodules: recursive
-          token: ${{ secrets.GH_SUB_TOKEN }}
+          token: ${{ secrets.gh_token }}
       - name: Docker build
         run: |
           cd ./rocm-migraphx/dockerfiles
@@ -83,16 +92,23 @@ jobs:
           docker container prune -f
           docker rmi -f $(docker images --filter=reference="rocm-migraphx:20*" | grep -v $(date +%Y%m%d) | awk 'NR>1 {print $3}')
 
+      - name: Checkout report's repo
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ inputs.performance_reports_repo }}
+          path: ${{ env.REPORTS_DIR }}
+          token: ${{ secrets.gh_token }}
+
       - name: Execute report script
         if: ${{ github.event_name == 'schedule' }}
         run: |
           ${{ env.PYTHON_PATH }}python3 ${{ env.SCRIPTS_PATH }}report.py \
           -t '${{ env.TEST_RESULTS_PATH }}' \
           -r '${{ env.REPORTS_PATH }}'
-          rm -rf $GITHUB_WORKSPACE/${{ env.REPORTS_DIR }}/
-          git clone https://${{ secrets.GH_SUB_TOKEN }}@github.com/migraphx-benchmark/migraphx-reports.git $GITHUB_WORKSPACE/${{ env.REPORTS_DIR }}
-          cd $GITHUB_WORKSPACE/${{ env.REPORTS_DIR }}/
+          
           cp -r /home/htec/igor/rocm-migraphx/reports/* $GITHUB_WORKSPACE/${{ env.REPORTS_DIR }}/
+
+          cd $GITHUB_WORKSPACE/${{ env.REPORTS_DIR }}/
           git add .
           git config --local user.email github-actions
           git config --local user.name github-actions@github.com
@@ -114,7 +130,7 @@ jobs:
         if: ${{ github.event_name != 'schedule' }}
         uses: peter-evans/create-or-update-comment@v2.0.0
         with:
-          token: ${{ secrets.GH_SUB_TOKEN }}
+          token: ${{ secrets.gh_token }}
           issue-number: 1
           body: ${{ steps.auto_comment.outputs.body}}
 
