@@ -3,7 +3,7 @@ name: Generate MIOPEN database
 on:
   workflow_call:
     inputs:
-      release:
+      rocm_release:
         type: string
         description: ROCm release version
         required: true
@@ -34,7 +34,7 @@ on:
         required: true
 
 env:
-  ROCM_VERSION: rocm-${{ inputs.release }}
+  ROCM_VERSION: rocm-${{ inputs.rocm_release }}
   MIOPEN_PATH: miopen-databases
   SCRIPT_PATH: rocm-migraphx
 
@@ -62,7 +62,7 @@ jobs:
       - name: Check new image
         id: check_image
         run: |
-          if [ ! -z "$(docker images -q rocm-migraphx:${{ inputs.release }})" ]; then
+          if [ ! -z "$(docker images -q rocm-migraphx:${{ inputs.rocm_release }})" ]; then
             echo "::set-output name=image::true"
           fi
   check_database:
@@ -111,7 +111,7 @@ jobs:
           -v ${{ inputs.saved_models_path }}:/data
           -v ${{ inputs.test_results_dir }}:/results
           --workdir /src/${{ env.SCRIPT_PATH }}/scripts/
-          rocm-migraphx:${{ inputs.release }} /bin/bash -c "./run_perf_mev.sh; cp -r /root/.config/miopen /data/database"
+          rocm-migraphx:${{ inputs.rocm_release }} /bin/bash -c "./run_perf_mev.sh; cp -r /root/.config/miopen /data/database"
   push_database:
     name: Push MIOPEN Database
     runs-on: self-hosted
