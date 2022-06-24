@@ -152,7 +152,7 @@ jobs:
           body: ${{ steps.auto_comment.outputs.body}}
 
       - name: Create a comment on PR
-        uses: htec-infra/gha-utils/actions/comment-pr@0.3.2
+        uses: htec-infra/gha-utils/actions/comment-pr@v0.3.2
         with:
           github_token: ${{ secrets.gh_token }}
           message: "file::${{ env.SCRIPTS_PATH }}temp.md"
