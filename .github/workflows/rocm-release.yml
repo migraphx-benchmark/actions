@@ -5,7 +5,7 @@ on:
       rocm_release:
         type: string
         description: ROCm release version
-        required: true
+        required: false
         default: "5.1"
     secrets:
       gh_token:

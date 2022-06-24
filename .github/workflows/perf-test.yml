@@ -6,12 +6,12 @@ on:
       rocm_release:
         type: string
         description: ROCm release version
-        required: true
+        required: false
         default: "5.1"
       performance_reports_repo:
         type: string
         description: Result repository
-        required: true
+        required: false
         default: "migraphx-benchmark/migraphx-reports"
     secrets:
       gh_token:

@@ -12,22 +12,22 @@ on:
         type: string
         description: MIOpen Database repository
         default: "migraphx-benchmark/miopen-databases"
-        required: true
+        required: false
       script_repo:
         type: string
         description: Script repository (rocm-migraphx)
         default: "migraphx-benchmark/rocm-migraphx"
-        required: true
+        required: false
       saved_models_path:
         type: string
         description: Saved Models path
         default: "/home/htec/jz/source/saved-models"
-        required: true
+        required: false
       test_results_dir:
         type: string
         description: Test results path
         default: "/home/htec/jz/source/rocm-migraphx/test-results"
-        required: true
+        required: false
     secrets:
       gh_token:
         description: 'Github Access Token'

@@ -7,16 +7,16 @@ on:
         type: string
         description: Script repository (rocm-migraphx)
         default: "migraphx-benchmark/rocm-migraphx"
-        required: true
+        required: false
       result_path:
         type: string
         description: Result Path
-        required: true
+        required: false
         default: /home/htec/jz/test-results
       result_repo:
         type: string
         description: Result repository
-        required: true
+        required: false
         default: "migraphx-benchmark/migraphx-results"
     secrets:
       gh_token:
