@@ -95,8 +95,7 @@ jobs:
           --device=/dev/dri
           --device=/dev/kfd
           --network=host
-          --group-add=video 
-          -v ${{ env.DOCKER_MOUNT }}
+          --group-add=video
           -v /usr/share/migraphx/saved-models:/saved-models:ro
           -v ${{ env.UTILS_DIR}}/scripts:/migraphx/sh:ro
           -v ${{ env.TEST_RESULTS_PATH }}:/data/test-results
