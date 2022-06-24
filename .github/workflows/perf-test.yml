@@ -20,7 +20,6 @@ on:
 env:
   TEST: false
   UTILS_DIR: benchmark-utils
-  SCRIPTS_PATH: benchmark-utils/scripts
   DOCKERBASE: rocm-migraphx:test
   MIOPENTUNE: miopen-rocm51
   REPORTS_DIR: migraphx-reports
@@ -77,6 +76,7 @@ jobs:
     needs: build_image
     env:
       TEST_RESULTS_PATH: "$GITHUB_WORKSPACE/test-results"
+      SCRIPTS_PATH: "$GITHUB_WORKSPACE/benchmark-utils/scripts"
     steps:
       - name: Checkout Utils
         uses: actions/checkout@v3
@@ -88,7 +88,7 @@ jobs:
       # Docker runs the performance script inside `rocm-migraphx` docker.
       # Attached volume provides access to the compiled version of `saved-modules` adn MRPC datasets. (Currently inside `/home/htec/jz` dir, but that should be changed)
       # `workdir` parameter sets root context for execution of run_perf_mev.sh script. That's not necessary, but removing that parameter requires changes how the script imports the MRPC data
-      - name: Execute perf script
+      - name: Run performance tests
         run: >
           docker run -e TZ=America/Chicago
           -e TARGET=gpu
@@ -97,7 +97,7 @@ jobs:
           --network=host
           --group-add=video
           -v /usr/share/migraphx/saved-models:/saved-models:ro
-          -v ${{ env.UTILS_DIR}}/scripts:/migraphx/sh:ro
+          -v ${{ env.SCRIPTS_PATH }}:/migraphx/sh:ro
           -v ${{ env.TEST_RESULTS_PATH }}:/data/test-results
           --workdir /migraphx/sh
           rocm-migraphx:$(date +%Y%m%d) /bin/bash performance_tests.sh
