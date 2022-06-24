@@ -34,9 +34,6 @@ env:
   DOCKER_MOUNT: /home/htec/jz:/data
   DOCKER_WORKDIR: /data/source/rocm-migraphx/scripts/
 
-
-concurrency: benchmark
-
 jobs:
   check_image_version:
     name: Check Image Version
