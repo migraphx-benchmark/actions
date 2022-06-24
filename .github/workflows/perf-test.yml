@@ -19,6 +19,8 @@ on:
         required: true
 env:
   TEST: false
+  UTILS_DIR: benchmark-utils
+  SCRIPTS_PATH: benchmark-utils/scripts
   DOCKERBASE: rocm-migraphx:test
   MIOPENTUNE: miopen-rocm51
   REPORTS_DIR: migraphx-reports
@@ -27,12 +29,10 @@ env:
   MAIL_FROM: GH Actions
   MAIL_SUBJECT: GH Actions send email test
   MAIL_BODY: Testing GH Actions workflow
-  SCRIPTS_PATH: /home/htec/jz/source/rocm-migraphx/scripts/
-  TEST_RESULTS_PATH: /home/htec/jz/source/rocm-migraphx/test-results/
   REPORTS_PATH: /home/htec/igor/rocm-migraphx/reports/
   PYTHON_PATH: /home/htec/anaconda3/bin/
-  DOCKER_MOUNT: /home/htec/jz:/data
-  DOCKER_WORKDIR: /data/source/rocm-migraphx/scripts/
+#  DOCKER_MOUNT: /home/htec/jz:/data
+#  DOCKER_WORKDIR: /data/source/rocm-migraphx/scripts/
 
 jobs:
   check_image_version:
@@ -48,26 +48,43 @@ jobs:
             echo "::set-output name=image::true"
           fi
   build_image:
-    name: Build New Image
+    name: Build MiGraphX Image
     runs-on: self-hosted
     needs: check_image_version
     if: ${{ needs.check_image_version.outputs.image == 'true' }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v1
+        uses: actions/checkout@v3
+      - name: Checkout Utils
+        uses: actions/checkout@v3
         with:
-          submodules: recursive
+          repository: "migraphx-benchmark/benchmark-utils"
+          path: ${{ env.UTILS_DIR }}
           token: ${{ secrets.gh_token }}
       - name: Docker build
-        run: |
-          cd ./rocm-migraphx/dockerfiles
-          docker build -t "rocm-migraphx:$(date +%Y%m%d)" --no-cache --build-arg BRANCH=$GITHUB_REF_NAME --build-arg DOCKERBASE=${{ env.DOCKERBASE }} --build-arg MIOPENTUNE=${{ env.MIOPENTUNE }} -f dockerfile-daily2 .
+        run: >
+          cd ${{ env.UTILS_DIR }} && docker build --no-cache
+          --build-arg BRANCH=$GITHUB_REF_NAME 
+          --build-arg DOCKERBASE=${{ env.DOCKERBASE }} 
+          --build-arg MIOPENTUNE=${{ env.MIOPENTUNE }} 
+          -t "rocm-migraphx:$(date +%Y%m%d)"
+          -f dockerfiles/Daily.Dockerfile .
+
   execute_scripts:
     name: Execute scripts
     runs-on: self-hosted
     if: ${{ always() }}
     needs: build_image
+    env:
+      TEST_RESULTS_PATH: "${{ $GITHUB_WORKSPACE }}/test-results"
     steps:
+      - name: Checkout Utils
+        uses: actions/checkout@v3
+        with:
+          repository: "migraphx-benchmark/benchmark-utils"
+          path: ${{ env.UTILS_DIR }}
+          token: ${{ secrets.gh_token }}
+
       # Docker runs the performance script inside `rocm-migraphx` docker.
       # Attached volume provides access to the compiled version of `saved-modules` adn MRPC datasets. (Currently inside `/home/htec/jz` dir, but that should be changed)
       # `workdir` parameter sets root context for execution of run_perf_mev.sh script. That's not necessary, but removing that parameter requires changes how the script imports the MRPC data
@@ -80,8 +97,11 @@ jobs:
           --network=host
           --group-add=video 
           -v ${{ env.DOCKER_MOUNT }}
-          --workdir ${{ env.DOCKER_WORKDIR }}
-          rocm-migraphx:$(date +%Y%m%d) /bin/bash run_perf_mev.sh
+          -v /usr/share/migraphx/saved-models:/saved-models:ro
+          -v ${{ env.UTILS_DIR}}/scripts:/migraphx/sh:ro
+          -v ${{ env.TEST_RESULTS_PATH }}:/data/test-results
+          --workdir /migraphx/sh
+          rocm-migraphx:$(date +%Y%m%d) /bin/bash performance_tests.sh
 
       - name: Delete old images/containers
         if: ${{ github.event_name == 'schedule' }}
@@ -130,6 +150,12 @@ jobs:
           token: ${{ secrets.gh_token }}
           issue-number: 1
           body: ${{ steps.auto_comment.outputs.body}}
+
+      - name: Create a comment on PR
+        uses: htec-infra/gha-utils/actions/comment-pr@0.3.2
+        with:
+          github_token: ${{ secrets.gh_token }}
+          message: "file::${{ env.SCRIPTS_PATH }}temp.md"
 
       - name: Get latest report
         id: last_report
