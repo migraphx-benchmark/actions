@@ -75,7 +75,7 @@ jobs:
     if: ${{ always() }}
     needs: build_image
     env:
-      TEST_RESULTS_PATH: "$GITHUB_WORKSPACE/test-results"
+      TEST_RESULTS_PATH: "/usr/share/migraphx/test-results"
       SCRIPTS_PATH: "$GITHUB_WORKSPACE/benchmark-utils/scripts"
     steps:
       - name: Checkout Utils
@@ -135,20 +135,20 @@ jobs:
         id: auto_comment
         if: ${{ github.event_name != 'schedule' }}
         run: |
-          ${{ env.PYTHON_PATH }}python3 ${{ env.SCRIPTS_PATH }}comment.py -t '${{ env.TEST_RESULTS_PATH }}' -r '${{ env.SCRIPTS_PATH }}'
+          ${{ env.PYTHON_PATH }}python3 ${{ env.SCRIPTS_PATH }}/comment.py -t '${{ env.TEST_RESULTS_PATH }}' -r '${{ env.SCRIPTS_PATH }}'
           body="$(cat ${{ env.SCRIPTS_PATH }}temp.md)"
           body="${body//'%'/'%25'}"
           body="${body//$'\n'/'%0A'}"
           body="${body//$'\r'/'%0D'}"
           echo "::set-output name=body::$body"
 
-      - name: Create comment
-        if: ${{ github.event_name != 'schedule' }}
-        uses: peter-evans/create-or-update-comment@v2.0.0
-        with:
-          token: ${{ secrets.gh_token }}
-          issue-number: 1
-          body: ${{ steps.auto_comment.outputs.body}}
+#      - name: Create comment
+#        if: ${{ github.event_name != 'schedule' }}
+#        uses: peter-evans/create-or-update-comment@v2.0.0
+#        with:
+#          token: ${{ secrets.gh_token }}
+#          issue-number: 1
+#          body: ${{ steps.auto_comment.outputs.body}}
 
       - name: Create a comment on PR
         uses: htec-infra/gha-utils/actions/comment-pr@v0.3.2
