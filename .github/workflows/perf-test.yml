@@ -28,7 +28,6 @@ env:
   MAIL_FROM: GH Actions
   MAIL_SUBJECT: GH Actions send email test
   MAIL_BODY: Testing GH Actions workflow
-  REPORTS_PATH: /home/htec/igor/rocm-migraphx/reports/
   PYTHON_PATH: /home/htec/anaconda3/bin/
 #  DOCKER_MOUNT: /home/htec/jz:/data
 #  DOCKER_WORKDIR: /data/source/rocm-migraphx/scripts/
@@ -75,8 +74,9 @@ jobs:
     if: ${{ always() }}
     needs: build_image
     env:
-      TEST_RESULTS_PATH: "/usr/share/migraphx/test-results"
       SCRIPTS_PATH: "$GITHUB_WORKSPACE/benchmark-utils/scripts"
+      REPORTS_PATH: "/usr/share/migraphx/reports"
+      TEST_RESULTS_PATH: "/usr/share/migraphx/test-results"
     steps:
       - name: Checkout Utils
         uses: actions/checkout@v3
@@ -118,11 +118,11 @@ jobs:
       - name: Execute report script
         if: ${{ github.event_name == 'schedule' }}
         run: |
-          ${{ env.PYTHON_PATH }}python3 ${{ env.SCRIPTS_PATH }}report.py \
+          ${{ env.PYTHON_PATH }}python3 ${{ env.SCRIPTS_PATH }}/report.py \
           -t '${{ env.TEST_RESULTS_PATH }}' \
           -r '${{ env.REPORTS_PATH }}'
           
-          cp -r /home/htec/igor/rocm-migraphx/reports/* $GITHUB_WORKSPACE/${{ env.REPORTS_DIR }}/
+          cp -r ${{ env.REPORTS_PATH }}/* $GITHUB_WORKSPACE/${{ env.REPORTS_DIR }}/
 
           cd $GITHUB_WORKSPACE/${{ env.REPORTS_DIR }}/
           git add .
@@ -134,21 +134,10 @@ jobs:
       - name: Execute comment script
         id: auto_comment
         if: ${{ github.event_name != 'schedule' }}
-        run: |
-          ${{ env.PYTHON_PATH }}python3 ${{ env.SCRIPTS_PATH }}/comment.py -t '${{ env.TEST_RESULTS_PATH }}' -r '${{ env.SCRIPTS_PATH }}'
-          body="$(cat ${{ env.SCRIPTS_PATH }}temp.md)"
-          body="${body//'%'/'%25'}"
-          body="${body//$'\n'/'%0A'}"
-          body="${body//$'\r'/'%0D'}"
-          echo "::set-output name=body::$body"
-
-#      - name: Create comment
-#        if: ${{ github.event_name != 'schedule' }}
-#        uses: peter-evans/create-or-update-comment@v2.0.0
-#        with:
-#          token: ${{ secrets.gh_token }}
-#          issue-number: 1
-#          body: ${{ steps.auto_comment.outputs.body}}
+        run: >
+          ${{ env.PYTHON_PATH }}python3 ${{ env.SCRIPTS_PATH }}/comment.py 
+          -t '${{ env.TEST_RESULTS_PATH }}' 
+          -r '${{ env.SCRIPTS_PATH }}'
 
       - name: Create a comment on PR
         uses: htec-infra/gha-utils/actions/comment-pr@v0.3.2
