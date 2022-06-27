@@ -74,7 +74,7 @@ jobs:
     if: ${{ always() }}
     needs: build_image
     env:
-      SCRIPTS_PATH: "$GITHUB_WORKSPACE/benchmark-utils/scripts"
+      SCRIPTS_PATH: "$GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts"
       REPORTS_PATH: "/usr/share/migraphx/reports"
       TEST_RESULTS_PATH: "/usr/share/migraphx/test-results"
     steps:
