@@ -17,7 +17,7 @@ on:
         type: string
         description: Result repository
         required: false
-        default: "migraphx-benchmark/migraphx-compare-results"
+        default: "migraphx-benchmark/comparison-results"
     secrets:
       gh_token:
         description: 'Github Access Token'
