@@ -101,7 +101,7 @@ jobs:
     needs: run_benchmark
     steps:
       - name: Checkout Results
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
         with:
           repository: ${{ inputs.result_repo }}
           path: ${{ env.RESULT_PATH }}
