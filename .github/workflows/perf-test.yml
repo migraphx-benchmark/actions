@@ -13,6 +13,16 @@ on:
         description: Result repository
         required: false
         default: "migraphx-benchmark/migraphx-reports"
+      result_number:
+        type: number
+        description: Number of last results
+        required: true
+        default: 10
+      flags:
+        type: string
+        description: -m for Max value -s for Std deviation -r
+        required: false
+        default: ""
     secrets:
       gh_token:
         description: 'Github Access Token'
@@ -20,7 +30,7 @@ on:
 env:
   TEST: false
   UTILS_DIR: benchmark-utils
-  DOCKERBASE: rocm-migraphx:test
+  DOCKERBASE: rocm-migraphx:${{ github.event.inputs.rocm_release }}
   MIOPENTUNE: miopen-rocm51
   REPORTS_DIR: migraphx-reports
   MAIL_TO: dl.dl-migraphx-perfrun@amd.com
@@ -28,9 +38,11 @@ env:
   MAIL_FROM: GH Actions
   MAIL_SUBJECT: GH Actions send email test
   MAIL_BODY: Testing GH Actions workflow
-  PYTHON_PATH: /home/htec/anaconda3/bin/
+#  PYTHON_PATH: /home/htec/anaconda3/bin/
 #  DOCKER_MOUNT: /home/htec/jz:/data
 #  DOCKER_WORKDIR: /data/source/rocm-migraphx/scripts/
+
+concurrency: benchmark
 
 jobs:
   check_image_version:
@@ -74,7 +86,6 @@ jobs:
     if: ${{ always() }}
     needs: build_image
     env:
-      SCRIPTS_PATH: "$GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts"
       REPORTS_PATH: "/usr/share/migraphx/reports"
       TEST_RESULTS_PATH: "/usr/share/migraphx/test-results"
     steps:
@@ -85,9 +96,6 @@ jobs:
           path: ${{ env.UTILS_DIR }}
           token: ${{ secrets.gh_token }}
 
-      # Docker runs the performance script inside `rocm-migraphx` docker.
-      # Attached volume provides access to the compiled version of `saved-modules` adn MRPC datasets. (Currently inside `/home/htec/jz` dir, but that should be changed)
-      # `workdir` parameter sets root context for execution of run_perf_mev.sh script. That's not necessary, but removing that parameter requires changes how the script imports the MRPC data
       - name: Run performance tests
         run: >
           docker run -e TZ=America/Chicago
@@ -97,7 +105,7 @@ jobs:
           --network=host
           --group-add=video
           -v /usr/share/migraphx/saved-models:/saved-models:ro
-          -v ${{ env.SCRIPTS_PATH }}:/migraphx/sh:ro
+          -v $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts:/migraphx/sh:ro
           -v ${{ env.TEST_RESULTS_PATH }}:/data/test-results
           --workdir /migraphx/sh
           rocm-migraphx:$(date +%Y%m%d) /bin/bash performance_tests.sh
@@ -118,7 +126,7 @@ jobs:
       - name: Execute report script
         if: ${{ github.event_name == 'schedule' }}
         run: |
-          ${{ env.PYTHON_PATH }}python3 ${{ env.SCRIPTS_PATH }}/report.py \
+          python3 ${{ env.UTILS_DIR }}/scripts/report.py \
           -t '${{ env.TEST_RESULTS_PATH }}' \
           -r '${{ env.REPORTS_PATH }}'
           
@@ -135,15 +143,20 @@ jobs:
         id: auto_comment
         if: ${{ github.event_name != 'schedule' }}
         run: >
-          ${{ env.PYTHON_PATH }}python3 ${{ env.SCRIPTS_PATH }}/comment.py 
-          -t '${{ env.TEST_RESULTS_PATH }}' 
-          -r '${{ env.SCRIPTS_PATH }}'
+          python3 ${{ env.UTILS_DIR }}/scripts/comment.py 
+          -t '${{ env.TEST_RESULTS_PATH }}'
+          -n '${{ github.event.inputs.result_number }}'
+          if [ ${{ github.event.inputs.flags }} == "-r"]; then
+          ${{ github.event.inputs.flags }} '${{ env.UTILS_DIR }}/scripts/'
+          else
+          ${{ github.event.inputs.flags }} 
+          fi 
 
       - name: Create a comment on PR
         uses: htec-infra/gha-utils/actions/comment-pr@v0.3.2
         with:
           github_token: ${{ secrets.gh_token }}
-          message: "file::${{ env.SCRIPTS_PATH }}temp.md"
+          message: "file::${{ env.UTILS_DIR }}/scripts/temp.md"
 
       - name: Get latest report
         id: last_report
@@ -157,40 +170,17 @@ jobs:
         if: ${{ github.event_name == 'schedule' }}
         uses: dawidd6/action-send-mail@v3
         with:
-          # Required mail server address:
           server_address: smtp.gmail.com
-          # Required mail server port:
           server_port: 465
-          # Optional (recommended): mail server username:
           username: ${{secrets.MAIL_USERNAME}}
-          # Optional (recommended) mail server password:
           password: ${{secrets.MAIL_PASSWORD}}
-          # Required mail subject:
           subject: ${{ env.MAIL_SUBJECT }}
-          # Required recipients' addresses:
           to: ${{ env.MAIL_TO }}
-          # Required sender full name (address can be skipped):
           from: ${{ env.MAIL_FROM }}
-          # Optional whether this connection use TLS (default is true if server_port is 465)
           secure: true
-          # Optional plain body:
           body: ${{ env.MAIL_BODY }}
-          # Optional HTML body read from file:
-          #html_body: file://README.html
-          # Optional carbon copy recipients:
           cc: ${{ env.MAIL_CC }}
-          # Optional blind carbon copy recipients:
-          #bcc: r2d2@example.com,hansolo@example.com
-          # Optional recipient of the email response:
-          #reply_to: luke@example.com
-          # Optional Message ID this message is replying to:
-          #in_reply_to: <random-luke@example.com>
-          # Optional unsigned/invalid certificates allowance:
           ignore_cert: true
-          # Optional converting Markdown to HTML (set content_type to text/html too):
-          #convert_markdown: true
-          # Optional attachments:
           attachments: ${{ steps.last_report.outputs.latest}}
-          # Optional priority: 'high', 'normal' (default) or 'low'
           priority: normal
 
