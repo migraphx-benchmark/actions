@@ -1,4 +1,4 @@
-name: MiGraphX Benchmark
+name: MiGraphX Benchmark standalone/provider
 
 on:
   workflow_call:
@@ -57,7 +57,7 @@ jobs:
       - name: Docker build
         run: |
           cd $GITHUB_WORKSPACE/${{ env.SCRIPT_PATH }}/dockerfiles
-          docker build -t "migraphx-ort:$(date +%Y%m%d)" --no-cache -f dockerfile_migraphx_benchmark .
+          docker build -t "migraphx-ort:$(date +%Y%m%d)" --no-cache -f Ort.Dockerfile .
   run_benchmark:
     name: Run benchmark
     runs-on: self-hosted
