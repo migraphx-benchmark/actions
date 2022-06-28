@@ -27,7 +27,7 @@ concurrency: benchmark
 
 env:
   SCRIPT_PATH: benchmark-utils
-  RESULT_PATH: migraphx-compare-results
+  RESULT_PATH: comparison-results
 
 jobs:
   check_image_version:
