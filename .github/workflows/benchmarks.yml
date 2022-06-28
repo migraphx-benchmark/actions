@@ -50,13 +50,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v1
-        with:
-          submodules: recursive
-          token: ${{ secrets.GH_SUB_TOKEN }}
       - name: Clone scripts repo
         run: |
           rm -rf $GITHUB_WORKSPACE/${{ env.SCRIPT_PATH }}/
-          git clone https://${{ secrets.GH_SUB_TOKEN }}@github.com/${{ inputs.script_repo }}.git $GITHUB_WORKSPACE/${{ env.SCRIPT_PATH }}
+          git clone https://${{ secrets.gh_token }}@github.com/${{ inputs.script_repo }}.git $GITHUB_WORKSPACE/${{ env.SCRIPT_PATH }}
       - name: Docker build
         run: |
           cd $GITHUB_WORKSPACE/${{ env.SCRIPT_PATH }}/dockerfiles
@@ -72,7 +69,7 @@ jobs:
       - name: Clone scripts repo
         run: |
           rm -rf $GITHUB_WORKSPACE/${{ env.SCRIPT_PATH }}/
-          git clone https://${{ secrets.MIGRAPHX_BOT_TOKEN }}@github.com/${{ inputs.script_repo }}.git $GITHUB_WORKSPACE/${{ env.SCRIPT_PATH }}
+          git clone https://${{ secrets.gh_token }}@github.com/${{ inputs.script_repo }}.git $GITHUB_WORKSPACE/${{ env.SCRIPT_PATH }}
       - name: Export start time
         id: result_time
         run: |
@@ -100,7 +97,7 @@ jobs:
       - name: Clone result repo
         run: |
           rm -rf $GITHUB_WORKSPACE/${{ env.RESULT_PATH }}/
-          git clone https://${{ secrets.GH_SUB_TOKEN }}@github.com/${{ inputs.result_repo }}.git $GITHUB_WORKSPACE/${{ env.RESULT_PATH }}
+          git clone https://${{ secrets.gh_token }}@github.com/${{ inputs.result_repo }}.git $GITHUB_WORKSPACE/${{ env.RESULT_PATH }}
       - name: Execute report script
         run: |
           python3 $GITHUB_WORKSPACE/${{ env.SCRIPT_PATH }}/scripts/benchmark_report.py \
