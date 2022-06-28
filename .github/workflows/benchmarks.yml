@@ -25,11 +25,6 @@ on:
 
 concurrency: benchmark
 
-permissions:
-  issues: write
-  pull-requests: write
-  contents: read
-
 env:
   SCRIPT_PATH: rocm-migraphx
   RESULT_PATH: migraphx-compare-results
