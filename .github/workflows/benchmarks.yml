@@ -103,7 +103,6 @@ jobs:
       - name: Checkout Results
         uses: actions/checkout@v3
         with:
-          ref: master
           repository: ${{ inputs.result_repo }}
           path: ${{ env.RESULT_PATH }}
           token: ${{ secrets.gh_token }}
