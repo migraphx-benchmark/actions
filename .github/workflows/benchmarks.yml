@@ -26,7 +26,7 @@ on:
 concurrency: benchmark
 
 env:
-  SCRIPT_PATH: rocm-migraphx
+  SCRIPT_PATH: benchmark-utils
   RESULT_PATH: migraphx-compare-results
 
 jobs:
@@ -56,7 +56,7 @@ jobs:
       - name: Clone scripts repo
         run: |
           rm -rf $GITHUB_WORKSPACE/${{ env.SCRIPT_PATH }}/
-          git clone https://${{ secrets.GH_SUB_TOKEN }}@github.com/${{ github.event.inputs.script_repo }}.git $GITHUB_WORKSPACE/${{ env.SCRIPT_PATH }}
+          git clone https://${{ secrets.GH_SUB_TOKEN }}@github.com/${{ inputs.script_repo }}.git $GITHUB_WORKSPACE/${{ env.SCRIPT_PATH }}
       - name: Docker build
         run: |
           cd $GITHUB_WORKSPACE/${{ env.SCRIPT_PATH }}/dockerfiles
@@ -72,7 +72,7 @@ jobs:
       - name: Clone scripts repo
         run: |
           rm -rf $GITHUB_WORKSPACE/${{ env.SCRIPT_PATH }}/
-          git clone https://${{ secrets.GH_SUB_TOKEN }}@github.com/${{ github.event.inputs.script_repo }}.git $GITHUB_WORKSPACE/${{ env.SCRIPT_PATH }}
+          git clone https://${{ secrets.MIGRAPHX_BOT_TOKEN }}@github.com/${{ inputs.script_repo }}.git $GITHUB_WORKSPACE/${{ env.SCRIPT_PATH }}
       - name: Export start time
         id: result_time
         run: |
@@ -87,7 +87,7 @@ jobs:
           --device=/dev/kfd
           --network=host
           --group-add=video 
-          -v ${{ github.event.inputs.result_path }}:/test-results
+          -v ${{ inputs.result_path }}:/test-results
           -v $GITHUB_WORKSPACE/${{ env.SCRIPT_PATH }}:/src
           --workdir /src/scripts/
           migraphx-ort:$(date +%Y%m%d) /bin/bash ort_benchmark.sh
@@ -100,16 +100,16 @@ jobs:
       - name: Clone result repo
         run: |
           rm -rf $GITHUB_WORKSPACE/${{ env.RESULT_PATH }}/
-          git clone https://${{ secrets.GH_SUB_TOKEN }}@github.com/${{ github.event.inputs.result_repo }}.git $GITHUB_WORKSPACE/${{ env.RESULT_PATH }}
+          git clone https://${{ secrets.GH_SUB_TOKEN }}@github.com/${{ inputs.result_repo }}.git $GITHUB_WORKSPACE/${{ env.RESULT_PATH }}
       - name: Execute report script
         run: |
           python3 $GITHUB_WORKSPACE/${{ env.SCRIPT_PATH }}/scripts/benchmark_report.py \
-          -i ${{ github.event.inputs.result_path }}/onnxruntime-${{ needs.run_benchmark.outputs.result_time_start }}/ \
+          -i ${{ inputs.result_path }}/onnxruntime-${{ needs.run_benchmark.outputs.result_time_start }}/ \
           -o $GITHUB_WORKSPACE/${{ env.RESULT_PATH }}/migraphx-result-${{ needs.run_benchmark.outputs.result_time_start }}.csv
       - name: Execute detail report script
         run: |
           python3 $GITHUB_WORKSPACE/${{ env.SCRIPT_PATH }}/scripts/benchmark_report_detail.py \
-          -i ${{ github.event.inputs.result_path }}/onnxruntime-${{ needs.run_benchmark.outputs.result_time_start }}/dashboard-detail.csv \
+          -i ${{ inputs.result_path }}/onnxruntime-${{ needs.run_benchmark.outputs.result_time_start }}/dashboard-detail.csv \
           -o $GITHUB_WORKSPACE/${{ env.RESULT_PATH }}/migraphx-result-detail-${{ needs.run_benchmark.outputs.result_time_start }}.csv
       - name: Push report
         run: |
