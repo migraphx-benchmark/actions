@@ -23,7 +23,7 @@ on:
       gh_token:
         description: 'Github Access Token'
         required: true
-      mail_user: 
+      mail_user:
         description: 'Email username'
         required: true
       mail_pass:
@@ -94,25 +94,25 @@ jobs:
           path: ${{ env.UTILS_DIR }}
           token: ${{ secrets.gh_token }}
 
-#       - name: Run performance tests
-#         run: >
-#           docker run -e TZ=America/Chicago
-#           -e TARGET=gpu
-#           --device=/dev/dri
-#           --device=/dev/kfd
-#           --network=host
-#           --group-add=video
-#           -v /usr/share/migraphx/saved-models:/saved-models:ro
-#           -v $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts:/migraphx/sh:ro
-#           -v ${{ env.TEST_RESULTS_PATH }}:/data/test-results
-#           --workdir /migraphx/sh
-#           rocm-migraphx:$(date +%Y%m%d) /bin/bash performance_tests.sh
+      - name: Run performance tests
+        run: >
+          docker run -e TZ=America/Chicago
+          -e TARGET=gpu
+          --device=/dev/dri
+          --device=/dev/kfd
+          --network=host
+          --group-add=video
+          -v /usr/share/migraphx/saved-models:/saved-models:ro
+          -v $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts:/migraphx/sh:ro
+          -v ${{ env.TEST_RESULTS_PATH }}:/data/test-results
+          --workdir /migraphx/sh
+          rocm-migraphx:$(date +%Y%m%d) /bin/bash performance_tests.sh
 
-#       - name: Delete old images/containers
-#         if: ${{ github.event_name == 'schedule' }}
-#         run: |
-#           docker container prune -f
-#           docker rmi -f $(docker images --filter=reference="rocm-migraphx:20*" | grep -v $(date +%Y%m%d) | awk 'NR>1 {print $3}')
+      - name: Delete old images/containers
+        if: ${{ github.event_name == 'schedule' }}
+        run: |
+          docker container prune -f
+          docker rmi -f $(docker images --filter=reference="rocm-migraphx:20*" | grep -v $(date +%Y%m%d) | awk 'NR>1 {print $3}')
 
       - name: Checkout report's repo
         uses: actions/checkout@v3
