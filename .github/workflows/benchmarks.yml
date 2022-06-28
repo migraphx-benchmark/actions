@@ -49,11 +49,15 @@ jobs:
     if: ${{ needs.check_image_version.outputs.image == 'true' }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v1
-      - name: Clone scripts repo
-        run: |
-          rm -rf $GITHUB_WORKSPACE/${{ env.SCRIPT_PATH }}/
-          git clone https://${{ secrets.gh_token }}@github.com/${{ inputs.script_repo }}.git $GITHUB_WORKSPACE/${{ env.SCRIPT_PATH }}
+        uses: actions/checkout@v3
+
+      - name: Checkout Utils
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ inputs.script_repo }}
+          path: ${{ env.SCRIPT_PATH }}
+          token: ${{ secrets.gh_token }}
+
       - name: Docker build
         run: |
           cd $GITHUB_WORKSPACE/${{ env.SCRIPT_PATH }}/dockerfiles
@@ -66,10 +70,12 @@ jobs:
       result_time_start: ${{ steps.result_time.outputs.result_time_start }}
     needs: build_image
     steps:
-      - name: Clone scripts repo
-        run: |
-          rm -rf $GITHUB_WORKSPACE/${{ env.SCRIPT_PATH }}/
-          git clone https://${{ secrets.gh_token }}@github.com/${{ inputs.script_repo }}.git $GITHUB_WORKSPACE/${{ env.SCRIPT_PATH }}
+      - name: Checkout Utils
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ inputs.script_repo }}
+          path: ${{ env.SCRIPT_PATH }}
+          token: ${{ secrets.gh_token }}
       - name: Export start time
         id: result_time
         run: |
@@ -94,15 +100,19 @@ jobs:
     if: ${{ always() }}
     needs: run_benchmark
     steps:
-      - name: Clone result repo
-        run: |
-          rm -rf $GITHUB_WORKSPACE/${{ env.RESULT_PATH }}/
-          git clone https://${{ secrets.gh_token }}@github.com/${{ inputs.result_repo }}.git $GITHUB_WORKSPACE/${{ env.RESULT_PATH }}
+      - name: Checkout Results
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ inputs.result_repo }}
+          path: ${{ env.RESULT_PATH }}
+          token: ${{ secrets.gh_token }}
+
       - name: Execute report script
         run: |
           python3 $GITHUB_WORKSPACE/${{ env.SCRIPT_PATH }}/scripts/benchmark_report.py \
           -i ${{ inputs.result_path }}/onnxruntime-${{ needs.run_benchmark.outputs.result_time_start }}/ \
           -o $GITHUB_WORKSPACE/${{ env.RESULT_PATH }}/migraphx-result-${{ needs.run_benchmark.outputs.result_time_start }}.csv
+          
       - name: Execute detail report script
         run: |
           python3 $GITHUB_WORKSPACE/${{ env.SCRIPT_PATH }}/scripts/benchmark_report_detail.py \
