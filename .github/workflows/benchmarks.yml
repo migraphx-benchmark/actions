@@ -6,7 +6,7 @@ on:
       script_repo:
         type: string
         description: Script repository (rocm-migraphx)
-        default: "migraphx-benchmark/rocm-migraphx"
+        default: "migraphx-benchmark/benchmark-utils"
         required: false
       result_path:
         type: string
@@ -95,7 +95,7 @@ jobs:
           -v ${{ github.event.inputs.result_path }}:/test-results
           -v $GITHUB_WORKSPACE/${{ env.SCRIPT_PATH }}:/src
           --workdir /src/scripts/
-          migraphx-ort:$(date +%Y%m%d) /bin/bash ort_benchmark4.sh
+          migraphx-ort:$(date +%Y%m%d) /bin/bash ort_benchmark.sh
   git_push_result:
     name: Push result to Github
     runs-on: self-hosted
