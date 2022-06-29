@@ -7,7 +7,6 @@ on:
         type: string
         description: ROCm release version
         required: false
-        default: "5.1"
       performance_reports_repo:
         type: string
         description: Result repository
@@ -17,12 +16,10 @@ on:
         type: number
         description: Number of last results
         required: true
-        default: 10
       flags:
         type: string
         description: -m for Max value; -s for Std dev; -r 'path' for Threshold file
         required: false
-        default: "-s"
     secrets:
       gh_token:
         description: 'Github Access Token'
