@@ -13,7 +13,7 @@ on:
         required: false
         default: "migraphx-benchmark/migraphx-reports"
       result_number:
-        type: number
+        type: string
         description: Number of last results
         required: true
       flags:
