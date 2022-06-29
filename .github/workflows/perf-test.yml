@@ -20,9 +20,9 @@ on:
         default: 10
       flags:
         type: string
-        description: -m for Max value -s for Std deviation -r
+        description: -m for Max value; -s for Std dev; -r 'path' for Threshold file
         required: false
-        default: ""
+        default: "-s"
     secrets:
       gh_token:
         description: 'Github Access Token'
@@ -30,7 +30,7 @@ on:
 env:
   TEST: false
   UTILS_DIR: benchmark-utils
-  DOCKERBASE: rocm-migraphx:${{ github.event.inputs.rocm_release }}
+#  DOCKERBASE: rocm-migraphx:${{ github.event.inputs.rocm_release }}
   MIOPENTUNE: miopen-rocm51
   REPORTS_DIR: migraphx-reports
   MAIL_TO: dl.dl-migraphx-perfrun@amd.com
@@ -42,7 +42,6 @@ env:
 #  DOCKER_MOUNT: /home/htec/jz:/data
 #  DOCKER_WORKDIR: /data/source/rocm-migraphx/scripts/
 
-#concurrency: benchmark
 
 jobs:
   check_image_version:
@@ -75,7 +74,7 @@ jobs:
         run: >
           cd ${{ env.UTILS_DIR }} && docker build --no-cache
           --build-arg BRANCH=$GITHUB_REF_NAME 
-          --build-arg DOCKERBASE=${{ env.DOCKERBASE }} 
+          --build-arg DOCKERBASE=${{ github.event.inputs.rocm_release }} 
           --build-arg MIOPENTUNE=${{ env.MIOPENTUNE }} 
           -t "rocm-migraphx:$(date +%Y%m%d)"
           -f dockerfiles/Daily.Dockerfile .
