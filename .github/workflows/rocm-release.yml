@@ -55,7 +55,7 @@ jobs:
           ROCM_BASE: rocm/dev-ubuntu-18.04:${{ inputs.rocm_release }}
           DOCKERIMAGE: rocm-migraphx:${{ inputs.rocm_release }}
           BUILD_NAVI: "0"
-          TOKEN: ${{ secret.gh_token }}
+          TOKEN: ${{ secrets.gh_token }}
         run: |
           cd $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts
           ./build_migraphx_docker.sh
