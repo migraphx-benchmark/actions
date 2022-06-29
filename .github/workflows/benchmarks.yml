@@ -6,18 +6,15 @@ on:
       script_repo:
         type: string
         description: Script repository
-        default: "migraphx-benchmark/benchmark-utils"
         required: false
       result_path:
         type: string
         description: Result Path
         required: false
-        default: /home/htec/jz/test-results
       result_repo:
         type: string
         description: Result repository
         required: false
-        default: "migraphx-benchmark/comparison-results"
     secrets:
       gh_token:
         description: 'Github Access Token'
