@@ -76,7 +76,7 @@ jobs:
           --build-arg BRANCH=$GITHUB_REF_NAME 
           --build-arg DOCKERBASE=${{ env.DOCKERBASE }}
           --build-arg MIOPENTUNE=${{ env.MIOPENTUNE }}
-          --build-arg UTILS_REPO=migraphx-benchmark/benchmark-utils
+          --build-arg UTILS_REPO=https://github.com/migraphx-benchmark/benchmark-utils
           -t "rocm-migraphx:$(date +%Y%m%d)"
           -f dockerfiles/Daily.Dockerfile .
 
