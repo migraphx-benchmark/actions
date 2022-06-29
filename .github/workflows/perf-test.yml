@@ -145,10 +145,7 @@ jobs:
           else
             flagoptions="${{ inputs.flags }}"
           fi 
-          python3 $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts/comment.py \
-          -t ${{ env.TEST_RESULTS_PATH }} \ 
-          -n ${{ inputs.result_number }} \  
-          $flagoptions 
+          python3 $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts/comment.py -t ${{ env.TEST_RESULTS_PATH }} -n ${{ inputs.result_number }} $flagoptions 
 
       - name: Create a comment on PR
         uses: htec-infra/gha-utils/actions/comment-pr@v0.3.2
