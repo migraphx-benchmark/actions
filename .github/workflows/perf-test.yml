@@ -93,19 +93,19 @@ jobs:
           path: ${{ env.UTILS_DIR }}
           token: ${{ secrets.gh_token }}
 
-      - name: Run performance tests
-        run: >
-          docker run -e TZ=America/Chicago
-          -e TARGET=gpu
-          --device=/dev/dri
-          --device=/dev/kfd
-          --network=host
-          --group-add=video
-          -v /usr/share/migraphx/saved-models:/saved-models:ro
-          -v $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts:/migraphx/sh:ro
-          -v ${{ env.TEST_RESULTS_PATH }}:/data/test-results
-          --workdir /migraphx/sh
-          rocm-migraphx:$(date +%Y%m%d) /bin/bash performance_tests.sh
+      # - name: Run performance tests
+      #   run: >
+      #     docker run -e TZ=America/Chicago
+      #     -e TARGET=gpu
+      #     --device=/dev/dri
+      #     --device=/dev/kfd
+      #     --network=host
+      #     --group-add=video
+      #     -v /usr/share/migraphx/saved-models:/saved-models:ro
+      #     -v $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts:/migraphx/sh:ro
+      #     -v ${{ env.TEST_RESULTS_PATH }}:/data/test-results
+      #     --workdir /migraphx/sh
+      #     rocm-migraphx:$(date +%Y%m%d) /bin/bash performance_tests.sh
 
       - name: Delete old images/containers
         if: ${{ github.event_name == 'schedule' }}
@@ -142,11 +142,11 @@ jobs:
         run: >
           python3 $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts/comment.py 
           -t '${{ env.TEST_RESULTS_PATH }}'
-          -n '${{ github.event.inputs.result_number }}'
-          if [ ${{ github.event.inputs.flags }} == "-r"]; then
-          ${{ github.event.inputs.flags }} '$GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts/'
+          -n '${{ inputs.result_number }}'
+          if [ ${{ inputs.flags }} == "-r"]; then
+          ${{ inputs.flags }} '$GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts/'
           else
-          ${{ github.event.inputs.flags }} 
+          ${{ inputs.flags }} 
           fi 
 
       - name: Create a comment on PR
