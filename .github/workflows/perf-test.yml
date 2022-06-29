@@ -140,7 +140,7 @@ jobs:
         id: auto_comment
         if: ${{ github.event_name != 'schedule' }}
         run: |
-          if [ ${{ inputs.flags }} == "-r"]; then
+          if [[ ${{ inputs.flags }} == "-r"]]; then
             flagoptions="${{ inputs.flags }} $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts/"
           else
             flagoptions="${{ inputs.flags }}"
