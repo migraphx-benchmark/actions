@@ -1,12 +1,6 @@
 name: ROCM Container build
 on:
   workflow_call:
-    inputs:
-      rocm_release:
-        type: string
-        description: ROCm release version
-        required: false
-        default: "5.1"
     secrets:
       gh_token:
         description: 'Github Access Token'
@@ -52,7 +46,7 @@ jobs:
       - name: Docker build
         env:
           ROCM_RELEASE: ${{ inputs.rocm_release }}
-          ROCM_BASE: rocm/dev-ubuntu-18.04:${{ inputs.rocm_release }}
+          ROCM_BASE: rocm/dev-ubuntu-20.04:${{ inputs.rocm_release }}
           DOCKERIMAGE: rocm-migraphx:${{ inputs.rocm_release }}
           BUILD_NAVI: "0"
           TOKEN: ${{ secrets.gh_token }}
