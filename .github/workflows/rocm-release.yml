@@ -15,6 +15,9 @@ on:
 permissions:
   contents: read
 
+env:
+  UTILS_DIR: benchmark-utils
+
 jobs:
   check_image_version:
     name: Check Image Version
@@ -26,7 +29,7 @@ jobs:
         id: check_image
         run: |
           if [ -z "$(docker images -q rocm-migraphx:${{ inputs.rocm_release }})" ]; then
-            echo "::set-output name=image::true"f
+            echo "::set-output name=image::true"
           fi
       - name: test step
         run: echo "Value of image is ${{ steps.check_image.outputs.image }}"
@@ -37,10 +40,15 @@ jobs:
     if: ${{ needs.check_image_version.outputs.image == 'true' }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v1
+        uses: actions/checkout@v3
+
+      - name: Checkout Utils
+        uses: actions/checkout@v3
         with:
-          submodules: recursive
+          repository: "migraphx-benchmark/benchmark-utils"
+          path: ${{ env.UTILS_DIR }}
           token: ${{ secrets.gh_token }}
+
       - name: Docker build
         env:
           ROCM_RELEASE: ${{ inputs.rocm_release }}
@@ -48,5 +56,5 @@ jobs:
           DOCKERIMAGE: rocm-migraphx:${{ inputs.rocm_release }}
           BUILD_NAVI: "0"
         run: |
-          cd $GITHUB_WORKSPACE/rocm-migraphx/scripts
+          cd $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts
           ./build_migraphx_docker.sh
