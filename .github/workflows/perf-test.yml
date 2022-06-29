@@ -74,7 +74,7 @@ jobs:
         run: >
           cd ${{ env.UTILS_DIR }} && docker build --no-cache
           --build-arg BRANCH=$GITHUB_REF_NAME 
-          --build-arg DOCKERBASE=${{ github.event.inputs.rocm_release }} 
+          --build-arg DOCKERBASE=rocm-migraphx:${{ github.event.inputs.rocm_release }} 
           --build-arg MIOPENTUNE=${{ env.MIOPENTUNE }} 
           -t "rocm-migraphx:$(date +%Y%m%d)"
           -f dockerfiles/Daily.Dockerfile .
