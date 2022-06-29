@@ -24,7 +24,7 @@ jobs:
       - name: Check new image
         id: check_image
         run: |
-          if [ -z "$(docker images -q rocm-migraphx:${{ inputs.rocm_release }})" ]; then
+          if [ ! -z "$(docker images -q rocm-migraphx:${{ inputs.rocm_release }})" ]; then
             echo "::set-output name=image::true"
           fi
       - name: test step
