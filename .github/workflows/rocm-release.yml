@@ -1,6 +1,12 @@
 name: ROCM Container build
 on:
   workflow_call:
+    inputs:
+      rocm_release:
+        type: string
+        description: ROCm release version
+        required: true
+        default: "5.1"
     secrets:
       gh_token:
         description: 'Github Access Token'
