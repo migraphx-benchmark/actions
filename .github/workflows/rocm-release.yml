@@ -6,14 +6,10 @@ on:
         type: string
         description: ROCm release version
         required: true
-        default: "5.1"
     secrets:
       gh_token:
         description: 'Github Access Token'
         required: true
-
-permissions:
-  contents: read
 
 env:
   UTILS_DIR: benchmark-utils
@@ -51,9 +47,9 @@ jobs:
 
       - name: Docker build
         env:
-          ROCM_RELEASE: "${{ inputs.rocm_release }}"
-          ROCM_BASE: rocm/dev-ubuntu-20.04:"${{ inputs.rocm_release }}"
-          DOCKERIMAGE: rocm-migraphx:"${{ inputs.rocm_release }}"
+          ROCM_RELEASE: ${{ inputs.rocm_release }}
+          ROCM_BASE: rocm/dev-ubuntu-20.04:${{ inputs.rocm_release }}
+          DOCKERIMAGE: rocm-migraphx:${{ inputs.rocm_release }}
           BUILD_NAVI: "0"
           TOKEN: ${{ secrets.gh_token }}
         run: |
