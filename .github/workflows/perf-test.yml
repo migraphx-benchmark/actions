@@ -146,8 +146,8 @@ jobs:
             flagoptions="${{ inputs.flags }}"
           fi 
           python3 $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts/comment.py \
-          -t '${{ env.TEST_RESULTS_PATH }}'\ 
-          -n '${{ inputs.result_number }}'\ 
+          -t ${{ env.TEST_RESULTS_PATH }} \ 
+          -n ${{ inputs.result_number }} \  
           $flagoptions
           
 
