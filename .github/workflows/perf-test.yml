@@ -72,7 +72,7 @@ jobs:
           token: ${{ secrets.gh_token }}
       - name: Docker build
         run: >
-          cd ${{ env.UTILS_DIR }} && docker build --no-cache
+          printenv && cd ${{ env.UTILS_DIR }} && docker build --no-cache
           --build-arg BRANCH=$GITHUB_REF_NAME 
           --build-arg DOCKERBASE=rocm-migraphx:5.1
           --build-arg MIOPENTUNE=${{ env.MIOPENTUNE }} 
