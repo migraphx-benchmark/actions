@@ -68,15 +68,14 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: "migraphx-benchmark/benchmark-utils"
-          path: $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}
+          path: ${{ env.UTILS_DIR }}
           token: ${{ secrets.gh_token }}
       - name: Docker build
         run: >
-          cd ${{ env.UTILS_DIR }} && docker build --no-cache
+          cd $GITHUB_WORKSPACE/${{ env.UTILS_DIR }} && docker build --no-cache
           --build-arg BRANCH=$GITHUB_REF_NAME 
           --build-arg DOCKERBASE=${{ env.DOCKERBASE }}
           --build-arg MIOPENTUNE=${{ env.MIOPENTUNE }}
-          -v $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}:/src/${{ env.UTILS_DIR }}
           -t "rocm-migraphx:$(date +%Y%m%d)"
           -f dockerfiles/Daily.Dockerfile .
 
