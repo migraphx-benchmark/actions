@@ -93,19 +93,19 @@ jobs:
           path: ${{ env.UTILS_DIR }}
           token: ${{ secrets.gh_token }}
 
-      # - name: Run performance tests
-      #   run: >
-      #     docker run -e TZ=America/Chicago
-      #     -e TARGET=gpu
-      #     --device=/dev/dri
-      #     --device=/dev/kfd
-      #     --network=host
-      #     --group-add=video
-      #     -v /usr/share/migraphx/saved-models:/saved-models:ro
-      #     -v $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts:/migraphx/sh:ro
-      #     -v ${{ env.TEST_RESULTS_PATH }}:/data/test-results
-      #     --workdir /migraphx/sh
-      #     rocm-migraphx:$(date +%Y%m%d) /bin/bash performance_tests.sh
+      - name: Run performance tests
+        run: >
+          docker run -e TZ=America/Chicago
+          -e TARGET=gpu
+          --device=/dev/dri
+          --device=/dev/kfd
+          --network=host
+          --group-add=video
+          -v /usr/share/migraphx/saved-models:/saved-models:ro
+          -v $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts:/migraphx/sh:ro
+          -v ${{ env.TEST_RESULTS_PATH }}:/data/test-results
+          --workdir /migraphx/sh
+          rocm-migraphx:$(date +%Y%m%d) /bin/bash performance_tests.sh
 
       - name: Delete old images/containers
         if: ${{ github.event_name == 'schedule' }}
