@@ -11,7 +11,6 @@ on:
         type: string
         description: Result repository
         required: true
-        default: "migraphx-benchmark/migraphx-reports"
       result_number:
         type: string
         description: Number of last results
