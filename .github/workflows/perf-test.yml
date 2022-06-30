@@ -6,11 +6,11 @@ on:
       rocm_release:
         type: string
         description: ROCm release version
-        required: false
+        required: true
       performance_reports_repo:
         type: string
         description: Result repository
-        required: false
+        required: true
         default: "migraphx-benchmark/migraphx-reports"
       result_number:
         type: string
@@ -19,7 +19,7 @@ on:
       flags:
         type: string
         description: -m for Max value; -s for Std dev; -r 'path' for Threshold file
-        required: false
+        required: true
     secrets:
       gh_token:
         description: 'Github Access Token'
