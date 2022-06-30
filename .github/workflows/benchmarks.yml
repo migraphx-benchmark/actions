@@ -20,8 +20,6 @@ on:
         description: 'Github Access Token'
         required: true
 
-concurrency: benchmark
-
 env:
   SCRIPT_PATH: benchmark-utils
   RESULT_PATH: comparison-results

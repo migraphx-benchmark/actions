@@ -10,7 +10,7 @@ on:
       performance_reports_repo:
         type: string
         description: Result repository
-        required: false
+        required: true
         default: "migraphx-benchmark/migraphx-reports"
       result_number:
         type: string
@@ -25,7 +25,6 @@ on:
         description: 'Github Access Token'
         required: true
 env:
-  TEST: false
   UTILS_DIR: benchmark-utils
   DOCKERBASE: rocm-migraphx:${{ inputs.rocm_release }}
   MIOPENTUNE: miopen-rocm51
