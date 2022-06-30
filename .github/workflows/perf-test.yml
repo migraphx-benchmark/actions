@@ -10,7 +10,7 @@ on:
       performance_reports_repo:
         type: string
         description: Result repository
-        required: true
+        required: false
         default: "migraphx-benchmark/migraphx-reports"
       result_number:
         type: string
