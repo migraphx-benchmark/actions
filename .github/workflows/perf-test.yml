@@ -39,9 +39,6 @@ env:
   MAIL_FROM: GH Actions
   MAIL_SUBJECT: GH Actions send email test
   MAIL_BODY: Testing GH Actions workflow
-#  PYTHON_PATH: /home/htec/anaconda3/bin/
-#  DOCKER_MOUNT: /home/htec/jz:/data
-#  DOCKER_WORKDIR: /data/source/rocm-migraphx/scripts/
 
 
 jobs:
@@ -150,12 +147,12 @@ jobs:
             flagoptions="${{ inputs.flags }}"
           fi 
           python3 $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts/comment.py -t ${{ env.TEST_RESULTS_PATH }} -n ${{ inputs.result_number }} $flagoptions
-          ls $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts
 
       - name: Create a comment on PR
         if: ${{ github.event_name != 'schedule' }}
         uses: htec-infra/gha-utils/actions/comment-pr@v0.3.2
         with:
+          github_token: ${{ secrets.gh_token }}
           message: "file::${{ github.workspace }}/${{ env.UTILS_DIR }}/scripts/temp.md"
 
       - name: Get latest report
