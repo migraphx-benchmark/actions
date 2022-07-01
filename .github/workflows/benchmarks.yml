@@ -76,6 +76,7 @@ jobs:
         run: |
           RESULT_DATE=$(date '+%Y-%m-%d-%H-%M')
           echo "::set-output name=result_time_start::$RESULT_DATE"
+
       - name: Execute benchmark script
         run: >
           docker run -e TZ=America/New_York
@@ -89,6 +90,12 @@ jobs:
           -v $GITHUB_WORKSPACE/${{ env.SCRIPT_PATH }}:/src
           --workdir /src/scripts/
           migraphx-ort:$(date +%Y%m%d) /bin/bash ort_benchmark.sh
+
+      - name: Delete old images/containers
+        if: ${{ github.event_name == 'schedule' }}
+        run: |
+          docker container prune -f
+          docker rmi -f $(docker images --filter=reference="migraphx-ort:20*" | grep -v $(date +%Y%m%d) | awk 'NR>1 {print $3}')
   git_push_result:
     name: Push result to Github
     runs-on: self-hosted
