@@ -156,8 +156,7 @@ jobs:
         if: ${{ github.event_name != 'schedule' }}
         uses: htec-infra/gha-utils/actions/comment-pr@v0.3.2
         with:
-          github_token: ${{ secrets.gh_token }}
-          message: "file::$GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts/temp.md"
+          message: "file::${{ github.workspace }}/${{ env.UTILS_DIR }}/scripts/temp.md"
 
       - name: Get latest report
         id: last_report
