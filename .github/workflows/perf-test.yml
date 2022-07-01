@@ -23,6 +23,12 @@ on:
       gh_token:
         description: 'Github Access Token'
         required: true
+      mail_user: 
+        description: 'Email username'
+        required: true
+      mail_pass:
+        description: 'Email password'
+        required: true
 env:
   UTILS_DIR: benchmark-utils
   DOCKERBASE: rocm-migraphx:${{ inputs.rocm_release }}
@@ -165,8 +171,8 @@ jobs:
         with:
           server_address: smtp.gmail.com
           server_port: 465
-          username: ${{secrets.MAIL_USERNAME}}
-          password: ${{secrets.MAIL_PASSWORD}}
+          username: ${{secrets.mail_user}}
+          password: ${{secrets.mail_pass}}
           subject: ${{ env.MAIL_SUBJECT }}
           to: ${{ env.MAIL_TO }}
           from: ${{ env.MAIL_FROM }}
