@@ -78,7 +78,6 @@ jobs:
           -f dockerfiles/Daily.Dockerfile .
 
   execute_scripts:
-    permissions: write-all
     name: Execute scripts
     runs-on: self-hosted
     if: ${{ always() }}
