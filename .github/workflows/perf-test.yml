@@ -171,8 +171,8 @@ jobs:
         with:
           server_address: smtp.gmail.com
           server_port: 465
-          username: ${{secrets.mail_user}}
-          password: ${{secrets.mail_pass}}
+          username: ${{ secrets.mail_user }}
+          password: ${{ secrets.mail_pass }}
           subject: ${{ env.MAIL_SUBJECT }}
           to: ${{ env.MAIL_TO }}
           from: ${{ env.MAIL_FROM }}
