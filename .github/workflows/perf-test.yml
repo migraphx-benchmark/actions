@@ -78,6 +78,7 @@ jobs:
           -f dockerfiles/Daily.Dockerfile .
 
   execute_scripts:
+    permissions: write-all
     name: Execute scripts
     runs-on: self-hosted
     if: ${{ always() }}
@@ -152,7 +153,6 @@ jobs:
         if: ${{ github.event_name != 'schedule' }}
         uses: htec-infra/gha-utils/actions/comment-pr@v0.3.2
         with:
-          github_token: ${{ secrets.gh_token }}
           message: "file::${{ github.workspace }}/${{ env.UTILS_DIR }}/scripts/temp.md"
 
       - name: Get latest report
