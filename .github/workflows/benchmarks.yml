@@ -120,6 +120,12 @@ jobs:
           python3 $GITHUB_WORKSPACE/${{ env.SCRIPT_PATH }}/scripts/benchmark_report_detail.py \
           -i ${{ inputs.result_path }}/onnxruntime-${{ needs.run_benchmark.outputs.result_time_start }}/dashboard-detail.csv \
           -o $GITHUB_WORKSPACE/${{ env.RESULT_PATH }}/migraphx-result-detail-${{ needs.run_benchmark.outputs.result_time_start }}.csv
+      
+      - name: Execute excel report script
+        run: |
+          python3 $GITHUB_WORKSPACE/${{ env.SCRIPT_PATH }}/scripts/compare.py \
+          -b $GITHUB_WORKSPACE/${{ env.RESULT_PATH }}
+      
       - name: Push report
         run: |
           cd $GITHUB_WORKSPACE/${{ env.RESULT_PATH }}/
