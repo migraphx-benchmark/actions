@@ -82,8 +82,7 @@ jobs:
     runs-on: self-hosted
     if: ${{ always() }}
     needs: build_image
-    permissions:
-      security-events: write
+    permissions: write-all
     env:
       SAVED_MODELS_PATH: "/usr/share/migraphx/saved-models"
       REPORTS_PATH: "/usr/share/migraphx/reports"
