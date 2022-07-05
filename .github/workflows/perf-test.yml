@@ -32,7 +32,7 @@ on:
 env:
   UTILS_DIR: benchmark-utils
   DOCKERBASE: rocm-migraphx:${{ inputs.rocm_release }}
-  MIOPENTUNE: miopen-rocm51
+  MIOPENTUNE: miopen-rocm${{ inputs.rocm_release }}
   REPORTS_DIR: migraphx-reports
   MAIL_TO: dl.dl-migraphx-perfrun@amd.com
   MAIL_CC: igor.mirosavljevic@htecgroup.com,vidoje.gavrilovic@htecgroup.com,jovica.zlatanovic@htecgroup.com,stefan.micic@htecgroup.com
