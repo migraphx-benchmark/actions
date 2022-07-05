@@ -51,7 +51,7 @@ jobs:
       - name: Check new image
         id: check_image
         run: |
-          if [ -z "$(docker images -q rocm-migraphx:`date +%Y%m%d`)" ]; then
+          if [ -z "$(docker images -q migraphx-rocm:${{ inputs.rocm_release }}-`date +%Y%m%d`)" ]; then
             echo "::set-output name=image::true"
           fi
   build_image:
@@ -74,7 +74,7 @@ jobs:
           --build-arg BRANCH=$GITHUB_REF_NAME 
           --build-arg DOCKERBASE=${{ env.DOCKERBASE }}
           --build-arg MIOPENTUNE=${{ env.MIOPENTUNE }}
-          -t "rocm-migraphx:$(date +%Y%m%d)"
+          -t "migraphx-rocm:${{ inputs.rocm_release }}-$(date +%Y%m%d)"
           -f dockerfiles/Daily.Dockerfile .
 
   execute_scripts:
@@ -106,13 +106,13 @@ jobs:
           -v $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts:/migraphx/sh:ro
           -v ${{ env.TEST_RESULTS_PATH }}:/data/test-results
           --workdir /migraphx/sh
-          rocm-migraphx:$(date +%Y%m%d) /bin/bash performance_tests.sh
+          migraphx-rocm:${{ inputs.rocm_release }}-$(date +%Y%m%d) /bin/bash performance_tests.sh
 
       - name: Delete old images/containers
         if: ${{ github.event_name == 'schedule' }}
         run: |
           docker container prune -f
-          docker rmi -f $(docker images --filter=reference="rocm-migraphx:20*" | grep -v $(date +%Y%m%d) | awk 'NR>1 {print $3}')
+          docker rmi -f $(docker images --filter=reference="migraphx-rocm:${{ inputs.rocm_release }}-*" | grep -v $(date +%Y%m%d) | awk 'NR>1 {print $3}')
 
       - name: Checkout report's repo
         uses: actions/checkout@v3
