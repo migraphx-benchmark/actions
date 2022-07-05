@@ -92,7 +92,6 @@ jobs:
           migraphx-ort:$(date +%Y%m%d) /bin/bash ort_benchmark.sh
 
       - name: Delete old images/containers
-        if: ${{ github.event_name == 'schedule' }}
         run: |
           docker container prune -f
           docker rmi -f $(docker images --filter=reference="migraphx-ort:20*" | grep -v $(date +%Y%m%d) | awk 'NR>1 {print $3}')
