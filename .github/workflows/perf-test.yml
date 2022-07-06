@@ -112,7 +112,9 @@ jobs:
         if: ${{ github.event_name == 'schedule' }}
         run: |
           docker container prune -f
-          docker rmi -f $(docker images --filter=reference="migraphx-rocm:${{ inputs.rocm_release }}-*" | grep -v $(date +%Y%m%d) | awk 'NR>1 {print $3}')
+          if [[ $(docker images --filter=reference="migraphx-rocm:${{ inputs.rocm_release }}-*" | grep -v $(date +%Y%m%d) | awk 'NR>1 {print $3}') ]]; then
+            docker rmi -f $(docker images --filter=reference="migraphx-rocm:${{ inputs.rocm_release }}-*" | grep -v $(date +%Y%m%d) | awk 'NR>1 {print $3}')
+          fi
 
       - name: Checkout report's repo
         uses: actions/checkout@v3

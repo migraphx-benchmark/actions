@@ -94,7 +94,10 @@ jobs:
       - name: Delete old images/containers
         run: |
           docker container prune -f
-          docker rmi -f $(docker images --filter=reference="migraphx-ort:20*" | grep -v $(date +%Y%m%d) | awk 'NR>1 {print $3}')
+          if [[ $(docker images --filter=reference="migraphx-ort:20*" | grep -v $(date +%Y%m%d) | awk 'NR>1 {print $3}') ]]; then
+            docker rmi -f $(docker images --filter=reference="migraphx-ort:20*" | grep -v $(date +%Y%m%d) | awk 'NR>1 {print $3}')
+          fi
+          
   git_push_result:
     name: Push result to Github
     runs-on: self-hosted
