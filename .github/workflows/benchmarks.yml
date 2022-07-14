@@ -60,7 +60,7 @@ jobs:
       - name: Docker build
         run: |
           cd $GITHUB_WORKSPACE/${{ env.SCRIPT_PATH }}/dockerfiles
-          docker build -t "migraphx-ort:$(date +%Y%m%d)" --no-cache -f Ort.Dockerfile .
+          docker build -e BASE_IMAGE="rocm/pytorch:rocm${{ inputs.rocm_version }}_ubuntu20.04_py3.7_pytorch_1.10.0" -t "migraphx-ort:$(date +%Y%m%d)" --no-cache -f Ort.Dockerfile .
   run_benchmark:
     name: Run benchmark
     runs-on: self-hosted
@@ -86,7 +86,6 @@ jobs:
           docker run -e TZ=America/New_York
           -e TARGET=gpu
           -e TEST_RESULTDIR=/test-results
-          -e BASE_IMAGE="rocm/pytorch:rocm${{ inputs.rocm_version }}_ubuntu20.04_py3.7_pytorch_1.10.0"
           --device=/dev/dri
           --device=/dev/kfd
           --network=host
