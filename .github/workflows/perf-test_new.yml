@@ -40,7 +40,7 @@ env:
   MAIL_SUBJECT: GH Actions send email test
   MAIL_BODY: Testing GH Actions workflow
   PR_ID: ${{ github.event.number }}
-  BRANCH_NAME: ${{ github.ref_name }}
+  BRANCH_NAME: ${{ github.base_ref }}
 
 jobs:
   build_image:
