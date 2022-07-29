@@ -40,6 +40,7 @@ env:
   MAIL_SUBJECT: GH Actions send email test
   MAIL_BODY: Testing GH Actions workflow
   PR_ID: ${{github.event.number}}
+  BRANCH_NAME: $GITHUB_REF_NAME
 
 jobs:
   build_image:
@@ -48,6 +49,10 @@ jobs:
     outputs:
       git_sha: ${{ steps.git_sha.outputs.git_sha }}
     steps:
+      - name: Set PR env
+        if: ${{ github.event_name == 'pull_request'}}
+        run: |
+          echo "BRANCH_NAME=$GITHUB.HEAD_REF" >> $GITHUB_ENV
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Checkout Utils
@@ -65,7 +70,7 @@ jobs:
       - name: Docker build
         run: >
           cd $GITHUB_WORKSPACE/${{ env.UTILS_DIR }} && docker build --no-cache
-          --build-arg BRANCH=$GITHUB_REF_NAME 
+          --build-arg BRANCH=${{ env.BRANCH_NAME }} 
           --build-arg DOCKERBASE=${{ env.DOCKERBASE }}
           --build-arg MIOPENTUNE=${{ env.MIOPENTUNE }}
           -t "migraphx-rocm:${{ inputs.rocm_release }}-${{ steps.git_sha.outputs.git_sha }}" 
@@ -81,10 +86,10 @@ jobs:
       REPORTS_PATH: "/usr/share/migraphx/reports"
       TEST_RESULTS_PATH: "/usr/share/migraphx/test-results"
     steps:
-      - name: Set env
+      - name: Set PR env
         if: ${{ github.event_name == 'pull_request'}}
         run: |
-          echo "TEST_RESULT_PATH=$(echo "$TEST_RESULT_PATH_$PR_ID")" >> $GITHUB_ENV 
+          echo "TEST_RESULT_PATH=$(echo "$TEST_RESULT_PATH_$PR_ID")" >> $GITHUB_ENV
       - name: Checkout Utils
         uses: actions/checkout@v3
         with:
