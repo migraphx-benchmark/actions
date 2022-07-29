@@ -52,7 +52,7 @@ jobs:
       - name: Set PR env
         if: ${{ github.event_name == 'pull_request'}}
         run: |
-          echo "BRANCH_NAME=$GITHUB.HEAD_REF" >> $GITHUB_ENV
+          echo "BRANCH_NAME=${{ github.head_ref }}" >> $GITHUB_ENV
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Checkout Utils
