@@ -81,6 +81,10 @@ jobs:
       REPORTS_PATH: "/usr/share/migraphx/reports"
       TEST_RESULTS_PATH: "/usr/share/migraphx/test-results"
     steps:
+      - name: Set env
+        if: ${{ github.event_name == 'pull_request'}}
+        run: |
+          echo "TEST_RESULT_PATH=$(echo "$TEST_RESULT_PATH_$PR_ID")" >> $GITHUB_ENV 
       - name: Checkout Utils
         uses: actions/checkout@v3
         with:
@@ -90,9 +94,6 @@ jobs:
 
       - name: Run performance tests
         run: |
-          if ${{ github.event_name == 'pull_request' }}; then 
-            echo "::set-env name=TEST_RESULTS_PATH::/usr/share/migraphx/test-results_${{ env.PR_ID }}"
-          fi
           docker run -e TZ=America/Chicago\
           -e TARGET=gpu\
           --device=/dev/dri\
