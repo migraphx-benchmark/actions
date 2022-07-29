@@ -191,4 +191,4 @@ jobs:
         run: |
           cd ${{ env.TEST_RESULTS_PATH }}
           cp -R $(ls -td -- */ | head -n 1) ../${{ env.TEST_RESULTS_PATH }}
-          rm -rf $(ls -td -- */ | head -n 1)
+          #rm -rf $(ls -td -- */ | head -n 1)
