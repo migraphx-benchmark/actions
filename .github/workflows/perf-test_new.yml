@@ -89,7 +89,7 @@ jobs:
       - name: Set PR env
         if: ${{ github.event_name == 'pull_request'}}
         run: |
-          echo "TEST_RESULT_PATH=$(echo "$TEST_RESULT_PATH_$PR_ID")" >> $GITHUB_ENV
+          echo "TEST_RESULT_PATH=$(echo "$TEST_RESULT_PATH-$PR_ID")" >> $GITHUB_ENV
       - name: Checkout Utils
         uses: actions/checkout@v3
         with:
