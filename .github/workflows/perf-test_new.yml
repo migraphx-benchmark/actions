@@ -49,7 +49,7 @@ jobs:
     outputs:
       git_sha: ${{ steps.git_sha.outputs.git_sha }}
     steps:
-      - name: Set PR env
+      - name: Update PR env
         if: ${{ github.event_name == 'pull_request'}}
         run: |
           echo "BRANCH_NAME=${{ github.head_ref }}" >> $GITHUB_ENV
@@ -86,7 +86,7 @@ jobs:
       REPORTS_PATH: "/usr/share/migraphx/reports"
       TEST_RESULTS_PATH: "/usr/share/migraphx/test-results"
     steps:
-      - name: Set PR env
+      - name: Update PR env
         if: ${{ github.event_name == 'pull_request'}}
         run: |
           echo "TEST_RESULTS_PATH=$(echo "$TEST_RESULTS_PATH-$PR_ID")" >> $GITHUB_ENV
@@ -151,7 +151,7 @@ jobs:
           else
             flagoptions="${{ inputs.flags }}"
           fi 
-          python3 $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts/comment.py -t ${{ env.TEST_RESULTS_PATH }} -n ${{ inputs.result_number }} $flagoptions -p
+          python3 $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts/comment.py -t ${TEST_RESULTS_PATH//-$PR_ID/} -n ${{ inputs.result_number }} $flagoptions -p
 
       - name: Create a comment on PR
         if: ${{ github.event_name != 'schedule' && github.event_name == 'pull_request'}}
