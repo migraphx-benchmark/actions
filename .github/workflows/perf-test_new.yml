@@ -115,7 +115,7 @@ jobs:
         if: ${{ github.event_name == 'schedule' }}
         run: |
           docker container prune -f
-          if [[ $(docker images --filter=reference="migraphx-rocm:${{ inputs.rocm_release }}-*" ]]; then
+          if [[ $(docker images --filter=reference="migraphx-rocm:${{ inputs.rocm_release }}-*")]]; then
             docker rmi -f $(docker images --filter=reference="migraphx-rocm:${{ inputs.rocm_release }}-*")
           fi
 
