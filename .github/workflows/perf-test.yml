@@ -39,27 +39,20 @@ env:
   MAIL_FROM: GH Actions
   MAIL_SUBJECT: GH Actions send email test
   MAIL_BODY: Testing GH Actions workflow
-
+  PR_ID: ${{ github.event.number }}
+  BRANCH_NAME: ${{ github.base_ref }}
 
 jobs:
-  check_image_version:
-    name: Check Image Version
-    runs-on: self-hosted
-    outputs:
-      image: ${{ steps.check_image.outputs.image }}
-    steps:
-      - name: Check new image
-        id: check_image
-        run: |
-          if [ -z "$(docker images -q migraphx-rocm:${{ inputs.rocm_release }}-`date +%Y%m%d`)" ]; then
-            echo "::set-output name=image::true"
-          fi
   build_image:
     name: Build MiGraphX Image
     runs-on: self-hosted
-    needs: check_image_version
-    if: ${{ needs.check_image_version.outputs.image == 'true' }}
+    outputs:
+      git_sha: ${{ steps.git_sha.outputs.git_sha }}
     steps:
+      - name: Update PR env
+        if: ${{ github.event_name == 'pull_request'}}
+        run: |
+          echo "BRANCH_NAME=${{ github.head_ref }}" >> $GITHUB_ENV
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Checkout Utils
@@ -68,13 +61,19 @@ jobs:
           repository: "migraphx-benchmark/benchmark-utils"
           path: ${{ env.UTILS_DIR }}
           token: ${{ secrets.gh_token }}
+      - name: Get git SHA
+        id: git_sha
+        run: |
+          cd $GITHUB_WORKSPACE
+          SHA=$(git log | head -1 | awk '{print $2}' | cut -c 1-6)
+          echo "::set-output name=git_sha::$SHA"
       - name: Docker build
         run: >
           cd $GITHUB_WORKSPACE/${{ env.UTILS_DIR }} && docker build --no-cache
-          --build-arg BRANCH=$GITHUB_REF_NAME 
+          --build-arg BRANCH=${{ env.BRANCH_NAME }} 
           --build-arg DOCKERBASE=${{ env.DOCKERBASE }}
           --build-arg MIOPENTUNE=${{ env.MIOPENTUNE }}
-          -t "migraphx-rocm:${{ inputs.rocm_release }}-$(date +%Y%m%d)"
+          -t "migraphx-rocm:${{ inputs.rocm_release }}-${{ steps.git_sha.outputs.git_sha }}" 
           -f dockerfiles/Daily.Dockerfile .
 
   execute_scripts:
@@ -87,6 +86,10 @@ jobs:
       REPORTS_PATH: "/usr/share/migraphx/reports"
       TEST_RESULTS_PATH: "/usr/share/migraphx/test-results"
     steps:
+      - name: Update PR env
+        if: ${{ github.event_name == 'pull_request'}}
+        run: |
+          echo "TEST_RESULTS_PATH=$(echo "$TEST_RESULTS_PATH-$PR_ID")" >> $GITHUB_ENV
       - name: Checkout Utils
         uses: actions/checkout@v3
         with:
@@ -106,14 +109,14 @@ jobs:
           -v $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts:/migraphx/sh:ro
           -v ${{ env.TEST_RESULTS_PATH }}:/data/test-results
           --workdir /migraphx/sh
-          migraphx-rocm:${{ inputs.rocm_release }}-$(date +%Y%m%d) /bin/bash performance_tests.sh
+          migraphx-rocm:${{ inputs.rocm_release }}-${{ needs.build_image.outputs.git_sha }} /bin/bash performance_tests.sh
 
       - name: Delete old images/containers
         if: ${{ github.event_name == 'schedule' }}
         run: |
           docker container prune -f
-          if [[ $(docker images --filter=reference="migraphx-rocm:${{ inputs.rocm_release }}-*" | grep -v $(date +%Y%m%d) | awk 'NR>1 {print $3}') ]]; then
-            docker rmi -f $(docker images --filter=reference="migraphx-rocm:${{ inputs.rocm_release }}-*" | grep -v $(date +%Y%m%d) | awk 'NR>1 {print $3}')
+          if [[ $(docker images --filter=reference="migraphx-rocm:${{ inputs.rocm_release }}-*" | awk 'NR>1 {print $3}') ]]; then
+            docker rmi -f $(docker images --filter=reference="migraphx-rocm:${{ inputs.rocm_release }}-*" | awk 'NR>1 {print $3}')
           fi
 
       - name: Checkout report's repo
@@ -141,17 +144,17 @@ jobs:
 
       - name: Execute comment script
         id: auto_comment
-        if: ${{ github.event_name != 'schedule' }}
+        if: ${{ github.event_name != 'schedule' && github.event_name == 'pull_request'}} 
         run: |
           if [ ${{ inputs.flags }} == "-r" ]; then
             flagoptions="${{ inputs.flags }} $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts/"
           else
             flagoptions="${{ inputs.flags }}"
           fi 
-          python3 $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts/comment.py -t ${{ env.TEST_RESULTS_PATH }} -n ${{ inputs.result_number }} $flagoptions
+          python3 $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts/comment.py -t ${TEST_RESULTS_PATH//-$PR_ID/} -n ${{ inputs.result_number }} $flagoptions -p
 
       - name: Create a comment on PR
-        if: ${{ github.event_name != 'schedule' }}
+        if: ${{ github.event_name != 'schedule' && github.event_name == 'pull_request'}}
         uses: htec-infra/gha-utils/actions/comment-pr@v0.3.4
         with:
           gh_token: ${{ secrets.gh_token }}
@@ -182,4 +185,10 @@ jobs:
           ignore_cert: true
           attachments: ${{ steps.last_report.outputs.latest}}
           priority: normal
-
+      
+      - name: Clean merged PR data
+        if: ${{ github.event.action == 'closed' && github.event.pull_request.merged == true}}
+        run: |
+          cd ${{ env.TEST_RESULTS_PATH }}
+          cp -R $(ls -td -- */ | head -n 1) ../${TEST_RESULTS_PATH//-$PR_ID/}
+          rm -rf ${{ env.TEST_RESULTS_PATH }}
