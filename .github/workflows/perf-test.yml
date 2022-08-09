@@ -155,10 +155,10 @@ jobs:
 
       - name: Create a comment on PR
         if: ${{ github.event_name != 'schedule' && github.event_name == 'pull_request'}}
-        uses: htec-infra/gha-utils/actions/comment-pr@v0.3.4
+        uses: marocchino/sticky-pull-request-comment@v2
         with:
-          gh_token: ${{ secrets.gh_token }}
-          message: "file::${{ github.workspace }}/${{ env.UTILS_DIR }}/scripts/temp.md"
+          GITHUB_TOKEN: ${{ secrets.gh_token }}
+          path: ${{ github.workspace }}/${{ env.UTILS_DIR }}/scripts/temp.md
 
       - name: Get latest report
         id: last_report
