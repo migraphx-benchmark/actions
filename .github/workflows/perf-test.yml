@@ -190,5 +190,5 @@ jobs:
         if: ${{ github.event.action == 'closed' && github.event.pull_request.merged == true}}
         run: |
           cd ${{ env.TEST_RESULTS_PATH }}
-          cp -R $(ls -td -- */ | head -n 1) ../${TEST_RESULTS_PATH//-$PR_ID/}
+          cp -R $(ls -td -- */ | head -n 1) ${TEST_RESULTS_PATH//-$PR_ID/}
           rm -rf ${{ env.TEST_RESULTS_PATH }}
