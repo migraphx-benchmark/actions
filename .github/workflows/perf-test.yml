@@ -191,4 +191,5 @@ jobs:
         run: |
           cd ${{ env.TEST_RESULTS_PATH }}
           cp -R $(ls -td -- */ | head -n 1) ${TEST_RESULTS_PATH//-$PR_ID/}
+          chmod -R 777 ${{ env.TEST_RESULTS_PATH }}
           rm -rf ${{ env.TEST_RESULTS_PATH }}
