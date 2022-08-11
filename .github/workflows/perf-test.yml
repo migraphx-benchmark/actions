@@ -100,7 +100,6 @@ jobs:
       - name: Run performance tests
         run: >
           docker run -e TZ=America/Chicago
-          --user htec:htec
           -e TARGET=gpu
           --device=/dev/dri
           --device=/dev/kfd
@@ -189,7 +188,9 @@ jobs:
       
       - name: Clean merged PR data
         if: ${{ github.event.action == 'closed' && github.event.pull_request.merged == true}}
-        run: |
-          cd ${{ env.TEST_RESULTS_PATH }}
-          cp -R $(ls -td -- */ | head -n 1) ${TEST_RESULTS_PATH//-$PR_ID/}
-          rm -rf ${{ env.TEST_RESULTS_PATH }}
+        run: >
+          docker run
+          -v $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts:/migraphx/sh:ro
+          -v ${{ env.TEST_RESULTS_PATH }}:/data/test-results
+          --workdir /migraphx/sh
+          migraphx-rocm:${{ inputs.rocm_release }}-${{ needs.build_image.outputs.git_sha }} /bin/bash clean_after_pr.sh
