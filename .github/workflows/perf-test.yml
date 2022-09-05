@@ -46,7 +46,7 @@ jobs:
   check_concurrency:
     name: Check for running instances
     steps:
-      name: main
+      - name: main
         uses: ahmadnassri/action-workflow-queue@v1
         with:
           github-token: ${{ secrets.gh_token }}
