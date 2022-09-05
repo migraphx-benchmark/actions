@@ -43,9 +43,20 @@ env:
   BRANCH_NAME: ${{ github.base_ref }}
 
 jobs:
+  check_concurrency:
+    name: Check for running instances
+    steps:
+      name: main
+        uses: ahmadnassri/action-workflow-queue@v1
+        with:
+          github-token: ${{ secrets.gh_token }}
+          timeout: 18000000
+          delay: 600000
+  
   build_image:
     name: Build MiGraphX Image
     runs-on: self-hosted
+    needs: check_concurrency
     outputs:
       git_sha: ${{ steps.git_sha.outputs.git_sha }}
     steps:
