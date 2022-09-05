@@ -45,6 +45,7 @@ env:
 jobs:
   check_concurrency:
     name: Check for running instances
+    runs-on: self-hosted
     steps:
       - name: main
         uses: ahmadnassri/action-workflow-queue@v1
