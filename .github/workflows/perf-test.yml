@@ -52,11 +52,12 @@ jobs:
         with:
           github-token: ${{ secrets.gh_token }}
           timeout: 18000000
-          delay: 600000
+          delay: 60000
   
   build_image:
     name: Build MiGraphX Image
     runs-on: self-hosted
+    if: ${{ github.event.action != 'closed' }}
     needs: check_concurrency
     outputs:
       git_sha: ${{ steps.git_sha.outputs.git_sha }}
@@ -198,12 +199,17 @@ jobs:
           ignore_cert: true
           attachments: ${{ steps.last_report.outputs.latest}}
           priority: normal
-      
+  clean_pr_data:
+    name: Clean merged PR data
+    runs-on: self-hosted
+    if: ${{ github.event.action == 'closed' && github.event.pull_request.merged == true}}
+    env:
+      TEST_RESULTS_PATH: "/usr/share/migraphx/test-results"
+    steps:
       - name: Clean merged PR data
-        if: ${{ github.event.action == 'closed' && github.event.pull_request.merged == true}}
         run: >
           docker run
           -v $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts:/migraphx/sh:ro
           -v ${{ env.MIGRAPHX_PATH }}:/data/migraphx
           --workdir /migraphx/sh
-          migraphx-rocm:${{ inputs.rocm_release }}-${{ needs.build_image.outputs.git_sha }} bash -c "./clean_after_pr.sh ${{ env.TEST_RESULTS_PATH }} ${{ env.PR_ID }}"
+          migraphx-rocm:${{ inputs.rocm_release }} bash -c "./clean_after_pr.sh ${{ env.TEST_RESULTS_PATH }} ${{ env.PR_ID }}"
