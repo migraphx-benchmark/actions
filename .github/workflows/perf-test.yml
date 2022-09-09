@@ -216,4 +216,4 @@ jobs:
           -v $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts:/migraphx/sh:ro
           -v ${{ env.MIGRAPHX_PATH }}:/data/migraphx
           --workdir /migraphx/sh
-          $(docker images --filter=reference="migraphx-rocm:${{ inputs.rocm_release }}-*" | awk 'NR>1 {print $3}') bash -c "./clean_after_pr.sh ${{ env.TEST_RESULTS_PATH }} ${{ env.PR_ID }}"
+          $(docker images --filter=reference="migraphx-rocm:${{ inputs.rocm_release }}-*" | awk 'NR>1 {print $3}' | head -1) bash -c "./clean_after_pr.sh ${{ env.TEST_RESULTS_PATH }} ${{ env.PR_ID }}"
