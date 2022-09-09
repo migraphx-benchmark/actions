@@ -92,7 +92,7 @@ jobs:
   execute_scripts:
     name: Execute scripts
     runs-on: self-hosted
-    if: ${{ always() }}
+    if: ${{ github.event.action != 'closed' }}
     needs: build_image
     env:
       SAVED_MODELS_PATH: "/usr/share/migraphx/saved-models"
@@ -199,6 +199,7 @@ jobs:
           ignore_cert: true
           attachments: ${{ steps.last_report.outputs.latest}}
           priority: normal
+  
   clean_pr_data:
     name: Clean merged PR data
     runs-on: self-hosted
@@ -206,6 +207,10 @@ jobs:
     env:
       TEST_RESULTS_PATH: "/usr/share/migraphx/test-results"
     steps:
+      - name: Update PR env
+          #if: ${{ github.event_name == 'pull_request'}}
+          run: |
+            echo "TEST_RESULTS_PATH=$(echo "$TEST_RESULTS_PATH-$PR_ID")" >> $GITHUB_ENV
       - name: Clean merged PR data
         run: >
           docker run
