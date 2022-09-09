@@ -208,9 +208,8 @@ jobs:
       TEST_RESULTS_PATH: "/usr/share/migraphx/test-results"
     steps:
       - name: Update PR env
-          #if: ${{ github.event_name == 'pull_request'}}
-          run: |
-            echo "TEST_RESULTS_PATH=$(echo "$TEST_RESULTS_PATH-$PR_ID")" >> $GITHUB_ENV
+        run: |
+          echo "TEST_RESULTS_PATH=$(echo "$TEST_RESULTS_PATH-$PR_ID")" >> $GITHUB_ENV
       - name: Clean merged PR data
         run: >
           docker run
