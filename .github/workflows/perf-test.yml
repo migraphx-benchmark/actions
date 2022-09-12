@@ -206,6 +206,7 @@ jobs:
     if: ${{ github.event.action == 'closed' && github.event.pull_request.merged == true}}
     env:
       TEST_RESULTS_PATH: "/usr/share/migraphx/test-results"
+      MIGRAPHX_PATH: "/usr/share/migraphx"
     steps:
       - name: Update PR env
         run: |
