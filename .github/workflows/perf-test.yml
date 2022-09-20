@@ -203,8 +203,9 @@ jobs:
   clean_pr_data:
     name: Clean merged PR data
     runs-on: self-hosted
-    if: ${{ github.event.action == 'closed' && github.event.pull_request.merged == true}}
-    needs: build_image
+    needs: execute_scripts
+    #if: ${{ github.event.action == 'closed' && github.event.pull_request.merged == true}}
+    if: always() && (needs.execute_scripts.result == 'skipped') && ${{ github.event.action == 'closed' && github.event.pull_request.merged == true}}
     env:
       TEST_RESULTS_PATH: "/usr/share/migraphx/test-results"
       MIGRAPHX_PATH: "/usr/share/migraphx"
