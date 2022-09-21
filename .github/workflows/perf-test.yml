@@ -204,8 +204,8 @@ jobs:
     name: Clean merged PR data
     runs-on: self-hosted
     needs: execute_scripts
-    #if: ${{ github.event.action == 'closed' && github.event.pull_request.merged == true}}
-    if: (needs.execute_scripts.result == 'skipped') && ${{ github.event.action == 'closed' && github.event.pull_request.merged == true}}
+    if: ${{ always() && github.event.action == 'closed' && github.event.pull_request.merged == true}}
+    #if: (needs.execute_scripts.result == 'skipped') && ${{ github.event.action == 'closed' && github.event.pull_request.merged == true}}
     env:
       TEST_RESULTS_PATH: "/usr/share/migraphx/test-results"
       MIGRAPHX_PATH: "/usr/share/migraphx"
