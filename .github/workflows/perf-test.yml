@@ -56,7 +56,8 @@ jobs:
   
   build_image:
     name: Build MiGraphX Image
-    runs-on: self-hosted
+    #runs-on: self-hosted
+    runs-on: r1
     if: ${{ github.event.action != 'closed' }}
     # needs: check_concurrency
     outputs:
@@ -91,7 +92,8 @@ jobs:
 
   execute_scripts:
     name: Execute scripts
-    runs-on: self-hosted
+    #runs-on: self-hosted
+    runs-on: r1
     if: ${{ github.event.action != 'closed' }}
     needs: build_image
     env:
@@ -202,7 +204,8 @@ jobs:
   
   clean_pr_data:
     name: Clean merged PR data
-    runs-on: self-hosted
+    #runs-on: self-hosted
+    runs-on: r1
     needs: execute_scripts
     if: ${{ always() && github.event.action == 'closed' && github.event.pull_request.merged == true}}
     env:
