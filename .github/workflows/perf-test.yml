@@ -86,17 +86,8 @@ jobs:
           -t "migraphx-rocm:${{ inputs.rocm_release }}-${{ steps.git_sha.outputs.git_sha }}" 
           -f dockerfiles/Daily.Dockerfile .
       
-      - name: Execute scripts
-        if: ${{ github.event.action != 'closed' }}
-      
-      - name: Checkout utils
-        uses: actions/checkout@v3
-        with:
-          repository: "migraphx-benchmark/benchmark-utils"
-          path: ${{ env.UTILS_DIR }}
-          token: ${{ secrets.gh_token }}
-      
       - name: Run performance tests
+        if: ${{ github.event.action != 'closed' }}
         run: >
           docker run -e TZ=America/Chicago
           -e TARGET=gpu
@@ -119,6 +110,7 @@ jobs:
           fi
 
       - name: Checkout report's repo
+        if: ${{ github.event_name == 'schedule' }}
         uses: actions/checkout@v3
         with:
           repository: ${{ inputs.performance_reports_repo }}
@@ -186,7 +178,7 @@ jobs:
           priority: normal
 
       - name: Clean merged PR data
-        if: ${{ always() && github.event.action == 'closed' && github.event.pull_request.merged == true}}
+        if: ${{ github.event.action == 'closed' && github.event.pull_request.merged == true}}
         run: >
           docker run
           -v $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts:/migraphx/sh:ro
@@ -195,7 +187,7 @@ jobs:
           rocm-migraphx:${{ inputs.rocm_release }} bash -c "./clean_after_pr.sh ${{ env.TEST_RESULTS_PATH }} ${{ env.PR_ID }} merged"
       
       - name: Clean closed PR data
-        if: ${{ always() && github.event.action == 'closed'}}
+        if: ${{ github.event.action == 'closed'}}
         run: >
           docker run
           -v $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts:/migraphx/sh:ro
