@@ -41,9 +41,13 @@ env:
   MAIL_BODY: Testing GH Actions workflow
   PR_ID: ${{ github.event.number }}
   BRANCH_NAME: ${{ github.base_ref }}
+  SAVED_MODELS_PATH: "/usr/share/migraphx/saved-models"
+  REPORTS_PATH: "/usr/share/migraphx/reports"
+  TEST_RESULTS_PATH: "/usr/share/migraphx/test-results"
+  MIGRAPHX_PATH: "/usr/share/migraphx"
 
 jobs:
-  build_image:
+  performance_test:
     name: Build MiGraphX Image
     runs-on: self-hosted
     if: ${{ github.event.action != 'closed' }}
@@ -54,20 +58,25 @@ jobs:
         if: ${{ github.event_name == 'pull_request'}}
         run: |
           echo "BRANCH_NAME=${{ github.head_ref }}" >> $GITHUB_ENV
+          echo "TEST_RESULTS_PATH=$(echo "$TEST_RESULTS_PATH-$PR_ID")" >> $GITHUB_ENV
+      
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Checkout Utils
+      
+      - name: Checkout utils
         uses: actions/checkout@v3
         with:
           repository: "migraphx-benchmark/benchmark-utils"
           path: ${{ env.UTILS_DIR }}
           token: ${{ secrets.gh_token }}
+      
       - name: Get git SHA
         id: git_sha
         run: |
           cd $GITHUB_WORKSPACE
           SHA=$(git log | head -1 | awk '{print $2}' | cut -c 1-6)
           echo "::set-output name=git_sha::$SHA"
+      
       - name: Docker build
         run: >
           cd $GITHUB_WORKSPACE/${{ env.UTILS_DIR }} && docker build --no-cache
@@ -76,29 +85,17 @@ jobs:
           --build-arg MIOPENTUNE=${{ env.MIOPENTUNE }}
           -t "migraphx-rocm:${{ inputs.rocm_release }}-${{ steps.git_sha.outputs.git_sha }}" 
           -f dockerfiles/Daily.Dockerfile .
-
-  execute_scripts:
-    name: Execute scripts
-    runs-on: self-hosted
-    if: ${{ github.event.action != 'closed' }}
-    needs: build_image
-    env:
-      SAVED_MODELS_PATH: "/usr/share/migraphx/saved-models"
-      REPORTS_PATH: "/usr/share/migraphx/reports"
-      TEST_RESULTS_PATH: "/usr/share/migraphx/test-results"
-      MIGRAPHX_PATH: "/usr/share/migraphx"
-    steps:
-      - name: Update PR env
-        if: ${{ github.event_name == 'pull_request'}}
-        run: |
-          echo "TEST_RESULTS_PATH=$(echo "$TEST_RESULTS_PATH-$PR_ID")" >> $GITHUB_ENV
-      - name: Checkout Utils
+      
+      - name: Execute scripts
+        if: ${{ github.event.action != 'closed' }}
+      
+      - name: Checkout utils
         uses: actions/checkout@v3
         with:
           repository: "migraphx-benchmark/benchmark-utils"
           path: ${{ env.UTILS_DIR }}
           token: ${{ secrets.gh_token }}
-
+      
       - name: Run performance tests
         run: >
           docker run -e TZ=America/Chicago
@@ -111,7 +108,7 @@ jobs:
           -v $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts:/migraphx/sh:ro
           -v ${{ env.TEST_RESULTS_PATH }}:/data/test-results
           --workdir /migraphx/sh
-          migraphx-rocm:${{ inputs.rocm_release }}-${{ needs.build_image.outputs.git_sha }} /bin/bash performance_tests.sh
+          migraphx-rocm:${{ inputs.rocm_release }}-${{ steps.git_sha.outputs.git_sha }} /bin/bash performance_tests.sh
 
       - name: Delete old images/containers
         if: ${{ github.event_name == 'schedule' }}
@@ -187,23 +184,21 @@ jobs:
           ignore_cert: true
           attachments: ${{ steps.last_report.outputs.latest}}
           priority: normal
-  
-  clean_pr_data:
-    name: Clean merged PR data
-    runs-on: self-hosted
-    needs: execute_scripts
-    if: ${{ always() && github.event.action == 'closed' && github.event.pull_request.merged == true}}
-    env:
-      TEST_RESULTS_PATH: "/usr/share/migraphx/test-results"
-      MIGRAPHX_PATH: "/usr/share/migraphx"
-    steps:
-      - name: Update PR env
-        run: |
-          echo "TEST_RESULTS_PATH=$(echo "$TEST_RESULTS_PATH-$PR_ID")" >> $GITHUB_ENV
+
       - name: Clean merged PR data
+        if: ${{ always() && github.event.action == 'closed' && github.event.pull_request.merged == true}}
         run: >
           docker run
           -v $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts:/migraphx/sh:ro
           -v ${{ env.MIGRAPHX_PATH }}:/data/migraphx
           --workdir /migraphx/sh
-          rocm-migraphx:${{ inputs.rocm_release }} bash -c "./clean_after_pr.sh ${{ env.TEST_RESULTS_PATH }} ${{ env.PR_ID }}"
+          rocm-migraphx:${{ inputs.rocm_release }} bash -c "./clean_after_pr.sh ${{ env.TEST_RESULTS_PATH }} ${{ env.PR_ID }} merged"
+      
+      - name: Clean closed PR data
+        if: ${{ always() && github.event.action == 'closed'}}
+        run: >
+          docker run
+          -v $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts:/migraphx/sh:ro
+          -v ${{ env.MIGRAPHX_PATH }}:/data/migraphx
+          --workdir /migraphx/sh
+          rocm-migraphx:${{ inputs.rocm_release }} bash -c "./clean_after_pr.sh ${{ env.TEST_RESULTS_PATH }} ${{ env.PR_ID }} closed"
