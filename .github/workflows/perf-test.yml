@@ -48,7 +48,7 @@ env:
 
 jobs:
   performance_test:
-    name: Build MiGraphX Image
+    name: MIGraphX Performance
     runs-on: self-hosted
     outputs:
       git_sha: ${{ steps.git_sha.outputs.git_sha }}
