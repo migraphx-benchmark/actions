@@ -187,7 +187,7 @@ jobs:
           rocm-migraphx:${{ inputs.rocm_release }} bash -c "./clean_after_pr.sh ${{ env.TEST_RESULTS_PATH }} ${{ env.PR_ID }} merged"
       
       - name: Clean closed PR data
-        if: ${{ github.event.action == 'closed'}}
+        if: ${{ github.event.action == 'closed' && github.event.pull_request.merged == false}}
         run: >
           docker run
           -v $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts:/migraphx/sh:ro
