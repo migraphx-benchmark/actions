@@ -77,6 +77,7 @@ jobs:
           echo "::set-output name=git_sha::$SHA"
       
       - name: Docker build
+        if: ${{ github.event.action != 'closed' }}
         run: >
           cd $GITHUB_WORKSPACE/${{ env.UTILS_DIR }} && docker build --no-cache
           --build-arg BRANCH=${{ env.BRANCH_NAME }} 
