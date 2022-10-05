@@ -50,7 +50,6 @@ jobs:
   performance_test:
     name: Build MiGraphX Image
     runs-on: self-hosted
-    if: ${{ github.event.action != 'closed' }}
     outputs:
       git_sha: ${{ steps.git_sha.outputs.git_sha }}
     steps:
