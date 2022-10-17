@@ -95,6 +95,7 @@ jobs:
           --device=/dev/kfd
           --network=host
           --group-add=video
+          --cpuset-cpus="32"
           -v /usr/share/migraphx/saved-models:/saved-models:ro
           -v $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts:/migraphx/sh:ro
           -v ${{ env.TEST_RESULTS_PATH }}:/data/test-results
@@ -108,6 +109,7 @@ jobs:
           if [[ $(docker images --filter=reference="migraphx-rocm:${{ inputs.rocm_release }}-*" | awk 'NR>1 {print $3}') ]]; then
             docker rmi -f $(docker images --filter=reference="migraphx-rocm:${{ inputs.rocm_release }}-*" | awk 'NR>1 {print $3}')
           fi
+          docker image prune -f
 
       - name: Checkout report's repo
         if: ${{ github.event_name == 'schedule' }}
