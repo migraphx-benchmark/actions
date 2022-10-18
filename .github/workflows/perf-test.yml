@@ -95,7 +95,6 @@ jobs:
           --device=/dev/kfd
           --network=host
           --group-add=video
-          --cpuset-cpus="31"
           -v /usr/share/migraphx/saved-models:/saved-models:ro
           -v $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts:/migraphx/sh:ro
           -v ${{ env.TEST_RESULTS_PATH }}:/data/test-results
