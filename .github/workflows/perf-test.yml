@@ -152,14 +152,19 @@ jobs:
       #     GITHUB_TOKEN: ${{ secrets.gh_token }}
       #     path: ${{ github.workspace }}/${{ env.UTILS_DIR }}/scripts/temp.md
 
+      - name: Checkout report's repo
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ inputs.performance_reports_repo }}
+          path: ${{ env.REPORTS_DIR }}
+          token: ${{ secrets.gh_token }}
+      
       - name: Commit accuracy results
         id: accuracy
         if: ${{ github.event.action != 'closed' }}
         run: |
-          cd /src/benchmark-utils/sripts/
-          git clone https://github.com/migraphx-benchmark/migraphx-reports.git
           cd /src/benchmark-utils/scripts/ && ./accuracy_tests.sh
-          cp -r ${{ env.TEST_RESULTS_PATH }}/[accuracy-]* /src/benchmark-utils/scripts/migraphx-reports/
+          cp -r ${{ env.TEST_RESULTS_PATH }}/[accuracy-]* $GITHUB_WORKSPACE/${{ env.REPORTS_DIR }}/
           git add .
           git config --local user.email github-actions
           git config --local user.name github-actions@github.com
