@@ -134,16 +134,16 @@ jobs:
           git commit -m "Push report" -a
           git push
 
-      - name: Execute comment script
-        id: auto_comment
-        if: ${{ github.event_name != 'schedule' && github.event_name == 'pull_request' && github.event.action != 'closed'}} 
-        run: |
-          if [ ${{ inputs.flags }} == "-r" ]; then
-            flagoptions="${{ inputs.flags }} $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts/"
-          else
-            flagoptions="${{ inputs.flags }}"
-          fi 
-          python3 $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts/comment.py -t ${TEST_RESULTS_PATH//-$PR_ID/} -n ${{ inputs.result_number }} $flagoptions -p
+      # - name: Execute comment script
+      #   id: auto_comment
+      #   if: ${{ github.event_name != 'schedule' && github.event_name == 'pull_request' && github.event.action != 'closed'}} 
+      #   run: |
+      #     if [ ${{ inputs.flags }} == "-r" ]; then
+      #       flagoptions="${{ inputs.flags }} $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts/"
+      #     else
+      #       flagoptions="${{ inputs.flags }}"
+      #     fi 
+      #     python3 $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts/comment.py -t ${TEST_RESULTS_PATH//-$PR_ID/} -n ${{ inputs.result_number }} $flagoptions -p
 
       # - name: Create a comment on PR
       #   if: ${{ github.event_name != 'schedule' && github.event_name == 'pull_request' && github.event.action != 'closed'}}
