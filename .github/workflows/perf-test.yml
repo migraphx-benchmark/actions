@@ -29,6 +29,7 @@ on:
       mail_pass:
         description: 'Email password'
         required: true
+
 env:
   UTILS_DIR: benchmark-utils
   DOCKERBASE: rocm-migraphx:${{ inputs.rocm_release }}
@@ -100,7 +101,7 @@ jobs:
       #     -v ${{ env.TEST_RESULTS_PATH }}:/data/test-results
       #     --workdir /migraphx/sh
       #     migraphx-rocm:${{ inputs.rocm_release }}-${{ steps.git_sha.outputs.git_sha }} /bin/bash performance_tests.sh
-
+      
       - name: Delete old images/containers
         if: ${{ github.event_name == 'schedule' }}
         run: |
@@ -109,7 +110,7 @@ jobs:
             docker rmi -f $(docker images --filter=reference="migraphx-rocm:${{ inputs.rocm_release }}-*" | awk 'NR>1 {print $3}')
           fi
           docker image prune -f
-
+      
       - name: Checkout report's repo
         if: ${{ github.event_name == 'schedule' }}
         uses: actions/checkout@v3
@@ -117,7 +118,7 @@ jobs:
           repository: ${{ inputs.performance_reports_repo }}
           path: ${{ env.REPORTS_DIR }}
           token: ${{ secrets.gh_token }}
-
+      
       - name: Execute report script
         if: ${{ github.event_name == 'schedule' }}
         run: |
@@ -126,14 +127,13 @@ jobs:
           -r '${{ env.REPORTS_PATH }}'
           
           cp -r ${{ env.REPORTS_PATH }}/* $GITHUB_WORKSPACE/${{ env.REPORTS_DIR }}/
-
           cd $GITHUB_WORKSPACE/${{ env.REPORTS_DIR }}/
           git add .
           git config --local user.email github-actions
           git config --local user.name github-actions@github.com
           git commit -m "Push report" -a
           git push
-
+      
       # - name: Execute comment script
       #   id: auto_comment
       #   if: ${{ github.event_name != 'schedule' && github.event_name == 'pull_request' && github.event.action != 'closed'}} 
@@ -144,7 +144,7 @@ jobs:
       #       flagoptions="${{ inputs.flags }}"
       #     fi 
       #     python3 $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts/comment.py -t ${TEST_RESULTS_PATH//-$PR_ID/} -n ${{ inputs.result_number }} $flagoptions -p
-
+      
       # - name: Create a comment on PR
       #   if: ${{ github.event_name != 'schedule' && github.event_name == 'pull_request' && github.event.action != 'closed'}}
       #   uses: marocchino/sticky-pull-request-comment@v2
@@ -153,12 +153,11 @@ jobs:
       #     path: ${{ github.workspace }}/${{ env.UTILS_DIR }}/scripts/temp.md
       
       - name: Create accuracy comment on PR
-        if: ${{ github.event_name != 'schedule' && github.event_name == 'pull_request' && github.event.action != 'closed'}}
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           GITHUB_TOKEN: ${{ secrets.gh_token }}
-          path: ${{ env.TEST_RESULTS_PATH }}/${{ steps.accuracy.outputs.last_test }}/result.md
-
+          path: ${{ github.workspace }}/${{ env.REPORTS_DIR }}/${{ steps.accuracy.outputs.last_test }}/result.md
+      
       - name: Get latest report
         id: last_report
         if: ${{ github.event_name == 'schedule' }}
@@ -166,7 +165,7 @@ jobs:
           cd ${{ env.REPORTS_PATH }}
           latest="$(readlink -f $(ls -tp | grep -v /$ | head -1))"
           echo "latest=$latest" >> $GITHUB_OUTPUT
-
+      
       - name: Send mail
         if: ${{ github.event_name == 'schedule' }}
         uses: dawidd6/action-send-mail@v3
@@ -184,7 +183,7 @@ jobs:
           ignore_cert: true
           attachments: ${{ steps.last_report.outputs.latest}}
           priority: normal
-
+      
       - name: Clean merged PR data
         if: ${{ github.event.action == 'closed' && github.event.pull_request.merged == true}}
         run: >
