@@ -159,8 +159,6 @@ jobs:
           cd /src/benchmark-utils/sripts/
           git clone https://github.com/migraphx-benchmark/migraphx-reports.git
           cd /src/benchmark-utils/scripts/ && ./accuracy_tests.sh
-        #  cp -r ${{ env.TEST_RESULTS_PATH }}/[accuracy-]* $GITHUB_WORKSPACE/${{ env.REPORTS_DIR }}/
-        #  cd $GITHUB_WORKSPACE/${{ env.REPORTS_DIR }}/
           cp -r ${{ env.TEST_RESULTS_PATH }}/[accuracy-]* /src/benchmark-utils/scripts/migraphx-reports/
           git add .
           git config --local user.email github-actions
