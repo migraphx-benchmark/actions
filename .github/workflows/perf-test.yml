@@ -77,30 +77,30 @@ jobs:
           SHA=$(git log | head -1 | awk '{print $2}' | cut -c 1-6)
           echo "git_sha=$SHA" >> $GITHUB_OUTPUT
       
-      # - name: Docker build
-      #   if: ${{ github.event.action != 'closed' }}
-      #   run: >
-      #     cd $GITHUB_WORKSPACE/${{ env.UTILS_DIR }} && docker build --no-cache
-      #     --build-arg BRANCH=${{ env.BRANCH_NAME }} 
-      #     --build-arg DOCKERBASE=${{ env.DOCKERBASE }}
-      #     --build-arg MIOPENTUNE=${{ env.MIOPENTUNE }}
-      #     -t "migraphx-rocm:${{ inputs.rocm_release }}-${{ steps.git_sha.outputs.git_sha }}" 
-      #     -f dockerfiles/Daily.Dockerfile .
+      - name: Docker build
+        if: ${{ github.event.action != 'closed' }}
+        run: >
+          cd $GITHUB_WORKSPACE/${{ env.UTILS_DIR }} && docker build --no-cache
+          --build-arg BRANCH=${{ env.BRANCH_NAME }} 
+          --build-arg DOCKERBASE=${{ env.DOCKERBASE }}
+          --build-arg MIOPENTUNE=${{ env.MIOPENTUNE }}
+          -t "migraphx-rocm:${{ inputs.rocm_release }}-${{ steps.git_sha.outputs.git_sha }}" 
+          -f dockerfiles/Daily.Dockerfile .
       
-      # - name: Run performance tests
-      #   if: ${{ github.event.action != 'closed' }}
-      #   run: >
-      #     docker run -e TZ=America/Chicago
-      #     -e TARGET=gpu
-      #     --device=/dev/dri
-      #     --device=/dev/kfd
-      #     --network=host
-      #     --group-add=video
-      #     -v /usr/share/migraphx/saved-models:/saved-models:ro
-      #     -v $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts:/migraphx/sh:ro
-      #     -v ${{ env.TEST_RESULTS_PATH }}:/data/test-results
-      #     --workdir /migraphx/sh
-      #     migraphx-rocm:${{ inputs.rocm_release }}-${{ steps.git_sha.outputs.git_sha }} /bin/bash performance_tests.sh
+      - name: Run performance tests
+        if: ${{ github.event.action != 'closed' }}
+        run: >
+          docker run -e TZ=America/Chicago
+          -e TARGET=gpu
+          --device=/dev/dri
+          --device=/dev/kfd
+          --network=host
+          --group-add=video
+          -v /usr/share/migraphx/saved-models:/saved-models:ro
+          -v $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts:/migraphx/sh:ro
+          -v ${{ env.TEST_RESULTS_PATH }}:/data/test-results
+          --workdir /migraphx/sh
+          migraphx-rocm:${{ inputs.rocm_release }}-${{ steps.git_sha.outputs.git_sha }} /bin/bash performance_tests.sh
       
       - name: Delete old images/containers
         if: ${{ github.event_name == 'schedule' }}
@@ -134,29 +134,37 @@ jobs:
           git commit -m "Push report" -a
           git push
       
-      # - name: Execute comment script
-      #   id: auto_comment
-      #   if: ${{ github.event_name != 'schedule' && github.event_name == 'pull_request' && github.event.action != 'closed'}} 
-      #   run: |
-      #     if [ ${{ inputs.flags }} == "-r" ]; then
-      #       flagoptions="${{ inputs.flags }} $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts/"
-      #     else
-      #       flagoptions="${{ inputs.flags }}"
-      #     fi 
-      #     python3 $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts/comment.py -t ${TEST_RESULTS_PATH//-$PR_ID/} -n ${{ inputs.result_number }} $flagoptions -p
+      - name: Execute comment script
+        id: auto_comment
+        if: ${{ github.event_name != 'schedule' && github.event_name == 'pull_request' && github.event.action != 'closed'}} 
+        run: |
+          if [ ${{ inputs.flags }} == "-r" ]; then
+            flagoptions="${{ inputs.flags }} $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts/"
+          else
+            flagoptions="${{ inputs.flags }}"
+          fi 
+          python3 $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts/comment.py -t ${TEST_RESULTS_PATH//-$PR_ID/} -n ${{ inputs.result_number }} $flagoptions -p
       
-      # - name: Create a comment on PR
-      #   if: ${{ github.event_name != 'schedule' && github.event_name == 'pull_request' && github.event.action != 'closed'}}
-      #   uses: marocchino/sticky-pull-request-comment@v2
-      #   with:
-      #     GITHUB_TOKEN: ${{ secrets.gh_token }}
-      #     path: ${{ github.workspace }}/${{ env.UTILS_DIR }}/scripts/temp.md
-      
-      - name: Create accuracy comment on PR
+      - name: Create a comment on PR
+        if: ${{ github.event_name != 'schedule' && github.event_name == 'pull_request' && github.event.action != 'closed'}}
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           GITHUB_TOKEN: ${{ secrets.gh_token }}
-          path: ${{ github.workspace }}/${{ env.REPORTS_DIR }}/${{ steps.accuracy.outputs.last_test }}/result.md
+          path: ${{ github.workspace }}/${{ env.UTILS_DIR }}/scripts/temp.md
+      
+      - name: Get latest accuracy results
+        id: accuracy
+        if: ${{ github.event.action != 'closed' }}
+        run: |
+          last_test=$(ls -dt accuracy* | head -1)
+          echo "last_test=$ACCURACY" >> $GITHUB_OUTPUT
+      
+      - name: Create accuracy comment on PR
+        if: ${{ github.event_name != 'schedule' && github.event_name == 'pull_request' && github.event.action != 'closed'}}
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          GITHUB_TOKEN: ${{ secrets.gh_token }}
+          path: ${{ env.TEST_RESULTS_PATH }}/${{ steps.accuracy.outputs.last_test }}/result.md
       
       - name: Get latest report
         id: last_report
