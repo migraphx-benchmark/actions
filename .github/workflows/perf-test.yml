@@ -100,7 +100,7 @@ jobs:
           -v $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts:/migraphx/sh:ro
           -v ${{ env.TEST_RESULTS_PATH }}:/data/test-results
           --workdir /migraphx/sh
-          migraphx-rocm:${{ inputs.rocm_release }}-${{ steps.git_sha.outputs.git_sha }} /bin/bash performance_tests.sh
+          migraphx-rocm:${{ inputs.rocm_release }}-${{ steps.git_sha.outputs.git_sha }} /bin/bash performance_tests2.sh
       
       - name: Delete old images/containers
         if: ${{ github.event_name == 'schedule' }}
@@ -156,15 +156,27 @@ jobs:
         id: accuracy
         if: ${{ github.event.action != 'closed' }}
         run: |
+          cd ${{ env.TEST_RESULTS_PATH }}
           last_test=$(ls -dt accuracy* | head -1)
           echo "last_test=$ACCURACY" >> $GITHUB_OUTPUT
       
+      - name: Commit accuracy results
+        if: ${{ github.event.action != 'closed' }}
+        run: |
+          cp -r ${{ env.TEST_RESULTS_PATH }}/[accuracy-]* $GITHUB_WORKSPACE/${{ env.REPORTS_DIR }}/
+          cd $GITHUB_WORKSPACE/${{ env.REPORTS_DIR }}/
+          git add .
+          git config --local user.email github-actions
+          git config --local user.name github-actions@github.com
+          git commit -m "Push report" -a
+          git push
+
       - name: Create accuracy comment on PR
         if: ${{ github.event_name != 'schedule' && github.event_name == 'pull_request' && github.event.action != 'closed'}}
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           GITHUB_TOKEN: ${{ secrets.gh_token }}
-          path: ${{ env.TEST_RESULTS_PATH }}/${{ steps.accuracy.outputs.last_test }}/result.md
+          path: ${{ env.TEST_RESULTS_PATH }}/${{ steps.accuracy.outputs.last_test }}/results.md
       
       - name: Get latest report
         id: last_report
