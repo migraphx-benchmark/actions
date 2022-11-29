@@ -156,7 +156,7 @@ jobs:
         id: accuracy
         if: ${{ github.event.action != 'closed' }}
         run: |
-          cd ${{ env.TEST_RESULTS_PATH//-$PR_ID/}}
+          cd ${env.TEST_RESULTS_PATH//-env.PR_ID/}
           last_test=$(ls -dt accuracy* | head -1)
           echo "last_test=$ACCURACY" >> $GITHUB_OUTPUT
 
