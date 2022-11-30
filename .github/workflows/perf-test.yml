@@ -150,7 +150,6 @@ jobs:
         if: ${{ github.event_name != 'schedule' && github.event_name == 'pull_request' && github.event.action != 'closed'}}
         uses: marocchino/sticky-pull-request-comment@v2
         with:
-          header: performance
           GITHUB_TOKEN: ${{ secrets.gh_token }}
           path: ${{ github.workspace }}/${{ env.UTILS_DIR }}/scripts/temp.md
       
