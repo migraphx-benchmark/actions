@@ -150,6 +150,7 @@ jobs:
         if: ${{ github.event_name != 'schedule' && github.event_name == 'pull_request' && github.event.action != 'closed'}}
         uses: marocchino/sticky-pull-request-comment@v2
         with:
+          header: performance
           GITHUB_TOKEN: ${{ secrets.gh_token }}
           path: ${{ github.workspace }}/${{ env.UTILS_DIR }}/scripts/temp.md
       
@@ -165,6 +166,7 @@ jobs:
         if: ${{ github.event_name != 'schedule' && github.event_name == 'pull_request' && github.event.action != 'closed'}}
         uses: marocchino/sticky-pull-request-comment@v2
         with:
+          header: accuracy
           GITHUB_TOKEN: ${{ secrets.gh_token }}
           path: ${{ env.TEST_RESULTS_PATH }}/${{ steps.accuracy.outputs.last_test }}/results.md
       
