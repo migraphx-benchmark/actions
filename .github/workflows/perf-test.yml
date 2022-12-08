@@ -97,11 +97,12 @@ jobs:
           --device=/dev/kfd
           --network=host
           --group-add=video
-          -v /usr/share/migraphx/new-saved-models:/saved-models:ro
+          -v /usr/share/migraphx/saved-models:/saved-models:ro
+          -v /usr/share/migraphx/new-saved-models:/new-saved-models:ro
           -v $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts:/migraphx/sh:ro
           -v ${{ env.TEST_RESULTS_PATH }}:/data/test-results
           --workdir /migraphx/sh
-          migraphx-rocm:${{ inputs.rocm_release }}-${{ steps.git_sha.outputs.git_sha }} /bin/bash performance_tests2.sh
+          migraphx-rocm:${{ inputs.rocm_release }}-${{ steps.git_sha.outputs.git_sha }} /bin/bash performance_tests.sh
       
       - name: Delete old images/containers
         if: ${{ github.event_name == 'schedule' }}
