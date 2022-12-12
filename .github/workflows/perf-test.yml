@@ -36,7 +36,7 @@ env:
   MIOPENTUNE: miopen-dbs/rocm${{ inputs.rocm_release }}
   REPORTS_DIR: migraphx-reports
   MAIL_TO: dl.dl-migraphx-perfrun@amd.com
-  MAIL_CC: igor.mirosavljevic@htecgroup.com,djordje.petrovic@htecgroup.com,milos.miljanovic@htecgroup.com
+  MAIL_CC: igor.mirosavljevic@htecgroup.com,djordje.petrovic@htecgroup.com,milos.miljanovic@htecgroup.com,pavle.jacovic@htecgroup.com
   MAIL_FROM: GH Actions
   MAIL_SUBJECT: GH Actions send email test
   MAIL_BODY: Testing GH Actions workflow
