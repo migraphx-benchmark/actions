@@ -50,7 +50,8 @@ env:
 jobs:
   performance_test:
     name: MIGraphX Performance
-    if: contains(github.event.pull_request.labels.*.name, !'skip bot checks')
+    #if: contains(github.event.pull_request.labels.*.name, !'skip bot checks')
+    if: ${{ github.event.label.name !='skip bot checks' }}
     runs-on: self-hosted
     outputs:
       git_sha: ${{ steps.git_sha.outputs.git_sha }}
