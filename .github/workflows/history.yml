@@ -1,4 +1,4 @@
-name: MIGraphX results between dates
+name: History
 
 on:
   workflow_call:
