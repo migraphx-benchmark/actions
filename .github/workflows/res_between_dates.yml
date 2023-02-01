@@ -67,7 +67,7 @@ jobs:
           
       - name: Upload results
         run: |
-          cp $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts/test_results_with_models_separated.xlsx $GITHUB_WORKSPACE/${{ env.REPORTS_DIR }}/
+          cp /home/htec/runners/r1/_work/AMDMIGraphX/AMDMIGraphX/test_results_with_models_separated.xlsx $GITHUB_WORKSPACE/${{ env.REPORTS_DIR }}/
           cd $GITHUB_WORKSPACE/${{ env.REPORTS_DIR }}/
           git add .
           git config --local user.email github-actions
