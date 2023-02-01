@@ -63,7 +63,10 @@ jobs:
           -s '${{ inputs.start_date }}' \
           -e '${{ inputs.end_date }}' \
           -t '${{ env.TEST_RESULTS_PATH }}'
-          cp -r ${{ env.REPORTS_PATH }}/* $GITHUB_WORKSPACE/${{ env.REPORTS_DIR }}/
+          
+      - name: Upload results
+        run: |
+          cp $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts/test_results_with_models_separated.xlsx $GITHUB_WORKSPACE/${{ env.REPORTS_DIR }}/
           cd $GITHUB_WORKSPACE/${{ env.REPORTS_DIR }}/
           git add .
           git config --local user.email github-actions
