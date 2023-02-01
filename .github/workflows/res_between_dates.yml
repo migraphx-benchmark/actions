@@ -62,7 +62,8 @@ jobs:
           python3 $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts/history.py \
           -s '${{ inputs.start_date }}' \
           -e '${{ inputs.end_date }}' \
-          -t '${{ env.TEST_RESULTS_PATH }}'
+          -t '${{ env.TEST_RESULTS_PATH }}'/
+          pwd
           
       - name: Upload results
         run: |
