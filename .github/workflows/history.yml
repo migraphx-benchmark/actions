@@ -5,17 +5,17 @@ on:
     inputs:
       start_date:
         type: string
-        description: Start date for results analysis
+        description: 'Start date for results analysis'
         required: true
         default: 'yyyy-mm-dd'
       end_date:
         type: string
-        description: End date for results analysis
+        description: 'End date for results analysis'
         required: true
         default: 'yyyy-mm-dd'
-      results_between_date_repo:
+      history_repo:
         type: string
-        description: Result repository between target dates
+        description: 'Repository for history'
         required: true
     secrets:
       gh_token:
@@ -32,7 +32,7 @@ env:
   TEST_RESULTS_PATH: "/usr/share/migraphx/test-results"
   UTILS_DIR: benchmark-utils
   REPORTS_DIR: migraphx-reports
-  REPORTS_PATH: "/usr/share/migraphx/reports_between_dates"
+  REPORTS_PATH: "/usr/share/migraphx/reports"
 
 jobs:
   performance_test:
@@ -53,23 +53,23 @@ jobs:
       - name: Checkout report's repo
         uses: actions/checkout@v3
         with:
-          repository: ${{ inputs.results_between_date_repo }}
+          repository: ${{ inputs.history_repo }}
           path: ${{ env.REPORTS_DIR }}
           token: ${{ secrets.gh_token }}
 
-      - name: Run history script (results between dates)
+      - name: Run history script
         run: |
           python3 $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts/history.py \
           -s '${{ inputs.start_date }}' \
           -e '${{ inputs.end_date }}' \
-          -t '${{ env.TEST_RESULTS_PATH }}'/
-          pwd
+          -t '${{ env.TEST_RESULTS_PATH }}' \
+          -r '${{ env.REPORTS_PATH }}'
           
-      - name: Upload results
+      - name: Upload history results
         run: |
-          cp $GITHUB_WORKSPACE/test_results_with_models_separated.xlsx $GITHUB_WORKSPACE/${{ env.REPORTS_DIR }}/
+          cp ${{ env.REPORTS_PATH }}/history.xlsx $GITHUB_WORKSPACE/${{ env.REPORTS_DIR }}/
           cd $GITHUB_WORKSPACE/${{ env.REPORTS_DIR }}/
-          git add .
+          git add ./history.xlsx
           git config --local user.email github-actions
           git config --local user.name github-actions@github.com
           git commit -m "Push report between target dates" -a
