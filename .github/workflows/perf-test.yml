@@ -131,7 +131,7 @@ jobs:
           python3 $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts/history.py -n \
           -t '${{ env.TEST_RESULTS_PATH }}' \
           -r '${{ env.REPORTS_PATH }}'
-          cp -r ${{ env.REPORTS_PATH }}/* $GITHUB_WORKSPACE/${{ env.REPORTS_DIR }}/
+          cp -r ${{ env.REPORTS_PATH }}/results-* $GITHUB_WORKSPACE/${{ env.REPORTS_DIR }}/
           cd $GITHUB_WORKSPACE/${{ env.REPORTS_DIR }}/
           git add .
           git config --local user.email github-actions
