@@ -67,7 +67,7 @@ jobs:
       - name: Checkout utils
         uses: actions/checkout@v3
         with:
-          repository: "ROCmSoftwarePlatform/benchmark-utils"
+          repository: "ROCmSoftwarePlatform/migraphx-benchmark-utils"
           path: ${{ env.UTILS_DIR }}
           token: ${{ secrets.gh_token }}
       
