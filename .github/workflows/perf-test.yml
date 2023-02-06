@@ -38,8 +38,8 @@ env:
   MAIL_TO: dl.dl-migraphx-perfrun@amd.com
   MAIL_CC: igor.mirosavljevic@htecgroup.com,djordje.petrovic@htecgroup.com,milos.miljanovic@htecgroup.com,pavle.jacovic@htecgroup.com
   MAIL_FROM: GH Actions
-  MAIL_SUBJECT: GH Actions send email test
-  MAIL_BODY: Testing GH Actions workflow
+  MAIL_SUBJECT: Nightly Performance run
+  MAIL_BODY: Scheduled Performance test run on develop branch
   PR_ID: ${{ github.event.number }}
   BRANCH_NAME: ${{ github.base_ref }}
   SAVED_MODELS_PATH: "/usr/share/migraphx/saved-models"
