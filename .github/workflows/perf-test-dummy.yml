@@ -1,4 +1,4 @@
-name: MIGraphX Performance Tests
+name: MIGraphX Performance Tests dummy
 
 on:
   workflow_call:
