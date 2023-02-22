@@ -15,18 +15,22 @@ on:
         type: string
         description: Repository where benchmark utils are stored
         required: true
-      migraphx_path:
+      organization:
         type: string
-        description: Main migraphx directory
+        description: Organization based on which location of files will be different
         required: true
-      test_results_path:
-        type: string
-        description: Path to test results
-        required: true
-      reports_path:
-        type: string
-        description: Path to reports
-        required: true
+#      migraphx_path:
+#        type: string
+#        description: Main migraphx directory
+#        required: true
+#      test_results_path:
+#        type: string
+#        description: Path to test results
+#        required: true
+#      reports_path:
+#        type: string
+#        description: Path to reports
+#        required: true
       result_number:
         type: string
         description: Number of last results
@@ -58,8 +62,9 @@ env:
   MAIL_BODY: Scheduled Performance test run on develop branch
   PR_ID: ${{ github.event.number }}
   BRANCH_NAME: ${{ github.base_ref }}
-  SAVED_MODELS_PATH: "/usr/share/migraphx/saved-models"
-  TEST_RESULTS_PATH: ${{ inputs.test_results_path }}
+  REPORTS_PATH: /usr/share/migraphx/"${{ inputs.organization }}/reports
+  TEST_RESULTS_PATH: /usr/share/migraphx/${{ inputs.organization }}/test-results
+  MIGRAPHX_PATH: /usr/share/migraphx/${{ inputs.organization }}
 
 jobs:
   performance_test:
@@ -141,11 +146,11 @@ jobs:
         run: |
           python3 $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts/report.py \
           -t '${{ env.TEST_RESULTS_PATH }}' \
-          -r '${{ inputs.reports_path }}'
+          -r '${{ env.REPORTS_PATH }}'
           python3 $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts/history.py -n \
           -t '${{ env.TEST_RESULTS_PATH }}' \
-          -r '${{ inputs.reports_path }}'
-          cp -r ${{ inputs.reports_path }}/results-* $GITHUB_WORKSPACE/${{ env.REPORTS_DIR }}/
+          -r '${{ env.REPORTS_PATH }}'
+          cp -r ${{ env.REPORTS_PATH }}/results-* $GITHUB_WORKSPACE/${{ env.REPORTS_DIR }}/
           cd $GITHUB_WORKSPACE/${{ env.REPORTS_DIR }}/
           git add .
           git config --local user.email github-actions
@@ -192,7 +197,7 @@ jobs:
         id: last_report
         if: ${{ github.event_name == 'schedule' }}
         run: |
-          cd ${{ inputs.reports_path }}
+          cd ${{ env.REPORTS_PATH }}
           latest="$(readlink -f $(ls -tp | grep -v /$ | head -1))"
           echo "latest=$latest" >> $GITHUB_OUTPUT
 
@@ -219,7 +224,7 @@ jobs:
         run: >
           docker run
           -v $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts:/migraphx/sh:ro
-          -v ${{ inputs.migraphx_path }}:/data/migraphx
+          -v ${{ env.MIGRAPHX_PATH }}:/data/migraphx
           --workdir /migraphx/sh
           rocm-migraphx:${{ inputs.rocm_release }} bash -c "./clean_after_pr.sh ${{ env.TEST_RESULTS_PATH }} ${{ env.PR_ID }} merged"
 
@@ -228,6 +233,6 @@ jobs:
         run: >
           docker run
           -v $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts:/migraphx/sh:ro
-          -v ${{ inputs.migraphx_path }}:/data/migraphx
+          -v ${{ env.MIGRAPHX_PATH }}:/data/migraphx
           --workdir /migraphx/sh
           rocm-migraphx:${{ inputs.rocm_release }} bash -c "./clean_after_pr.sh ${{ env.TEST_RESULTS_PATH }} ${{ env.PR_ID }} closed"
