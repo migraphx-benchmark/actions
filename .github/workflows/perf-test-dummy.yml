@@ -62,7 +62,7 @@ env:
   MAIL_BODY: Scheduled Performance test run on develop branch
   PR_ID: ${{ github.event.number }}
   BRANCH_NAME: ${{ github.base_ref }}
-  REPORTS_PATH: /usr/share/migraphx/"${{ inputs.organization }}/reports
+  REPORTS_PATH: /usr/share/migraphx/${{ inputs.organization }}/reports
   TEST_RESULTS_PATH: /usr/share/migraphx/${{ inputs.organization }}/test-results
   MIGRAPHX_PATH: /usr/share/migraphx/${{ inputs.organization }}
 
