@@ -19,18 +19,6 @@ on:
         type: string
         description: Organization based on which location of files will be different
         required: true
-#      migraphx_path:
-#        type: string
-#        description: Main migraphx directory
-#        required: true
-#      test_results_path:
-#        type: string
-#        description: Path to test results
-#        required: true
-#      reports_path:
-#        type: string
-#        description: Path to reports
-#        required: true
       result_number:
         type: string
         description: Number of last results
