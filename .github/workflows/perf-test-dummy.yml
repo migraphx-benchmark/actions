@@ -43,8 +43,7 @@ env:
   REPORTS_DIR: migraphx-reports
   DOCKERBASE: rocm-migraphx:${{ inputs.rocm_release }}
   MIOPENTUNE: miopen-dbs/rocm${{ inputs.rocm_release }}
-  MAIL_TO: dl.dl-migraphx-perfrun@amd.com
-  MAIL_CC: igor.mirosavljevic@htecgroup.com,djordje.petrovic@htecgroup.com,milos.miljanovic@htecgroup.com,pavle.jacovic@htecgroup.com
+  MAIL_TO: igor.mirosavljevic@htecgroup.com,djordje.petrovic@htecgroup.com,milos.miljanovic@htecgroup.com,pavle.jacovic@htecgroup.com
   MAIL_FROM: GH Actions
   MAIL_SUBJECT: Nightly Performance run
   MAIL_BODY: Scheduled Performance test run on develop branch
