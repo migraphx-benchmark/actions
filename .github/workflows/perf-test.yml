@@ -63,7 +63,7 @@ jobs:
       git_sha: ${{ steps.git_sha.outputs.git_sha }}
     steps:
       - name: Update Mailing list based on organization
-        if: ${{ inputs.organization == "HTEC" }}
+        if: ${{ inputs.organization == 'HTEC' }}
         run: |
           echo "MAIL_TO=$(echo "igor.mirosavljevic@htecgroup.com,djordje.petrovic@htecgroup.com,milos.miljanovic@htecgroup.com,pavle.jacovic@htecgroup.com")" >> $GITHUB_ENV
           echo "MAIL_CC= " >> $GITHUB_ENV
