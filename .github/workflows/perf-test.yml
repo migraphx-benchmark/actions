@@ -65,7 +65,7 @@ jobs:
       - name: Update Mailing list based on organization
         if: ${{ inputs.organization == "HTEC" }}
         run: |
-          echo "MAIL_TO=echo igor.mirosavljevic@htecgroup.com,djordje.petrovic@htecgroup.com,milos.miljanovic@htecgroup.com,pavle.jacovic@htecgroup.com"
+          echo "MAIL_TO=$(echo igor.mirosavljevic@htecgroup.com,djordje.petrovic@htecgroup.com,milos.miljanovic@htecgroup.com,pavle.jacovic@htecgroup.com")
           echo "MAIL_CC= "
 
       - name: Update PR env
