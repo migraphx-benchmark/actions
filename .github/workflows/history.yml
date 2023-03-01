@@ -17,6 +17,10 @@ on:
         type: string
         description: 'Repository for history'
         required: true
+      benchmark_utils_repo:
+        type: string
+        description: Repository where benchmark utils are stored
+        required: true
     secrets:
       gh_token:
         description: 'Github Access Token'
@@ -46,7 +50,7 @@ jobs:
       - name: Checkout utils
         uses: actions/checkout@v3
         with:
-          repository: "migraphx-benchmark/benchmark-utils"
+          repository: ${{ inputs.benchmark_utils_repo }}
           path: ${{ env.UTILS_DIR }}
           token: ${{ secrets.gh_token }}
       
