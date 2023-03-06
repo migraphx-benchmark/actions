@@ -1,4 +1,4 @@
-name: ROCM Container build
+name: ROCM Container build dj
 on:
   workflow_call:
     inputs:
@@ -9,6 +9,10 @@ on:
       benchmark-utils_repo:
         type: string
         description: Repository for benchmark utils
+        required: true
+      overwrite_image:
+        type: string
+        description: 'Do you want to overwrite Docker image? Enter "yes" or "no".'
         required: true
     secrets:
       gh_token:
@@ -28,7 +32,7 @@ jobs:
       - name: Check new image
         id: check_image
         run: |
-          if [ -z "$(docker images -q rocm-migraphx:${{ inputs.rocm_release }})" ]; then
+          if [ -z "$(docker images -q rocm-migraphx:${{ inputs.rocm_release }})" ] || [ ${{ inputs.overwrite_image }} == 'yes' ]; then
             echo "image=true" >> $GITHUB_OUTPUT
           fi
   build_image:
