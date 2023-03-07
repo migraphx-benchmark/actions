@@ -1,0 +1,69 @@
+name: ROCM Container build dj
+on:
+  workflow_call:
+    inputs:
+      rocm_release:
+        type: string
+        description: ROCm release version
+        required: true
+      benchmark-utils_repo:
+        type: string
+        description: Repository for benchmark utils
+        required: true
+      overwrite:
+        type: string
+        description: Overwrite image if it already exists
+        required: false
+        default: no
+    secrets:
+      gh_token:
+        description: 'Github Access Token'
+        required: true
+
+env:
+  UTILS_DIR: benchmark-utils
+
+jobs:
+  check_image_version:
+    name: Check Image Version
+    runs-on: self-hosted
+    outputs:
+      image: ${{ steps.check_image.outputs.image }}
+    steps:
+      - name: Check new image
+        id: check_image
+        run: |
+          if [ -z "$(docker images -q rocm-migraphx:${{ inputs.rocm_release }})" ]; then
+            echo "image=true" >> $GITHUB_OUTPUT
+          else
+            if [ "${{ inputs.overwrite }}" == "yes" ]; then
+              docker rmi -f rocm-migraphx:${{ inputs.rocm_release }}
+              echo "image=true" >> $GITHUB_OUTPUT
+            fi
+          fi
+  build_image:
+    name: Build New Image
+    runs-on: self-hosted
+    needs: check_image_version
+    if: ${{ needs.check_image_version.outputs.image == 'true' }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Checkout Utils
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ inputs.benchmark-utils_repo }}
+          path: ${{ env.UTILS_DIR }}
+          token: ${{ secrets.gh_token }}
+
+      - name: Docker build
+        env:
+          ROCM_RELEASE: ${{ inputs.rocm_release }}
+          ROCM_BASE: rocm/dev-ubuntu-20.04:${{ inputs.rocm_release }}
+          DOCKERIMAGE: rocm-migraphx:${{ inputs.rocm_release }}
+          BUILD_NAVI: "0"
+          TOKEN: ${{ secrets.gh_token }}
+        run: |
+          cd $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts
+          ./build_migraphx_docker.sh ${{ inputs.benchmark-utils_repo }}
