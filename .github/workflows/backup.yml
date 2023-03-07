@@ -4,7 +4,7 @@ name: Backup-test
 on:
   workflow_call:
     secrets :
-      token:
+      gh_token:
         description: 'Github Access Token'
         required: true
 
@@ -21,7 +21,7 @@ jobs:
       with:
        repository: migraphx-benchmark/performance-backup
        path: ${{ env.PERFORMANCE_DIR }}
-       token: ${{ secrets.MIGRAPHX_BOT_TOKEN }}
+       token: ${{ secrets.gh_token }}
 
     - name: Git push
       if: ${{ github.event.action == 'closed' && github.event.pull_request.merged == true}}
