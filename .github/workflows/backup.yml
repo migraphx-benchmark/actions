@@ -3,6 +3,10 @@ name: Backup-test
 
 on:
   workflow_call:
+    secrets :
+      gh_token:
+        description: 'Github Access Token'
+        required: true
 
 env:
   PERFORMANCE_PATH: "/usr/share/migraphx/test-results"
