@@ -34,11 +34,11 @@ jobs:
         id: check_image
         run: |
           if [ -z "$(docker images -q rocm-migraphx:${{ inputs.rocm_release }})" ]; then
-            echo "image=true" >> $GITHUB_OUTPUT
+            echo "image=true" >> $GITHUB_WORKSPACE/$GITHUB_RUN_ID/output
           else
             if [ "${{ inputs.overwrite }}" == "yes" ]; then
               docker rmi -f rocm-migraphx:${{ inputs.rocm_release }}
-              echo "image=true" >> $GITHUB_OUTPUT
+              echo "image=true" >> $GITHUB_WORKSPACE/$GITHUB_RUN_ID/output
             fi
           fi
   build_image:
