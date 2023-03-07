@@ -3,10 +3,6 @@ name: Backup-test
 
 on:
   workflow_call:
-    secrets:
-      gh_token:
-        description: 'A token passed from the caller workflow'
-        required: true  
 
 env:
   PERFORMANCE_PATH: "/usr/share/migraphx/test-results"
