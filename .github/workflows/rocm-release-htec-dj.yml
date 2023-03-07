@@ -10,10 +10,11 @@ on:
         type: string
         description: Repository for benchmark utils
         required: true
-      overwrite_image:
+      overwrite:
         type: string
-        description: 'Do you want to overwrite Docker image? Enter "yes" or "no".'
-        required: true
+        description: Overwrite image if it already exists
+        required: false
+        default: no
     secrets:
       gh_token:
         description: 'Github Access Token'
@@ -32,8 +33,13 @@ jobs:
       - name: Check new image
         id: check_image
         run: |
-          if [ -z "$(docker images -q rocm-migraphx:${{ inputs.rocm_release }})" ] || [ ${{ inputs.overwrite_image }} == 'yes' ]; then
+          if [ -z "$(docker images -q rocm-migraphx:${{ inputs.rocm_release }})" ]; then
             echo "image=true" >> $GITHUB_OUTPUT
+          else
+            if [ "${{ inputs.overwrite }}" == "yes" ]; then
+              docker rmi -f rocm-migraphx:${{ inputs.rocm_release }}
+              echo "image=true" >> $GITHUB_OUTPUT
+            fi
           fi
   build_image:
     name: Build New Image
