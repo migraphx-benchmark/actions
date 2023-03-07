@@ -12,9 +12,9 @@ on:
         required: true
       overwrite:
         type: string
-        description: Overwrite image if it already exists
-        required: false
-        default: no
+        description: Overwrite image if it already exists (yes/no)
+        required: true
+        default: 'yes'
     secrets:
       gh_token:
         description: 'Github Access Token'
