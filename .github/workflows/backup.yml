@@ -1,0 +1,45 @@
+
+name: Backup-test
+
+on:
+  workflow_call:
+    secrets :
+      gh_token:
+        description: 'Github Access Token'
+        required: true
+
+env:
+  PERFORMANCE_PATH: "/usr/share/migraphx/test-results"
+  PERFORMANCE_DIR: performance-backup
+jobs:
+  backup_test:
+    name: Backup test
+    runs-on: self-hosted
+    steps:
+    - name: Checkout performance
+      uses: actions/checkout@v3
+      with:
+       repository: migraphx-benchmark/performance-backup
+       path: ${{ env.PERFORMANCE_DIR }}
+       token: ${{ secrets.gh_token }}
+
+    - name: Git push
+      if: ${{ github.event.action == 'closed' && github.event.pull_request.merged == true}}
+      run: |
+        echo "CHECK PERFORMANCE_DIR"
+        echo "----------------------------------"
+        ls -la ${{ env.PERFORMANCE_DIR }}
+        echo "CHECK PERFORMANCE_PATH"
+        echo "----------------------------------"
+        ls -la $GITHUB_WORKSPACE/${{ env.PERFORMANCE_DIR }}
+        echo "COPY TO REPO"
+        cp -r ${{ env.PERFORMANCE_PATH }}/perf-* $GITHUB_WORKSPACE/${{ env.PERFORMANCE_DIR }}
+        echo "CHECK COPY"
+        cd $GITHUB_WORKSPACE/${{ env.PERFORMANCE_DIR }}
+        ls -la
+        git add .
+        git status
+        git config --local user.email github-actions
+        git config --local user.name github-actions@github.com
+        git commit -m "Test push" -a
+        git push
