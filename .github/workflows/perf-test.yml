@@ -161,7 +161,7 @@ jobs:
           else
             flagoptions="${{ inputs.flags }}"
           fi 
-          python3 $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts/comment.py -t ${TEST_RESULTS_PATH//-$PR_ID/} -n ${{ inputs.result_number }} $flagoptions -p
+          python3 $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts/comment_with_prints.py -t ${TEST_RESULTS_PATH//-$PR_ID/} -n ${{ inputs.result_number }} $flagoptions -p
 
       - name: Create a comment on PR
         if: ${{ github.event_name != 'schedule' && github.event_name == 'pull_request' && github.event.action != 'closed'}}
