@@ -119,14 +119,14 @@ jobs:
           --workdir /migraphx/sh
           migraphx-rocm:${{ inputs.rocm_release }}-${{ steps.git_sha.outputs.git_sha }} /bin/bash performance_tests.sh
 
-#      - name: Delete old images/containers
-#        if: ${{ github.event_name == 'schedule' }}
-#        run: |
-#          docker container prune -f
-#          if [[ $(docker images --filter=reference="migraphx-rocm:${{ inputs.rocm_release }}-*" | awk 'NR>1 {print $3}') ]]; then
-#            docker rmi -f $(docker images --filter=reference="migraphx-rocm:${{ inputs.rocm_release }}-*" | awk 'NR>1 {print $3}')
-#          fi
-#          docker image prune -f
+      - name: Delete old images/containers
+        if: ${{ github.event_name == 'schedule' }}
+        run: |
+          docker container prune -f
+          if [[ $(docker images --filter=reference="migraphx-rocm:${{ inputs.rocm_release }}-*" | awk 'NR>1 {print $3}') ]]; then
+            docker rmi -f $(docker images --filter=reference="migraphx-rocm:${{ inputs.rocm_release }}-*" | awk 'NR>1 {print $3}')
+          fi
+          docker image prune -f
 
       - name: Checkout report's repo
         if: ${{ github.event_name == 'schedule' }}
@@ -214,22 +214,25 @@ jobs:
           attachments: ${{ steps.last_report.outputs.latest}}
           priority: normal
 
-      - name : Backup perf_results
+      - name : Checkout for backup
         if: ${{ github.event.action == 'closed' && github.event.pull_request.merged == true}} || ${{ github.event_name == 'schedule' }}
         uses: actions/checkout@v3
         with:
           repository: migraphx-benchmark/performance-backup
           path: ${{ env.PERFORMANCE_DIR }}
           token: ${{ secrets.gh_token }}
-          run :
-            cp -r ${{ env.REPORTS_PATH }}/perf-* $GITHUB_WORKSPACE/${{ env.PERFORMANCE_DIR }}
-            cd $GITHUB_WORKSPACE/${{ env.PERFORMANCE_DIR }}
-            git add .
-            git status
-            git config --local user.email github-actions
-            git config --local user.name github-actions@github.com
-            git commit -m "Backup latest perf results" -a
-            git push
+
+      - name: Backup
+        if: ${{ github.event.action == 'closed' && github.event.pull_request.merged == true}} || ${{ github.event_name == 'schedule' }}   
+        run :
+          cp -r ${{ env.REPORTS_PATH }}/perf-* $GITHUB_WORKSPACE/${{ env.PERFORMANCE_DIR }}
+          cd $GITHUB_WORKSPACE/${{ env.PERFORMANCE_DIR }}
+          git add .
+          git status
+          git config --local user.email github-actions
+          git config --local user.name github-actions@github.com
+          git commit -m "Backup latest perf results" -a
+          git push
 
       - name: Clean merged PR data
         if: ${{ github.event.action == 'closed' && github.event.pull_request.merged == true}}
