@@ -51,10 +51,10 @@ jobs:
     if: ${{ needs.check_image_version.outputs.image == 'true' }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
       - name: Checkout Utils
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
         with:
           repository: ${{ inputs.benchmark-utils_repo }}
           path: ${{ env.UTILS_DIR }}
