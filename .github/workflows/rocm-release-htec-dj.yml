@@ -2,7 +2,7 @@ name: ROCM Container build dj
 on:
   push:
     paths:
-      - '$GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/dockerfiles/testfile.txt'
+      - '$GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/dockerfiles/**'
   workflow_call:
     inputs:
       rocm_release:
@@ -51,10 +51,10 @@ jobs:
     if: ${{ needs.check_image_version.outputs.image == 'true' }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Checkout Utils
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: ${{ inputs.benchmark-utils_repo }}
           path: ${{ env.UTILS_DIR }}
