@@ -225,7 +225,7 @@ jobs:
       - name: Backup
         if: ${{ github.event.action == 'closed' && github.event.pull_request.merged == true}} || ${{ github.event_name == 'schedule' }}   
         run : |
-          cp -r ${{ env.REPORTS_PATH }}/perf-* $GITHUB_WORKSPACE/${{ env.PERFORMANCE_DIR }}
+          cp -r ${{ env.TEST_RESULTS_PATH }}/perf-* $GITHUB_WORKSPACE/${{ env.PERFORMANCE_DIR }}
           cd $GITHUB_WORKSPACE/${{ env.PERFORMANCE_DIR }}
           git add .
           git status
