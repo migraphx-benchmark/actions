@@ -1,8 +1,5 @@
 name: ROCM Container build dj
 on:
-  push:
-    paths:
-      - '$GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/dockerfiles/**'
   workflow_call:
     inputs:
       rocm_release:
