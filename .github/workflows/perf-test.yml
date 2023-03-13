@@ -38,6 +38,7 @@ on:
         description: 'Email password'
         required: true
 
+       
 env:
   UTILS_DIR: benchmark-utils
   REPORTS_DIR: migraphx-reports
@@ -54,6 +55,7 @@ env:
   TEST_RESULTS_PATH: /usr/share/migraphx/${{ inputs.organization }}/test-results
   MIGRAPHX_PATH: /usr/share/migraphx/${{ inputs.organization }}
   PERFORMANCE_DIR: performance-backup
+  PERFORMANCE_DIR_HTEC: htec_backup
 
 jobs:
   performance_test:
@@ -225,14 +227,26 @@ jobs:
       - name: Backup
         if: ${{ github.event.action == 'closed' && github.event.pull_request.merged == true}} || ${{ github.event_name == 'schedule' }}   
         run : |
-          cp -r ${{ env.TEST_RESULTS_PATH }}/perf-* $GITHUB_WORKSPACE/${{ env.PERFORMANCE_DIR }}
-          cd $GITHUB_WORKSPACE/${{ env.PERFORMANCE_DIR }}
-          git add .
-          git status
-          git config --local user.email github-actions
-          git config --local user.name github-actions@github.com
-          git commit -m "Backup latest perf results" -a
-          git push
+          if [ ${{ inputs.organization }} == "AMD" ]; then
+            cp -r ${{ env.TEST_RESULTS_PATH }}/perf-* $GITHUB_WORKSPACE/${{ env.PERFORMANCE_DIR }}
+            cd $GITHUB_WORKSPACE/${{ env.PERFORMANCE_DIR }}
+            git add .
+            git status
+            git config --local user.email github-actions
+            git config --local user.name github-actions@github.com
+            git commit -m "Backup latest perf results" -a
+            git push
+          else
+            cp -r ${{ env.TEST_RESULTS_PATH }}/perf-* $GITHUB_WORKSPACE/${{ env.PERFORMANCE_DIR_HTEC }}
+            cd $GITHUB_WORKSPACE/${{ env.PERFORMANCE_DIR_HTEC }}
+            git add .
+            git status
+            git config --local user.email github-actions
+            git config --local user.name github-actions@github.com
+            git commit -m "Backup latest perf results" -a
+            git push
+          fi  
+
 
       - name: Clean merged PR data
         if: ${{ github.event.action == 'closed' && github.event.pull_request.merged == true}}
