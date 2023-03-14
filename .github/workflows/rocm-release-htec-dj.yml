@@ -18,7 +18,7 @@ on:
     secrets:
       gh_token:
         description: 'Github Access Token'
-        required: true
+        required: false
 
 env:
   UTILS_DIR: benchmark-utils
