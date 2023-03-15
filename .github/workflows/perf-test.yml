@@ -23,6 +23,10 @@ on:
         type: string
         description: Number of last results
         required: true
+      model_timeout:
+        type: string
+        description: If model in performance test script passes this threshold, it will be skipped
+        required: true
       flags:
         type: string
         description: -m for Max value; -s for Std dev; -r 'path' for Threshold file
@@ -119,7 +123,7 @@ jobs:
           -v $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts:/migraphx/sh:ro
           -v ${{ env.TEST_RESULTS_PATH }}:/data/test-results
           --workdir /migraphx/sh
-          migraphx-rocm:${{ inputs.rocm_release }}-${{ steps.git_sha.outputs.git_sha }} /bin/bash performance_tests.sh
+          migraphx-rocm:${{ inputs.rocm_release }}-${{ steps.git_sha.outputs.git_sha }} /bin/bash performance_tests.sh ${{ inputs.model_timeout }}
 
       - name: Delete old images/containers
         if: ${{ github.event_name == 'schedule' }}
