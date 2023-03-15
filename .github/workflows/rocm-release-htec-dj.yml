@@ -7,9 +7,13 @@ on:
         description: ROCm release version
         required: true
         default: "5.1.3"
-      benchmark-utils_repo:
+      benchmark_utils_repo:
         type: string
-        description: Repository for benchmark utils
+        description: Repository where benchmark utils are stored
+        required: true
+      organization:
+        type: string
+        description: Organization based on which location of files will be different
         required: true
       overwrite:
         type: boolean
