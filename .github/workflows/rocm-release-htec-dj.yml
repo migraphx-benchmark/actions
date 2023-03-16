@@ -6,7 +6,6 @@ on:
         type: string
         description: ROCm release version
         required: true
-        default: "5.1.3"
       benchmark-utils_repo:
         type: string
         description: Repository where benchmark utils are stored
@@ -14,6 +13,18 @@ on:
       organization:
         type: string
         description: Organization based on which location of files will be different
+        required: true
+      base_image:
+        type: string
+        description: Base image for rocm Docker build
+        required: true
+      docker_image:
+        type: string
+        description: Docker image name for rocm Docker build
+        required: true
+      build_navi:
+        type: string
+        description: Build navi number
         required: true
       overwrite:
         type: boolean
@@ -64,9 +75,9 @@ jobs:
       - name: Docker build
         env:
           ROCM_RELEASE: ${{ inputs.rocm_release }}
-          ROCM_BASE: rocm/dev-ubuntu-20.04:${{ inputs.rocm_release }}
-          DOCKERIMAGE: rocm-migraphx:${{ inputs.rocm_release }}
-          BUILD_NAVI: "0"
+          ROCM_BASE: ${{ inputs.base_image }}:${{ inputs.rocm_release }}
+          DOCKERIMAGE: ${{ inputs.docker_image }}:${{ inputs.rocm_release }}
+          BUILD_NAVI: ${{ inputs.build_navi }}
           TOKEN: ${{ secrets.gh_token }}
         run: |
           cd $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts
