@@ -141,7 +141,7 @@ jobs:
         with:
           repository: ${{ inputs.performance_reports_repo }}
           path: ${{ env.REPORTS_DIR }}
-          token: ${{ secrets.pt_token }}
+          token: ${{ secrets.gh_token }}
 
       - name: Execute report script
         if: ${{ github.event_name == 'schedule' }}
