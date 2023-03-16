@@ -41,6 +41,9 @@ on:
       mail_pass:
         description: 'Email password'
         required: true
+      pt_token:
+        description : 'Github acces token'
+        required: true  
 
        
 env:
@@ -140,7 +143,7 @@ jobs:
         with:
           repository: ${{ inputs.performance_reports_repo }}
           path: ${{ env.REPORTS_DIR }}
-          token: ${{ secrets.gh_token }}
+          token: ${{ secrets.pt_token }}
 
       - name: Execute report script
         if: ${{ github.event_name == 'schedule' }}
