@@ -41,9 +41,7 @@ on:
       mail_pass:
         description: 'Email password'
         required: true
-      pt_token:
-        description : 'Github acces token'
-        required: true  
+
 
        
 env:
@@ -237,7 +235,7 @@ jobs:
         with:
           repository: migraphx-benchmark/htec_backup
           path: ${{ env.PERFORMANCE_DIR_HTEC }}
-          token: ${{ secrets.PAT }}
+          token: ${{ secrets.gh_token }}
 
       - name: Backup
         if: ${{ github.event.action == 'closed' && github.event.pull_request.merged == true}} || ${{ github.event_name == 'schedule' }}   
