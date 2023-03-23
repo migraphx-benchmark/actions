@@ -99,41 +99,41 @@ jobs:
           SHA=$(git log | head -1 | awk '{print $2}' | cut -c 1-6)
           echo "git_sha=$SHA" >> $GITHUB_OUTPUT
 
-      - name: Docker build
-        if: ${{ github.event.action != 'closed' }}
-        run: >
-          cd $GITHUB_WORKSPACE/${{ env.UTILS_DIR }} && docker build --no-cache
-          --build-arg BRANCH=${{ env.BRANCH_NAME }} 
-          --build-arg DOCKERBASE=${{ env.DOCKERBASE }}
-          --build-arg MIOPENTUNE=${{ env.MIOPENTUNE }}
-          -t "migraphx-rocm:${{ inputs.rocm_release }}-${{ steps.git_sha.outputs.git_sha }}" 
-          -f dockerfiles/Daily.Dockerfile .
+      # - name: Docker build
+      #   if: ${{ github.event.action != 'closed' }}
+      #   run: >
+      #     cd $GITHUB_WORKSPACE/${{ env.UTILS_DIR }} && docker build --no-cache
+      #     --build-arg BRANCH=${{ env.BRANCH_NAME }} 
+      #     --build-arg DOCKERBASE=${{ env.DOCKERBASE }}
+      #     --build-arg MIOPENTUNE=${{ env.MIOPENTUNE }}
+      #     -t "migraphx-rocm:${{ inputs.rocm_release }}-${{ steps.git_sha.outputs.git_sha }}" 
+      #     -f dockerfiles/Daily.Dockerfile .
 
-      - name: Run performance tests
-        if: ${{ github.event.action != 'closed' }}
-        run: >
-          docker run -e TZ=America/Chicago
-          -e TARGET=gpu
-          -e PYTHONPATH=/src/AMDMIGraphX/build/lib
-          --device=/dev/dri
-          --device=/dev/kfd
-          --network=host
-          --group-add=video
-          -v /usr/share/migraphx/saved-models:/saved-models:ro
-          -v /usr/share/migraphx/new-saved-models:/new-saved-models:ro
-          -v $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts:/migraphx/sh:ro
-          -v ${{ env.TEST_RESULTS_PATH }}:/data/test-results
-          --workdir /migraphx/sh
-          migraphx-rocm:${{ inputs.rocm_release }}-${{ steps.git_sha.outputs.git_sha }} /bin/bash performance_tests.sh ${{ inputs.model_timeout }}
+      # - name: Run performance tests
+      #   if: ${{ github.event.action != 'closed' }}
+      #   run: >
+      #     docker run -e TZ=America/Chicago
+      #     -e TARGET=gpu
+      #     -e PYTHONPATH=/src/AMDMIGraphX/build/lib
+      #     --device=/dev/dri
+      #     --device=/dev/kfd
+      #     --network=host
+      #     --group-add=video
+      #     -v /usr/share/migraphx/saved-models:/saved-models:ro
+      #     -v /usr/share/migraphx/new-saved-models:/new-saved-models:ro
+      #     -v $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts:/migraphx/sh:ro
+      #     -v ${{ env.TEST_RESULTS_PATH }}:/data/test-results
+      #     --workdir /migraphx/sh
+      #     migraphx-rocm:${{ inputs.rocm_release }}-${{ steps.git_sha.outputs.git_sha }} /bin/bash performance_tests.sh ${{ inputs.model_timeout }}
 
-      - name: Delete old images/containers
-        if: ${{ github.event_name == 'schedule' }}
-        run: |
-          docker container prune -f
-          if [[ $(docker images --filter=reference="migraphx-rocm:${{ inputs.rocm_release }}-*" | awk 'NR>1 {print $3}') ]]; then
-            docker rmi -f $(docker images --filter=reference="migraphx-rocm:${{ inputs.rocm_release }}-*" | awk 'NR>1 {print $3}')
-          fi
-          docker image prune -f
+      # - name: Delete old images/containers
+      #   if: ${{ github.event_name == 'schedule' }}
+      #   run: |
+      #     docker container prune -f
+      #     if [[ $(docker images --filter=reference="migraphx-rocm:${{ inputs.rocm_release }}-*" | awk 'NR>1 {print $3}') ]]; then
+      #       docker rmi -f $(docker images --filter=reference="migraphx-rocm:${{ inputs.rocm_release }}-*" | awk 'NR>1 {print $3}')
+      #     fi
+      #     docker image prune -f
 
       - name: Checkout report's repo
         if: ${{ github.event_name == 'schedule' }}
