@@ -5,25 +5,25 @@ on:
     inputs:
       start_date:
         type: string
-        description: 'Start date for results analysis'
+        description: Start date for results analysis
         required: true
         default: 'yyyy-mm-dd'
       end_date:
         type: string
-        description: 'End date for results analysis'
+        description: End date for results analysis
         required: true
         default: 'yyyy-mm-dd'
       history_repo:
         type: string
-        description: 'Repository for history'
+        description: Repository for history
         required: true
       benchmark_utils_repo:
         type: string
-        description: 'Repository where benchmark utils are stored'
+        description: Repository where benchmark utils are stored
         required: true
       organization:
         type: string
-        description: 'Organization based on which location of files will be different'
+        description: Organization based on which location of files will be different
         required: true
     secrets:
       gh_token:
