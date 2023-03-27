@@ -19,11 +19,11 @@ on:
         required: true
       benchmark_utils_repo:
         type: string
-        description: Repository where benchmark utils are stored
+        description: 'Repository where benchmark utils are stored'
         required: true
       organization:
         type: string
-        description: Organization based on which location of files will be different
+        description: 'Organization based on which location of files will be different'
         required: true
     secrets:
       gh_token:
