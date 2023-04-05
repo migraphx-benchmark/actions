@@ -6,17 +6,17 @@ Performance test  will be triggered by caller [workflow](https://github.com/migr
 
 
 ## history.yml 
-Will be triggerd on workflow dispatch event from caller [workflow](https://github.com/migraphx-benchmark/AMDMIGraphX/blob/develop/.github/workflows/history.yaml). On dispatch event window enter date range and results with graph will be pushed to [repository](https://github.com/migraphx-benchmark/migraphx-reports).
+Will be triggered on workflow dispatch event from caller [workflow](https://github.com/migraphx-benchmark/AMDMIGraphX/blob/develop/.github/workflows/history.yaml). On dispatch event window enter date range and results with graph will be pushed to [repository](https://github.com/migraphx-benchmark/migraphx-reports).
 
 
 
 ## benchmark.yml 
-Will be triggerd on workflow dispatch event from caller [workflow](https://github.com/migraphx-benchmark/AMDMIGraphX/blob/develop/.github/workflows/benchmark.yaml). Check if migraphx image exist, if not build new docker image an run benchmark test. New results will be saved as "migraphx-compare-{date}.xlsx"
+Will be triggered on workflow dispatch event from caller [workflow](https://github.com/migraphx-benchmark/AMDMIGraphX/blob/develop/.github/workflows/benchmark.yaml). Check if migraphx image exist, if not build new docker image an run benchmark test. New results will be saved as "migraphx-compare-{date}.xlsx"
 
 ## rocm-release.yml
-Will be triggerd on workflow dispatch event from caller [workflow](https://github.com/migraphx-benchmark/AMDMIGraphX/blob/develop/.github/workflows/rocm-image-release.yaml). On dispatch event window enter ROCm version, if image exist already nothing will happen, but also you have overwrite button to create same image again.
+Will be triggered on workflow dispatch event from caller [workflow](https://github.com/migraphx-benchmark/AMDMIGraphX/blob/develop/.github/workflows/rocm-image-release.yaml). On dispatch event window enter ROCm version, if image exist already nothing will happen, but also you have overwrite button to create same image again.
 
 ## miopen-db.yml
-Will be triggerd on workflow dispatch event from caller [workflow](https://github.com/migraphx-benchmark/AMDMIGraphX/blob/develop/.github/workflows/miopen_database.yaml)
+Will be triggered on workflow dispatch event from caller [workflow](https://github.com/migraphx-benchmark/AMDMIGraphX/blob/develop/.github/workflows/miopen_database.yaml)
 
 [plot](./migraphx.png)
