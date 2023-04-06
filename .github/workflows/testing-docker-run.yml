@@ -1,0 +1,20 @@
+name: docker run    
+
+on:
+  workflow_dispatch:
+
+jobs:
+  performance_test:
+    name: build
+    runs-on: self-hosted
+    steps:
+      - name : docker run
+        run: |
+          docker run -it rocm-migraphx:5.4 \
+          pwd && ls -la
+      - name : docker aftre run
+          pwd && ls -la
+
+
+
+      
