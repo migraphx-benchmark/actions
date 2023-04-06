@@ -1,3 +1,7 @@
+<p align="center">
+  <a href="https://app.diagrams.net/#Hmigraphx-benchmark%2Factions%2Fmain%2FMigraphx.drawio.png">Open graph here</a>
+</p>
+
 ![MIGraphX graph](https://github.com/migraphx-benchmark/actions/blob/main/Migraphx.drawio.png)
 
 Needs : [benchmark-utils](https://github.com/migraphx-benchmark/benchmark-utils), [AMDMIGraphX](https://github.com/migraphx-benchmark/AMDMIGraphX)
