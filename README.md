@@ -19,4 +19,4 @@ Will be triggered on workflow dispatch event from caller [workflow](https://gith
 ## miopen-db.yml
 Will be triggered on workflow dispatch event from caller [workflow](https://github.com/migraphx-benchmark/AMDMIGraphX/blob/develop/.github/workflows/miopen_database.yaml)
 
-[plot](./migraphx.png)
+[MIGraphX graph](https://github.com/migraphx-benchmark/actions/blob/main/Migraphx.drawio.png)
