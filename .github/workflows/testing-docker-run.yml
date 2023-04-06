@@ -13,6 +13,7 @@ jobs:
           docker run -it rocm-migraphx:5.4 \
           pwd && ls -la
       - name : docker aftre run
+        run : |
           pwd && ls -la
 
 
