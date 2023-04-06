@@ -10,7 +10,7 @@ jobs:
     steps:
       - name : docker run
         run: |
-          docker run -it rocm-migraphx:5.4 \
+          docker run -i rocm-migraphx:5.4 \
           pwd && ls -la
       - name : docker aftre run
         run : |
