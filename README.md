@@ -1,27 +1,20 @@
+# actions
+
+This directory contains 5 reusable workflows in subdirectory that can be used in different workflows. The reusable workflows are designed to automate repetitive tasks in a software development workflow, such as deploying the application to different environments, checking the code for errors, and generating reports.
+
+## List of reusable workflows
+- [benchmarks.yml](https://github.com/migraphx-benchmark/actions/blob/main/.github/workflows/benchmarks.yml) caller of this workflow is [here](https://github.com/migraphx-benchmark/AMDMIGraphX/blob/develop/.github/workflows/benchmark.yaml)
+- [history.yml](https://github.com/migraphx-benchmark/actions/blob/main/.github/workflows/history.yml) caller of this workflow is [here](https://github.com/migraphx-benchmark/AMDMIGraphX/blob/develop/.github/workflows/history_HTEC.yaml)
+- [miopen-db.yml](https://github.com/migraphx-benchmark/actions/blob/main/.github/workflows/miopen-db.yml) caller of this workflow is [here](https://github.com/migraphx-benchmark/AMDMIGraphX/blob/develop/.github/workflows/miopen_database.yaml)
+- [perf-test.yml](https://github.com/migraphx-benchmark/actions/blob/main/.github/workflows/perf-test.yml) caller of this workflow is [here](https://github.com/migraphx-benchmark/AMDMIGraphX/blob/develop/.github/workflows/performance_HTEC.yaml)
+- [rocm-release.yml](https://github.com/migraphx-benchmark/actions/blob/main/.github/workflows/rocm-release.yml) caller of this workflow is [here](https://github.com/migraphx-benchmark/AMDMIGraphX/blob/develop/.github/workflows/rocm-image-release_HTEC.yaml)
+
+Each reusable workflows are described in more details [here](https://github.com/migraphx-benchmark/actions/tree/main/.github/workflows)
+
+---
+## Graph
+![MIGraphX graph](https://github.com/migraphx-benchmark/actions/blob/main/Migraphx.drawio.png)
+
 <p align="center">
   <a href="https://app.diagrams.net/#Hmigraphx-benchmark%2Factions%2Fmain%2FMigraphx.drawio.png">Open graph here</a>
 </p>
-
-![MIGraphX graph](https://github.com/migraphx-benchmark/actions/blob/main/Migraphx.drawio.png)
-
-Needs : [benchmark-utils](https://github.com/migraphx-benchmark/benchmark-utils), [AMDMIGraphX](https://github.com/migraphx-benchmark/AMDMIGraphX)
--------------------------------------------------------------------------------------------
-## Perf-test.yml
-
-Performance test  will be triggered by caller [workflow](https://github.com/migraphx-benchmark/AMDMIGraphX/blob/develop/.github/workflows/performance.yaml). This workflow will run docker build image, run performance test for each model, collect all results, make graph, do the backup (after nightly run or after approved pull request) depending of the organization will be pushed to repository regarding to HTEC or AMD.
-
-
-## history.yml 
-Will be triggered on workflow dispatch event from caller [workflow](https://github.com/migraphx-benchmark/AMDMIGraphX/blob/develop/.github/workflows/history.yaml). On dispatch event window enter date range and results with graph will be pushed to [repository](https://github.com/migraphx-benchmark/migraphx-reports).
-
-
-
-## benchmark.yml 
-Will be triggered on workflow dispatch event from caller [workflow](https://github.com/migraphx-benchmark/AMDMIGraphX/blob/develop/.github/workflows/benchmark.yaml). Check if migraphx image exist, if not build new docker image an run benchmark test. New results will be saved as "migraphx-compare-{date}.xlsx"
-
-## rocm-release.yml
-Will be triggered on workflow dispatch event from caller [workflow](https://github.com/migraphx-benchmark/AMDMIGraphX/blob/develop/.github/workflows/rocm-image-release.yaml). On dispatch event window enter ROCm version, if image exist already nothing will happen, but also you have overwrite button to create same image again.
-
-## miopen-db.yml
-Will be triggered on workflow dispatch event from caller [workflow](https://github.com/migraphx-benchmark/AMDMIGraphX/blob/develop/.github/workflows/miopen_database.yaml)
-
