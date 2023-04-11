@@ -3,7 +3,7 @@
 ## `benchmarks.yml`
 
 <p>
-This is a GitHub Actions workflow that benchmarks the performance of MiGraphX, a machine learning framework,<br> using the Open Neural Network Exchange Runtime (ONNX Runtime) framework.
+This is a GitHub Actions workflow that benchmarks the performance of MiGraphX, a machine learning framework, using the Open Neural Network Exchange Runtime (ONNX Runtime) framework.
 </p>
 
 - ## Trigger
@@ -24,19 +24,19 @@ The workflow uses the following input parameters:
 - ## Environment Variables
 The workflow uses the following environment variables:
 
->- `SCRIPT_PATH`: This environment variable specifies the path to the script repository.
+>- `SCRIPT_PATH`: The path to the script repository.
 
->- `RESULT_PATH`: This environment variable specifies the path to the result repository.
+>- `RESULT_PATH`: The path to the result repository.
 
 - ## Jobs
 The following jobs are executed in the workflow:
-> - `check_image_version`: This job checks if a new Docker image needs to be built.<br> It runs on a self-hosted machine and sets the output parameter `image` to `true` if a new image needs to be built.<br> This output is used by the next job, `build_image`.
+> - `check_image_version`: This job checks if a new Docker image needs to be built. It runs on a self-hosted machine and sets the output parameter `image` to `true` if a new image needs to be built. This output is used by the next job, `build_image`.
 
-> - `build_image`: This job builds a new Docker image if the `check_image_version` job indicated that one is needed.<br> It runs on a self-hosted machine and depends on the `check_image_version` job. <br>If a new image needs to be built, it checks out the code, checks out the benchmark utilities, and then builds the Docker image. <br>The image is tagged with the current date, and the job sets no outputs.
+> - `build_image`: This job builds a new Docker image if the `check_image_version` job indicated that one is needed. It runs on a self-hosted machine and depends on the `check_image_version` job. If a new image needs to be built, it checks out the code, checks out the benchmark utilities, and then builds the Docker image. The image is tagged with the current date, and the job sets no outputs.
 
-> - `run_benchmark`: This job runs the benchmark. It runs on a self-hosted machine and depends on the `build_image` job.<br> It exports the start time of the benchmark as an output parameter, `result_time_start`.<br>It then executes the benchmark script in the Docker container and deletes old images and containers. <br>The script takes several arguments, including the result path, which is an input parameter. The job sets no other outputs.
+> - `run_benchmark`: This job runs the benchmark. It runs on a self-hosted machine and depends on the `build_image` job. It exports the start time of the benchmark as an output parameter, `result_time_start`. It then executes the benchmark script in the Docker container and deletes old images and containers. The script takes several arguments, including the result path, which is an input parameter. The job sets no other outputs.
 
-> - `git_push_result`: This job pushes the benchmark results to a GitHub repository. It runs on a self-hosted machine and depends on the `run_benchmark` job.<br> It checks out the results repository, executes two Python scripts to generate a report, and pushes the report to the results repository.<br> The job sets no outputs.
+> - `git_push_result`: This job pushes the benchmark results to a GitHub repository. It runs on a self-hosted machine and depends on the `run_benchmark` job. It checks out the results repository, executes two Python scripts to generate a report, and pushes the report to the results repository. The job sets no outputs.
 
 For more details, please refer to the [benchmarks.yml](https://github.com/migraphx-benchmark/actions/blob/main/.github/workflows/benchmarks.yml) file in the repository.
 
@@ -44,7 +44,7 @@ For more details, please refer to the [benchmarks.yml](https://github.com/migrap
 ## `history.yml`
 
 <p>
-This workflow analyzes the historical performance of the MIGraphX project by running a Python script that produces a report between two given dates.<br> The results are uploaded to a Github repository and a link to the report is provided.<br> The workflow requires several input parameters and access to Github credentials as secrets.
+This workflow analyzes the historical performance of the MIGraphX project by running a Python script that produces a report between two given dates. The results are uploaded to a Github repository and a link to the report is provided. The workflow requires several input parameters and access to Github credentials as secrets.
 </p>
 
 - ## Trigger
@@ -105,24 +105,24 @@ This workflow generates an MIOPEN database by performing tuning tests and saving
 - ## Input Parameters
 The workflow uses the following input parameters:
 
-> - `rocm_release`: A string indicating the version of the ROCm release, which is a required parameter.
+> - `rocm_release`: The version of ROCm release, which is a required parameter.
 
-> - `miopen_db_repo`: A string indicating the MIOpen Database repository, which is an optional parameter.
+> - `miopen_db_repo`: The MIOpen Database repository, which is an optional parameter.
 
-> - `script_repo`: A string indicating the script repository (rocm-migraphx), which is an optional parameter.
+> - `script_repo`: The script repository, which is an optional parameter.
 
-> - `saved_models_path`: A string indicating the path to the saved models, which is an optional parameter.
+> - `saved_models_path`: The path to the saved models, which is an optional parameter.
 
-> - `test_results_dir`: A string indicating the path to the test results directory, which is an optional parameter.
+> - `test_results_dir`: The path to the test results directory, which is an optional parameter.
 
 - ## Environment Variables
 The workflow uses the following environment variables:
 
->- `ROCM_VERSION`: This environment variable used to specify the version of the ROCm release.
+>- `ROCM_VERSION`: The version of the ROCm release.
 
->- `MIOPEN_PATH`: This environment variable used to specify the path to the MIOpen database repository.
+>- `MIOPEN_PATH`: The path to the MIOpen database repository.
 
->- `SCRIPT_PATH`: This environment variable used to specify the path to the script repository.
+>- `SCRIPT_PATH`: The path to the script repository.
 
 - ## Jobs
 The following jobs are executed in the workflow:
@@ -283,7 +283,7 @@ The workflow uses the following input parameters:
 - ## Environment Variables
 The workflow uses only one environment variable:
 
->- `UTILS_DIR`: This variable is used to specify the directory where the benchmark utilities repository will be checked out during the Docker build process.
+>- `UTILS_DIR`: The directory where the benchmark utilities repository will be checked out during the Docker build process.
 
 - ## Jobs
 The following jobs are executed in the workflow:
