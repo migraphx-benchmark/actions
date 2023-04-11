@@ -256,6 +256,42 @@ For more details, please refer to the [perf-test.yml](https://github.com/migraph
 
 ## `rocm-release.yml`
 
-TODO
+<p>
+This workflow automates the process of building a Docker image for the ROCm (Radeon Open Compute) software stack developed and maintained by Advanced Micro Devices (AMD) Corporation. ROCm is an AMD software stack designed for high-performance computing (HPC) and machine learning (ML) workloads, with a focus on providing support for AMD hardware, including GPUs and CPUs.
+</p>
+
+- ## Trigger
+> The workflow will be triggered on workflow dispatch event from caller workflow 
+[rocm-image-release_HTEC.yaml](https://github.com/migraphx-benchmark/AMDMIGraphX/blob/develop/.github/workflows/rocm-image-release_HTEC.yaml) 
+
+- ## Input Parameters
+The workflow uses the following input parameters:
+> - `rocm_release`: The version of the ROCm software stack to be used in the Docker build, which is a required parameter.
+
+> - `benchmark-utils_repo`: The repository for the benchmark utilities that will be used in the build, which is a required parameter.
+
+> - `organization`: The organization that the Docker image is being built for, which is a required parameter.
+
+> - `base_image`: The base image for the ROCm Docker build, which is a required parameter.
+
+> - `docker_image`: The name of the Docker image that will be created, which is a required parameter.
+
+> - `build_navi`: The build number for the Navi GPU architecture, which is a required parameter.
+
+> - `overwrite`: A flag to determine whether to overwrite the Docker image if it already exists, which is a required parameter.
+
+- ## Environment Variables
+The workflow uses only one environment variable:
+
+>- `UTILS_DIR`: This variable is used to specify the directory where the benchmark utilities repository will be checked out during the Docker build process.
+
+- ## Jobs
+The following jobs are executed in the workflow:
+> - `check_image_version`: This job checks whether the specified Docker image already exists. If it does, the job checks the `overwrite` flag to determine whether to delete the existing image and create a new one. This job outputs a boolean value indicating whether a new image needs to be built.
+
+> - `build_image`: This job builds the ROCm Docker image if the `check_image_version` job determined that a new image needs to be built. This job checks out the benchmark utilities repository, sets environment variables based on the input parameters, and runs a script to build the Docker image.
+
+For more details, please refer to the [rocm-release.yml](https://github.com/migraphx-benchmark/actions/blob/main/.github/workflows/rocm-release.yml) file in the repository.
+
 
 ---
