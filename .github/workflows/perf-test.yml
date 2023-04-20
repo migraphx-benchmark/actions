@@ -222,7 +222,7 @@ jobs:
           priority: normal
 
       - name : Checkout for backup
-        if: ${{ github.event.action == 'closed' && github.event.pull_request.merged == true}} || ${{ github.event_name == 'schedule' }}
+        if: ${{ github.event_name == 'schedule' || ( github.event.action == 'closed' && github.event.pull_request.merged == true) }}
         uses: actions/checkout@v3
         with:
           repository: migraphx-benchmark/performance-backup
@@ -230,7 +230,7 @@ jobs:
           token: ${{ secrets.gh_token }}
 
       - name : Checkout for Htec-backup
-        if: ${{ github.event.action == 'closed' && github.event.pull_request.merged == true}} || ${{ github.event_name == 'schedule' }}
+        if: ${{ github.event_name == 'schedule' || ( github.event.action == 'closed' && github.event.pull_request.merged == true) }}
         uses: actions/checkout@v3
         with:
           repository: migraphx-benchmark/htec_backup
@@ -249,8 +249,7 @@ jobs:
             git config --local user.name github-actions@github.com
             git commit -m "Backup latest perf results" -a
             git push
-          else
-          
+          else 
             cp -r ${{ env.TEST_RESULTS_PATH }}/perf-* $GITHUB_WORKSPACE/${{ env.PERFORMANCE_DIR_HTEC }}
             cd $GITHUB_WORKSPACE/${{ env.PERFORMANCE_DIR_HTEC }}
             git add .
