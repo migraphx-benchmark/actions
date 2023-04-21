@@ -225,41 +225,21 @@ jobs:
         if: ${{ github.event_name == 'schedule' || ( github.event.action == 'closed' && github.event.pull_request.merged == true) }}
         uses: actions/checkout@v3
         with:
-          repository: migraphx-benchmark/performance-backup
+          repository: ${{ inputs.performance_backup_repo }}
           path: ${{ env.PERFORMANCE_DIR }}
-          token: ${{ secrets.gh_token }}
-
-      - name : Checkout for Htec-backup
-        if: ${{ github.event_name == 'schedule' || ( github.event.action == 'closed' && github.event.pull_request.merged == true) }}
-        uses: actions/checkout@v3
-        with:
-          repository: migraphx-benchmark/htec_backup
-          path: ${{ env.PERFORMANCE_DIR_HTEC }}
           token: ${{ secrets.gh_token }}
 
       - name: Backup
         if: ${{ github.event_name == 'schedule' || ( github.event.action == 'closed' && github.event.pull_request.merged == true) }}   
         run : |
-          if [ ${{ inputs.organization }} == "AMD" ]; then
-            cp -r ${{ env.TEST_RESULTS_PATH }}/perf-* $GITHUB_WORKSPACE/${{ env.PERFORMANCE_DIR }}
-            cd $GITHUB_WORKSPACE/${{ env.PERFORMANCE_DIR }}
-            git add .
-            git status
-            git config --local user.email github-actions
-            git config --local user.name github-actions@github.com
-            git commit -m "Backup latest perf results" -a
-            git push
-          else 
-            cp -r ${{ env.TEST_RESULTS_PATH }}/perf-* $GITHUB_WORKSPACE/${{ env.PERFORMANCE_DIR_HTEC }}
-            cd $GITHUB_WORKSPACE/${{ env.PERFORMANCE_DIR_HTEC }}
-            git add .
-            git status
-            git config --local user.email github-actions
-            git config --local user.name github-actions@github.com
-            git commit -m "Backup latest perf results" -a
-            git push
-          fi  
-
+          cp -r ${{ env.TEST_RESULTS_PATH }}/perf-* $GITHUB_WORKSPACE/${{ env.PERFORMANCE_DIR }}/${{ inputs.organization }}
+          cd $GITHUB_WORKSPACE/${{ env.PERFORMANCE_DIR }}
+          git add .
+          git status
+          git config --local user.email github-actions
+          git config --local user.name github-actions@github.com
+          git commit -m "Backup latest perf results" -a
+          git push
 
       - name: Clean merged PR data
         if: ${{ github.event.action == 'closed' && github.event.pull_request.merged == true}}
