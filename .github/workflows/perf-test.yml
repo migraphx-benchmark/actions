@@ -31,6 +31,10 @@ on:
         type: string
         description: -m for Max value; -s for Std dev; -r 'path' for Threshold file
         required: true
+      performance_backup_repo:
+        type: string
+        description: Repository for backup 
+        required: true  
     secrets:
       gh_token:
         description: 'Github Access Token'
