@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2023-04-06T13:26:45.505Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36 Edg/111.0.1661.62" etag="Df0G2OixlYGAw2NuLMJS" version="21.1.4" type="github">
+<mxfile host="app.diagrams.net" modified="2023-04-24T18:02:43.658Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36 Edg/112.0.1722.58" etag="E_UfahTmMWaZa_ptzPiI" version="21.2.1" type="github">
   <diagram name="Page-1" id="WAI_kHuNiL9nzPdvUI3d">
-    <mxGraphModel dx="2892" dy="3589" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1061" dy="2781" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -402,61 +402,6 @@
             <mxGeometry x="1275" y="220" width="50" height="20" as="geometry" />
           </mxCell>
         </UserObject>
-        <mxCell id="gxmgwyy8D1BKnNXjqqN9-67" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" source="gxmgwyy8D1BKnNXjqqN9-45" target="gxmgwyy8D1BKnNXjqqN9-68" edge="1">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="1770" y="-636.25" as="sourcePoint" />
-            <mxPoint x="1730" y="-626.25" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <UserObject label="half" link="https://github.com/migraphx-benchmark/benchmark-utils/tree/main/dockerfiles/patch/half" linkTarget="_blank" id="gxmgwyy8D1BKnNXjqqN9-68">
-          <mxCell style="rounded=0;html=1;labelBorderColor=none;labelBackgroundColor=none;fillColor=#99CCFF;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" vertex="1">
-            <mxGeometry x="1790" y="-703.75" width="120" height="20" as="geometry" />
-          </mxCell>
-        </UserObject>
-        <mxCell id="gxmgwyy8D1BKnNXjqqN9-69" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" source="gxmgwyy8D1BKnNXjqqN9-45" target="gxmgwyy8D1BKnNXjqqN9-72" edge="1">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="1760" y="-576.25" as="sourcePoint" />
-            <mxPoint x="1770" y="-636.25" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="gxmgwyy8D1BKnNXjqqN9-70" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" source="gxmgwyy8D1BKnNXjqqN9-45" target="gxmgwyy8D1BKnNXjqqN9-73" edge="1">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="1690" y="-616.25" as="sourcePoint" />
-            <mxPoint x="1780" y="-596.25" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="gxmgwyy8D1BKnNXjqqN9-71" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" source="gxmgwyy8D1BKnNXjqqN9-45" target="gxmgwyy8D1BKnNXjqqN9-74" edge="1">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="1700" y="-606.25" as="sourcePoint" />
-            <mxPoint x="1750" y="-556.25" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <UserObject label="half.hpp" link="https://github.com/migraphx-benchmark/benchmark-utils/blob/main/dockerfiles/patch/half.hpp" linkTarget="_blank" id="gxmgwyy8D1BKnNXjqqN9-72">
-          <mxCell style="rounded=0;html=1;labelBorderColor=none;labelBackgroundColor=none;fillColor=#99CCFF;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" vertex="1">
-            <mxGeometry x="1790" y="-678.75" width="120" height="20" as="geometry" />
-          </mxCell>
-        </UserObject>
-        <UserObject label="patch.disable_migraphx_doc" link="https://github.com/migraphx-benchmark/benchmark-utils/blob/main/dockerfiles/patch/patch.disable_migraphx_doc" linkTarget="_blank" id="gxmgwyy8D1BKnNXjqqN9-73">
-          <mxCell style="rounded=0;html=1;labelBorderColor=none;labelBackgroundColor=none;fillColor=#99CCFF;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" vertex="1">
-            <mxGeometry x="1790" y="-653.75" width="175" height="20" as="geometry" />
-          </mxCell>
-        </UserObject>
-        <UserObject label="patch.enable_gfx1030" link="https://github.com/migraphx-benchmark/benchmark-utils/blob/main/dockerfiles/patch/patch.enable_gfx1030" linkTarget="_blank" id="gxmgwyy8D1BKnNXjqqN9-74">
-          <mxCell style="rounded=0;html=1;labelBorderColor=none;labelBackgroundColor=none;fillColor=#99CCFF;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" vertex="1">
-            <mxGeometry x="1790" y="-628.75" width="175" height="20" as="geometry" />
-          </mxCell>
-        </UserObject>
-        <UserObject label="half.hpp" link="https://github.com/migraphx-benchmark/benchmark-utils/blob/main/dockerfiles/patch/half/half.hpp" linkTarget="_blank" id="gxmgwyy8D1BKnNXjqqN9-75">
-          <mxCell style="rounded=0;html=1;labelBorderColor=none;labelBackgroundColor=none;fillColor=#99CCFF;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" vertex="1">
-            <mxGeometry x="1980" y="-703.75" width="120" height="20" as="geometry" />
-          </mxCell>
-        </UserObject>
-        <mxCell id="gxmgwyy8D1BKnNXjqqN9-76" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" source="gxmgwyy8D1BKnNXjqqN9-68" target="gxmgwyy8D1BKnNXjqqN9-75" edge="1">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="1910" y="-523.75" as="sourcePoint" />
-            <mxPoint x="1980" y="-693.75" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
         <UserObject label="build_prereqs.sh" link="https://github.com/migraphx-benchmark/benchmark-utils/blob/main/scripts/build_prereqs.sh" linkTarget="_blank" id="gxmgwyy8D1BKnNXjqqN9-79">
           <mxCell style="rounded=0;html=1;labelBorderColor=none;labelBackgroundColor=none;fillColor=#FFFFCC;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" vertex="1">
             <mxGeometry x="1540" y="-165" width="180" height="20" as="geometry" />
@@ -679,9 +624,6 @@
         <mxCell id="gxmgwyy8D1BKnNXjqqN9-138" value="" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shape=mxgraph.basic.tick;fillColor=#00FF00;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" vertex="1">
           <mxGeometry x="1015" y="-980" width="15" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="gxmgwyy8D1BKnNXjqqN9-139" value="" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shape=mxgraph.basic.x;fillColor=#FF0000;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" vertex="1">
-          <mxGeometry x="1335" y="-855" width="10" height="10" as="geometry" />
-        </mxCell>
         <mxCell id="gxmgwyy8D1BKnNXjqqN9-145" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=3;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" source="gxmgwyy8D1BKnNXjqqN9-143" target="xwbP8etTTOFJ-Utlb-hV-6" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="900" y="-810" as="sourcePoint" />
@@ -746,7 +688,7 @@
         <mxCell id="gxmgwyy8D1BKnNXjqqN9-180" value="" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shape=mxgraph.basic.x;fillColor=#FF0000;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" vertex="1">
           <mxGeometry x="410" y="-867.5" width="10" height="10" as="geometry" />
         </mxCell>
-        <mxCell id="gxmgwyy8D1BKnNXjqqN9-181" value="" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shape=mxgraph.basic.x;fillColor=#FF0000;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" vertex="1">
+        <mxCell id="gxmgwyy8D1BKnNXjqqN9-181" value="" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shape=mxgraph.basic.x;fillColor=#FF0000;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" vertex="1">
           <mxGeometry x="410" y="-1067.5" width="10" height="10" as="geometry" />
         </mxCell>
         <mxCell id="gxmgwyy8D1BKnNXjqqN9-182" value="" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shape=mxgraph.basic.x;fillColor=#FF0000;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" vertex="1">
@@ -1063,61 +1005,6 @@
             <mxPoint x="295" y="-647.5" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="gxmgwyy8D1BKnNXjqqN9-232" value="" style="endArrow=classic;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;shadow=0;html=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" source="gxmgwyy8D1BKnNXjqqN9-223" target="gxmgwyy8D1BKnNXjqqN9-233" edge="1">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="-15" y="-703.75" as="sourcePoint" />
-            <mxPoint x="25" y="-693.75" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <UserObject label="half" link="https://github.com/ROCmSoftwarePlatform/migraphx-benchmark-utils/tree/main/dockerfiles/patch/half" linkTarget="_blank" id="gxmgwyy8D1BKnNXjqqN9-233">
-          <mxCell style="rounded=0;labelBorderColor=none;labelBackgroundColor=none;fillColor=#99CCFF;shadow=0;html=1;flipV=0;flipH=0;direction=west;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" vertex="1">
-            <mxGeometry x="-75" y="-791.25" width="120" height="20" as="geometry" />
-          </mxCell>
-        </UserObject>
-        <mxCell id="gxmgwyy8D1BKnNXjqqN9-234" value="" style="endArrow=classic;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;shadow=0;html=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" source="gxmgwyy8D1BKnNXjqqN9-223" target="gxmgwyy8D1BKnNXjqqN9-237" edge="1">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="-5" y="-643.75" as="sourcePoint" />
-            <mxPoint x="-15" y="-703.75" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="gxmgwyy8D1BKnNXjqqN9-235" value="" style="endArrow=classic;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;shadow=0;html=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" source="gxmgwyy8D1BKnNXjqqN9-223" target="gxmgwyy8D1BKnNXjqqN9-238" edge="1">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="65" y="-683.75" as="sourcePoint" />
-            <mxPoint x="-25" y="-663.75" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="gxmgwyy8D1BKnNXjqqN9-236" value="" style="endArrow=classic;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;shadow=0;html=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" source="gxmgwyy8D1BKnNXjqqN9-223" target="gxmgwyy8D1BKnNXjqqN9-239" edge="1">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="55" y="-673.75" as="sourcePoint" />
-            <mxPoint x="5" y="-623.75" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <UserObject label="half.hpp" link="https://github.com/ROCmSoftwarePlatform/migraphx-benchmark-utils/blob/main/dockerfiles/patch/half.hpp" linkTarget="_blank" id="gxmgwyy8D1BKnNXjqqN9-237">
-          <mxCell style="rounded=0;labelBorderColor=none;labelBackgroundColor=none;fillColor=#99CCFF;shadow=0;html=1;flipV=0;flipH=0;direction=west;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" vertex="1">
-            <mxGeometry x="-75" y="-766.25" width="120" height="20" as="geometry" />
-          </mxCell>
-        </UserObject>
-        <UserObject label="patch.disable_migraphx_doc" link="https://github.com/ROCmSoftwarePlatform/migraphx-benchmark-utils/blob/main/dockerfiles/patch/patch.disable_migraphx_doc" linkTarget="_blank" id="gxmgwyy8D1BKnNXjqqN9-238">
-          <mxCell style="rounded=0;labelBorderColor=none;labelBackgroundColor=none;fillColor=#99CCFF;shadow=0;html=1;flipV=0;flipH=0;direction=west;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" vertex="1">
-            <mxGeometry x="-130" y="-741.25" width="175" height="20" as="geometry" />
-          </mxCell>
-        </UserObject>
-        <UserObject label="patch.enable_gfx1030" link="https://github.com/ROCmSoftwarePlatform/migraphx-benchmark-utils/blob/main/dockerfiles/patch/patch.enable_gfx1030" linkTarget="_blank" id="gxmgwyy8D1BKnNXjqqN9-239">
-          <mxCell style="rounded=0;labelBorderColor=none;labelBackgroundColor=none;fillColor=#99CCFF;shadow=0;html=1;flipV=0;flipH=0;direction=west;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" vertex="1">
-            <mxGeometry x="-130" y="-716.25" width="175" height="20" as="geometry" />
-          </mxCell>
-        </UserObject>
-        <UserObject label="half.hpp" link="https://github.com/ROCmSoftwarePlatform/migraphx-benchmark-utils/blob/main/dockerfiles/patch/half/half.hpp" linkTarget="_blank" id="gxmgwyy8D1BKnNXjqqN9-240">
-          <mxCell style="rounded=0;labelBorderColor=none;labelBackgroundColor=none;fillColor=#99CCFF;shadow=0;html=1;flipV=1;flipH=0;direction=west;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" vertex="1">
-            <mxGeometry x="-250" y="-791.25" width="120" height="20" as="geometry" />
-          </mxCell>
-        </UserObject>
-        <mxCell id="gxmgwyy8D1BKnNXjqqN9-241" value="" style="endArrow=classic;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;shadow=0;html=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" source="gxmgwyy8D1BKnNXjqqN9-233" target="gxmgwyy8D1BKnNXjqqN9-240" edge="1">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="-95" y="-588.75" as="sourcePoint" />
-            <mxPoint x="-165" y="-758.75" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
         <mxCell id="gxmgwyy8D1BKnNXjqqN9-295" value="" style="endArrow=classic;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" source="gxmgwyy8D1BKnNXjqqN9-2" target="gxmgwyy8D1BKnNXjqqN9-268" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="440" y="-610" as="sourcePoint" />
@@ -1137,36 +1024,36 @@
           </mxGeometry>
         </mxCell>
         <UserObject label="github action workflows" link="https://github.com/ROCmSoftwarePlatform/AMDMIGraphX/tree/develop/.github/workflows" linkTarget="_blank" id="gxmgwyy8D1BKnNXjqqN9-310">
-          <mxCell style="rounded=0;html=1;labelBorderColor=none;labelBackgroundColor=none;fillColor=#FF9933;direction=west;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" vertex="1">
+          <mxCell style="rounded=0;html=1;labelBorderColor=none;labelBackgroundColor=none;fillColor=#FF9933;direction=west;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" vertex="1">
             <mxGeometry x="350" y="-1057.5" width="130" height="20" as="geometry" />
           </mxCell>
         </UserObject>
-        <mxCell id="gxmgwyy8D1BKnNXjqqN9-316" value="" style="endArrow=classic;html=1;rounded=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" source="gxmgwyy8D1BKnNXjqqN9-310" target="gxmgwyy8D1BKnNXjqqN9-342" edge="1">
+        <mxCell id="gxmgwyy8D1BKnNXjqqN9-316" value="" style="endArrow=classic;html=1;rounded=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" source="gxmgwyy8D1BKnNXjqqN9-310" target="gxmgwyy8D1BKnNXjqqN9-342" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="170" y="-1095" as="sourcePoint" />
             <mxPoint x="340" y="-1015" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="gxmgwyy8D1BKnNXjqqN9-317" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" source="gxmgwyy8D1BKnNXjqqN9-310" target="gxmgwyy8D1BKnNXjqqN9-338" edge="1">
+        <mxCell id="gxmgwyy8D1BKnNXjqqN9-317" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" source="gxmgwyy8D1BKnNXjqqN9-310" target="gxmgwyy8D1BKnNXjqqN9-338" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="170" y="-1095" as="sourcePoint" />
             <mxPoint x="340" y="-1135" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="gxmgwyy8D1BKnNXjqqN9-318" value="" style="endArrow=classic;html=1;rounded=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" source="gxmgwyy8D1BKnNXjqqN9-310" target="gxmgwyy8D1BKnNXjqqN9-340" edge="1">
+        <mxCell id="gxmgwyy8D1BKnNXjqqN9-318" value="" style="endArrow=classic;html=1;rounded=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" source="gxmgwyy8D1BKnNXjqqN9-310" target="gxmgwyy8D1BKnNXjqqN9-340" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="380" y="-1100" as="sourcePoint" />
             <mxPoint x="340" y="-1075" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="gxmgwyy8D1BKnNXjqqN9-319" value="" style="endArrow=classic;html=1;rounded=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" source="gxmgwyy8D1BKnNXjqqN9-310" target="gxmgwyy8D1BKnNXjqqN9-341" edge="1">
+        <mxCell id="gxmgwyy8D1BKnNXjqqN9-319" value="" style="endArrow=classic;html=1;rounded=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" source="gxmgwyy8D1BKnNXjqqN9-310" target="gxmgwyy8D1BKnNXjqqN9-341" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="380" y="-1100" as="sourcePoint" />
             <mxPoint x="340" y="-1045" as="targetPoint" />
             <Array as="points" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="gxmgwyy8D1BKnNXjqqN9-320" value="" style="endArrow=classic;html=1;rounded=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" source="gxmgwyy8D1BKnNXjqqN9-310" target="gxmgwyy8D1BKnNXjqqN9-339" edge="1">
+        <mxCell id="gxmgwyy8D1BKnNXjqqN9-320" value="" style="endArrow=classic;html=1;rounded=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" source="gxmgwyy8D1BKnNXjqqN9-310" target="gxmgwyy8D1BKnNXjqqN9-339" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="170" y="-1095" as="sourcePoint" />
             <mxPoint x="340" y="-1105" as="targetPoint" />
@@ -1240,47 +1127,47 @@
           </mxGeometry>
         </mxCell>
         <UserObject label="add-to-project.yaml" link="https://github.com/ROCmSoftwarePlatform/AMDMIGraphX/blob/develop/.github/workflows/add-to-project.yaml" linkTarget="_blank" id="gxmgwyy8D1BKnNXjqqN9-338">
-          <mxCell style="rounded=0;html=1;labelBorderColor=none;labelBackgroundColor=none;fillColor=#FFB366;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" vertex="1">
-            <mxGeometry x="75" y="-1148.75" width="140" height="20" as="geometry" />
+          <mxCell style="rounded=0;html=1;labelBorderColor=none;labelBackgroundColor=none;fillColor=#FFB366;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" vertex="1">
+            <mxGeometry x="50" y="-1180" width="165" height="20" as="geometry" />
           </mxCell>
         </UserObject>
         <UserObject label="benchmark.yaml" link="https://github.com/ROCmSoftwarePlatform/AMDMIGraphX/blob/develop/.github/workflows/benchmark.yaml" linkTarget="_blank" id="gxmgwyy8D1BKnNXjqqN9-339">
-          <mxCell style="rounded=0;html=1;labelBorderColor=none;labelBackgroundColor=none;fillColor=#FFB366;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" vertex="1">
-            <mxGeometry x="75" y="-1118.75" width="140" height="20" as="geometry" />
+          <mxCell style="rounded=0;html=1;labelBorderColor=none;labelBackgroundColor=none;fillColor=#FFB366;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" vertex="1">
+            <mxGeometry x="50" y="-1150" width="165" height="20" as="geometry" />
           </mxCell>
         </UserObject>
         <UserObject label="ci.yaml" link="https://github.com/ROCmSoftwarePlatform/AMDMIGraphX/blob/develop/.github/workflows/ci.yaml" linkTarget="_blank" id="gxmgwyy8D1BKnNXjqqN9-340">
-          <mxCell style="rounded=0;html=1;labelBorderColor=none;labelBackgroundColor=none;fillColor=#FFB366;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" vertex="1">
-            <mxGeometry x="75" y="-1088.75" width="140" height="20" as="geometry" />
+          <mxCell style="rounded=0;html=1;labelBorderColor=none;labelBackgroundColor=none;fillColor=#FFB366;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" vertex="1">
+            <mxGeometry x="50" y="-1120" width="165" height="20" as="geometry" />
           </mxCell>
         </UserObject>
         <UserObject label="history.yaml" link="https://github.com/ROCmSoftwarePlatform/AMDMIGraphX/blob/develop/.github/workflows/history.yaml" linkTarget="_blank" id="gxmgwyy8D1BKnNXjqqN9-341">
-          <mxCell style="rounded=0;html=1;labelBorderColor=none;labelBackgroundColor=none;fillColor=#FFB366;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" vertex="1">
-            <mxGeometry x="75" y="-1058.75" width="140" height="20" as="geometry" />
+          <mxCell style="rounded=0;html=1;labelBorderColor=none;labelBackgroundColor=none;fillColor=#FFB366;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" vertex="1">
+            <mxGeometry x="50" y="-1058.75" width="165" height="20" as="geometry" />
           </mxCell>
         </UserObject>
         <UserObject label="performance.yaml" link="https://github.com/ROCmSoftwarePlatform/AMDMIGraphX/blob/develop/.github/workflows/performance.yaml" linkTarget="_blank" id="gxmgwyy8D1BKnNXjqqN9-342">
-          <mxCell style="rounded=0;html=1;labelBorderColor=none;labelBackgroundColor=none;fillColor=#FFB366;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" vertex="1">
-            <mxGeometry x="75" y="-1028.75" width="140" height="20" as="geometry" />
+          <mxCell style="rounded=0;html=1;labelBorderColor=none;labelBackgroundColor=none;fillColor=#FFB366;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" vertex="1">
+            <mxGeometry x="50" y="-1028.75" width="165" height="20" as="geometry" />
           </mxCell>
         </UserObject>
         <UserObject label="sync-onnxrt-main.yaml" link="https://github.com/ROCmSoftwarePlatform/AMDMIGraphX/blob/develop/.github/workflows/sync-onnxrt-main.yaml" linkTarget="_blank" id="gxmgwyy8D1BKnNXjqqN9-343">
-          <mxCell style="rounded=0;html=1;labelBorderColor=none;labelBackgroundColor=none;fillColor=#FFB366;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" vertex="1">
-            <mxGeometry x="75" y="-963.75" width="140" height="20" as="geometry" />
+          <mxCell style="rounded=0;html=1;labelBorderColor=none;labelBackgroundColor=none;fillColor=#FFB366;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" vertex="1">
+            <mxGeometry x="50" y="-963.75" width="165" height="20" as="geometry" />
           </mxCell>
         </UserObject>
         <UserObject label="rocm-image-release.yaml" link="https://github.com/ROCmSoftwarePlatform/AMDMIGraphX/blob/develop/.github/workflows/rocm-image-release.yaml" linkTarget="_blank" id="gxmgwyy8D1BKnNXjqqN9-344">
-          <mxCell style="rounded=0;html=1;labelBorderColor=none;labelBackgroundColor=none;fillColor=#FFB366;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" vertex="1">
-            <mxGeometry x="75" y="-998.75" width="140" height="20" as="geometry" />
+          <mxCell style="rounded=0;html=1;labelBorderColor=none;labelBackgroundColor=none;fillColor=#FFB366;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" vertex="1">
+            <mxGeometry x="50" y="-998.75" width="165" height="20" as="geometry" />
           </mxCell>
         </UserObject>
-        <mxCell id="gxmgwyy8D1BKnNXjqqN9-346" value="" style="endArrow=classic;html=1;rounded=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" source="gxmgwyy8D1BKnNXjqqN9-310" target="gxmgwyy8D1BKnNXjqqN9-344" edge="1">
+        <mxCell id="gxmgwyy8D1BKnNXjqqN9-346" value="" style="endArrow=classic;html=1;rounded=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" source="gxmgwyy8D1BKnNXjqqN9-310" target="gxmgwyy8D1BKnNXjqqN9-344" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="405" y="-1065" as="sourcePoint" />
             <mxPoint x="340" y="-1005" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="gxmgwyy8D1BKnNXjqqN9-347" value="" style="endArrow=classic;html=1;rounded=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" source="gxmgwyy8D1BKnNXjqqN9-310" target="gxmgwyy8D1BKnNXjqqN9-343" edge="1">
+        <mxCell id="gxmgwyy8D1BKnNXjqqN9-347" value="" style="endArrow=classic;html=1;rounded=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" source="gxmgwyy8D1BKnNXjqqN9-310" target="gxmgwyy8D1BKnNXjqqN9-343" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="415" y="-1055" as="sourcePoint" />
             <mxPoint x="350" y="-995" as="targetPoint" />
@@ -1369,18 +1256,26 @@
           <mxGeometry x="1292.5" y="200" width="15" height="20" as="geometry" />
         </mxCell>
         <UserObject label="benchmarks.yml" link="https://github.com/ROCmSoftwarePlatform/migraphx-benchmark/blob/main/.github/workflows/benchmarks.yml" linkTarget="_blank" id="b3cS9iTIGew-__wi94bO-1">
-          <mxCell style="rounded=0;html=1;labelBorderColor=none;labelBackgroundColor=none;fillColor=#ffb366;direction=west;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" vertex="1" parent="1">
+          <mxCell style="rounded=0;html=1;labelBorderColor=none;labelBackgroundColor=none;fillColor=#ffb366;direction=west;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" vertex="1">
             <mxGeometry x="95" y="-918.75" width="120" height="20" as="geometry" />
           </mxCell>
         </UserObject>
         <UserObject label="migraphx-reports" link="https://github.com/migraphx-benchmark/migraphx-reports" linkTarget="_blank" id="b3cS9iTIGew-__wi94bO-2">
-          <mxCell style="rounded=0;html=1;labelBorderColor=none;labelBackgroundColor=#00FFFF;fillColor=#00FFFF;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" vertex="1" parent="1">
+          <mxCell style="rounded=0;html=1;labelBorderColor=none;labelBackgroundColor=#00FFFF;fillColor=#00FFFF;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" vertex="1">
             <mxGeometry x="960" y="-451.25" width="120" height="60" as="geometry" />
           </mxCell>
         </UserObject>
-        <mxCell id="b3cS9iTIGew-__wi94bO-3" value="" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shape=mxgraph.basic.x;fillColor=#FF0000;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" vertex="1" parent="1">
+        <mxCell id="b3cS9iTIGew-__wi94bO-3" value="" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shape=mxgraph.basic.x;fillColor=#FF0000;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" vertex="1">
           <mxGeometry x="1015" y="-462.5" width="10" height="10" as="geometry" />
         </mxCell>
+        <mxCell id="YqzQr_zoLB6FGgrg5dCg-1" value="" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shape=mxgraph.basic.tick;fillColor=#00FF00;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" vertex="1">
+          <mxGeometry x="1332.5" y="-865" width="15" height="20" as="geometry" />
+        </mxCell>
+        <UserObject label="clean-closed-pr-caches.yaml" link="https://github.com/ROCmSoftwarePlatform/AMDMIGraphX/blob/develop/.github/workflows/ci.yaml" linkTarget="_blank" id="WUPdK6KXccvWbHXXTMWr-1">
+          <mxCell style="rounded=0;html=1;labelBorderColor=none;labelBackgroundColor=none;fillColor=#FFB366;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" vertex="1">
+            <mxGeometry x="50" y="-1090" width="165" height="20" as="geometry" />
+          </mxCell>
+        </UserObject>
       </root>
     </mxGraphModel>
   </diagram>
