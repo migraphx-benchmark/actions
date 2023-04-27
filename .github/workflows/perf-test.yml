@@ -64,9 +64,8 @@ env:
   TEST_RESULTS_PATH: /usr/share/migraphx/${{ inputs.organization }}/test-results
   MIGRAPHX_PATH: /usr/share/migraphx/${{ inputs.organization }}
   PERFORMANCE_DIR: performance-backup
-  PERFORMANCE_DIR_HTEC: htec_backup
 
-jobs:
+jobs:     
   performance_test:
     name: MIGraphX Performance
     if: ${{ !contains(github.event.pull_request.labels.*.name, 'skip bot checks') }}

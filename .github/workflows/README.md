@@ -202,8 +202,6 @@ The workflow uses the following environment variables:
 
 >- `PERFORMANCE_DIR`: The directory where the previous performance test results are stored.
 
->- `PERFORMANCE_DIR_HTEC`: The directory where the previous performance test results are stored for the HTEC organization.
-
 - ## Jobs
 The workflow has a single job named `performance_test`. The following steps are executed in this job:
 > - `Update Mailing list based on organization`: If the organization is HTEC, update the mailing list.
