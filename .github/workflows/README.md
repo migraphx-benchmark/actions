@@ -167,6 +167,8 @@ The workflow uses the following input parameters:
 
 > - `flags`: The flags used for performance testing, such as "-m" for Max value, "-s" for Std dev, or "-r 'path'" for the threshold file. It's also required parameter.
 
+> - `performance_backup_repo`: The repository where the performance backups are stored, which is a required parameter.
+
 - ## Environment Variables
 The workflow uses the following environment variables:
 
@@ -239,8 +241,6 @@ The workflow has a single job named `performance_test`. The following steps are 
 
 > - `Checkout for backup`: This step checks out a Git repository for performance backup using the `actions/checkout` action and sets the path for the repository.
 
-> - `Checkout for Htec-backup`: This step checks out a Git repository for Htec backup using the `actions/checkout` action and sets the path for the repository.
-
 > - `Backup`: This step creates a backup of performance results if a pull request is closed and merged, or if a scheduled event occurs. It copies the performance results to a directory based on the organization name, adds the changes to Git, and pushes the commit.
 
 > - `Clean merged PR data`: This step runs a script in a Docker container to clean up data after a pull request is merged. It mounts directories and sets a working directory before executing the script.
@@ -295,4 +295,3 @@ For more details, please refer to the [rocm-release.yml](https://github.com/migr
 
 
 ---
-## Input Parameters <a name="input-parameters"></a>
