@@ -1,6 +1,6 @@
 # actions
 
-This directory contains 5 reusable workflows in subdirectory that can be used in different workflows. The reusable workflows are designed to automate repetitive tasks in a software development workflow, such as deploying the application to different environments, checking the code for errors, and generating reports.
+This directory contains reusable workflows in subdirectory that can be used in different workflows. The reusable workflows are designed to automate repetitive tasks in a software development workflow, such as deploying the application to different environments, checking the code for errors, and generating reports.
 
 ## List of reusable workflows
 - [benchmarks.yml](https://github.com/migraphx-benchmark/actions/blob/main/.github/workflows/benchmarks.yml) caller of this workflow is [here](https://github.com/migraphx-benchmark/AMDMIGraphX/blob/develop/.github/workflows/benchmark.yaml)
