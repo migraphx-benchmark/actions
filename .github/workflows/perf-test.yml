@@ -110,7 +110,7 @@ jobs:
           --build-arg DOCKERBASE=${{ env.DOCKERBASE }}
           --build-arg MIOPENTUNE=${{ env.MIOPENTUNE }}
           -t "migraphx-rocm:${{ inputs.rocm_release }}-${{ steps.git_sha.outputs.git_sha }}" 
-          -f dockerfiles/Daily.Dockerfile .
+          -f dockerfiles/Daily.Dockerfile --build-arg benchmark_utils_repo=${{ inputs.benchmark_utils_repo }}.
 
       - name: Run performance tests
         if: ${{ github.event.action != 'closed' }}
