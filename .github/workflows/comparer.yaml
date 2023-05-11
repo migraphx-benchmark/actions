@@ -1,0 +1,63 @@
+name: History
+
+on:
+  workflow_call:
+    inputs:
+      benchmark_utils_repo:
+        type: string
+        description: Repository where benchmark utils are stored
+        required: true
+      htec_repo:
+        type: string
+        description: HTEC repository for comparison
+        required: true
+      htec_branch:
+        type: string
+        description: HTEC branch for comparison
+        required: true
+      amd_repo:
+        type: string
+        description:  AMD repository for comparison
+        required: true
+      amd_branch:
+        type: string
+        description: Repository where benchmark utils are stored
+        required: true
+    secrets:
+      gh_token:
+        description: 'Github Access Token'
+        required: true
+      mail_user:
+        description: 'Email username'
+        required: true
+      mail_pass:
+        description: 'Email password'
+        required: true
+
+env:
+  UTILS_DIR: benchmark-utils
+
+jobs:
+  performance_test:
+    name: MIGraphX results between dates
+    runs-on: self-hosted
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Checkout utils
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ inputs.comparison_script_location_repo }}
+          path: ${{ env.UTILS_DIR }}
+          token: ${{ secrets.gh_token }}
+
+      - name: Run repository comparer script
+        run: |
+          python3 $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts/comparer.py \
+          -h '${{ inputs.htec_repo }}' \
+          -b '${{ inputs.htec_branch }}' \
+          -a '${{ inputs.amd_repo }}' \
+          -m '${{ inputs.amd_branch }}' \
+          -t '${{ secrets.gh_token }}'
