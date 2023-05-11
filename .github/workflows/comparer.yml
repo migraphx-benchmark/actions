@@ -56,7 +56,7 @@ jobs:
       - name: Run repository comparer script
         run: |
           python3 $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts/comparer.py \
-          -h '${{ inputs.htec_repo }}' \
+          -r '${{ inputs.htec_repo }}' \
           -b '${{ inputs.htec_branch }}' \
           -a '${{ inputs.amd_repo }}' \
           -m '${{ inputs.amd_branch }}' \
