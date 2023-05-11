@@ -49,7 +49,7 @@ jobs:
       - name: Checkout utils
         uses: actions/checkout@v3
         with:
-          repository: ${{ inputs.comparison_script_location_repo }}
+          repository: ${{ inputs.benchmark_utils_repo }}
           path: ${{ env.UTILS_DIR }}
           token: ${{ secrets.gh_token }}
 
