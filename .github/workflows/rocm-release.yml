@@ -10,10 +10,6 @@ on:
         type: string
         description: Repository for benchmark utils
         required: true
-      organization:
-        type: string
-        description: Organization based on which location of files will be different
-        required: true
       base_image:
         type: string
         description: Base image for rocm Docker build
