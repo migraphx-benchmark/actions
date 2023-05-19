@@ -33,8 +33,8 @@ on:
         required: true
       performance_backup_repo:
         type: string
-        description: Repository for backup 
-        required: true  
+        description: Repository for backup
+        required: true
     secrets:
       gh_token:
         description: 'Github Access Token'
@@ -46,8 +46,6 @@ on:
         description: 'Email password'
         required: true
 
-
-       
 env:
   UTILS_DIR: benchmark-utils
   REPORTS_DIR: migraphx-reports
@@ -65,7 +63,8 @@ env:
   MIGRAPHX_PATH: /usr/share/migraphx/${{ inputs.organization }}
   PERFORMANCE_DIR: performance-backup
 
-jobs:     
+
+jobs:
   performance_test:
     name: MIGraphX Performance
     if: ${{ !contains(github.event.pull_request.labels.*.name, 'skip bot checks') }}
@@ -109,7 +108,6 @@ jobs:
           --build-arg BRANCH=${{ env.BRANCH_NAME }} 
           --build-arg DOCKERBASE=${{ env.DOCKERBASE }}
           --build-arg MIOPENTUNE=${{ env.MIOPENTUNE }}
-          --build-arg benchmark_utils_repo=${{ inputs.benchmark_utils_repo }}
           -t "migraphx-rocm:${{ inputs.rocm_release }}-${{ steps.git_sha.outputs.git_sha }}" 
           -f dockerfiles/Daily.Dockerfile .
 
@@ -130,14 +128,14 @@ jobs:
           --workdir /migraphx/sh
           migraphx-rocm:${{ inputs.rocm_release }}-${{ steps.git_sha.outputs.git_sha }} /bin/bash performance_tests.sh ${{ inputs.model_timeout }}
 
-      # - name: Delete old images/containers
-      #   if: ${{ github.event_name == 'schedule' }}
-      #   run: |
-      #     docker container prune -f
-      #     if [[ $(docker images --filter=reference="migraphx-rocm:${{ inputs.rocm_release }}-*" | awk 'NR>1 {print $3}') ]]; then
-      #       docker rmi -f $(docker images --filter=reference="migraphx-rocm:${{ inputs.rocm_release }}-*" | awk 'NR>1 {print $3}')
-      #     fi
-      #     docker image prune -f
+      - name: Delete old images/containers
+        if: ${{ github.event_name == 'schedule' }}
+        run: |
+          docker container prune -f
+          if [[ $(docker images --filter=reference="migraphx-rocm:${{ inputs.rocm_release }}-*" | awk 'NR>1 {print $3}') ]]; then
+            docker rmi -f $(docker images --filter=reference="migraphx-rocm:${{ inputs.rocm_release }}-*" | awk 'NR>1 {print $3}')
+          fi
+          docker image prune -f
 
       - name: Checkout report's repo
         if: ${{ github.event_name == 'schedule' }}
@@ -159,8 +157,8 @@ jobs:
           cp -r ${{ env.REPORTS_PATH }}/results-* $GITHUB_WORKSPACE/${{ env.REPORTS_DIR }}/
           cd $GITHUB_WORKSPACE/${{ env.REPORTS_DIR }}/
           git add .
-          git config --local user.email github-actions
-          git config --local user.name github-actions@github.com
+          git config --local user.email github-actions@github.com
+          git config --local user.name github-actions
           git commit -m "Push report" -a
           git push
 
@@ -234,14 +232,14 @@ jobs:
           token: ${{ secrets.gh_token }}
 
       - name: Backup
-        if: ${{ github.event_name == 'schedule' || ( github.event.action == 'closed' && github.event.pull_request.merged == true) }}   
+        if: ${{ github.event_name == 'schedule' || ( github.event.action == 'closed' && github.event.pull_request.merged == true) }}
         run : |
           cp -r ${{ env.TEST_RESULTS_PATH }}/perf-* $GITHUB_WORKSPACE/${{ env.PERFORMANCE_DIR }}/${{ inputs.organization }}
           cd $GITHUB_WORKSPACE/${{ env.PERFORMANCE_DIR }}
           git add .
           git status
-          git config --local user.email github-actions
-          git config --local user.name github-actions@github.com
+          git config --local user.email github-actions@github.com
+          git config --local user.name github-actions
           git commit -m "Backup latest perf results" -a
           git push
 

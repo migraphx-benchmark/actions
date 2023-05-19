@@ -1,4 +1,4 @@
-name: MiGraphX Benchmark standalone/provider
+name: MIGraphX Benchmark standalone/provider
 
 on:
   workflow_call:
@@ -101,7 +101,7 @@ jobs:
           if [[ $(docker images --filter=reference="migraphx-ort:20*" | grep -v $(date +%Y%m%d) | awk 'NR>1 {print $3}') ]]; then
             docker rmi -f $(docker images --filter=reference="migraphx-ort:20*" | grep -v $(date +%Y%m%d) | awk 'NR>1 {print $3}')
           fi
-          
+
   git_push_result:
     name: Push result to Github
     runs-on: self-hosted
@@ -120,12 +120,12 @@ jobs:
           python3 $GITHUB_WORKSPACE/${{ env.SCRIPT_PATH }}/scripts/benchmark_report_detail.py \
           -i ${{ inputs.result_path }}/onnxruntime-${{ needs.run_benchmark.outputs.result_time_start }}/dashboard-detail.csv \
           -o $GITHUB_WORKSPACE/${{ env.RESULT_PATH }}/migraphx-result-detail-${{ needs.run_benchmark.outputs.result_time_start }}.csv
-      
+
       - name: Execute excel report script
         run: |
           python3 $GITHUB_WORKSPACE/${{ env.SCRIPT_PATH }}/scripts/compare.py \
           -b $GITHUB_WORKSPACE/${{ env.RESULT_PATH }}
-      
+
       - name: Push report
         run: |
           cd $GITHUB_WORKSPACE/${{ env.RESULT_PATH }}/
