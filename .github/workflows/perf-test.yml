@@ -108,7 +108,8 @@ jobs:
           --build-arg BRANCH=${{ env.BRANCH_NAME }} 
           --build-arg DOCKERBASE=${{ env.DOCKERBASE }}
           --build-arg MIOPENTUNE=${{ env.MIOPENTUNE }}
-          -t "migraphx-rocm:${{ inputs.rocm_release }}-${{ steps.git_sha.outputs.git_sha }}" 
+          --build-arg benchmark_utils_repo=${{ inputs.benchmark_utils_repo }}
+          -t "migraphx-rocm:${{ inputs.rocm_release }}-${{ steps.git_sha.outputs.git_sha }}"
           -f dockerfiles/Daily.Dockerfile .
 
       - name: Run performance tests
@@ -126,7 +127,7 @@ jobs:
           -v $GITHUB_WORKSPACE/${{ env.UTILS_DIR }}/scripts:/migraphx/sh:ro
           -v ${{ env.TEST_RESULTS_PATH }}:/data/test-results
           --workdir /migraphx/sh
-          migraphx-rocm:${{ inputs.rocm_release }}-${{ steps.git_sha.outputs.git_sha }} /bin/bash performance_tests.sh ${{ inputs.model_timeout }}
+          migraphx-rocm:${{ inputs.rocm_release }}-${{ steps.git_sha.outputs.git_sha }} /bin/bash performance_tests2.sh ${{ inputs.model_timeout }}
 
       - name: Delete old images/containers
         if: ${{ github.event_name == 'schedule' }}
